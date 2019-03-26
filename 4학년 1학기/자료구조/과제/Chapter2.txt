@@ -1,0 +1,54 @@
+1. 4¹ø
+2. 4¹ø
+3. 2¹ø
+4. int main()
+{
+	int i;
+	int two[10];
+
+	for (i = 0; i < 10; i++)
+	{
+		two[i] = (int)pow(2.0, (double)i);
+	}
+
+	for (i = 0; i < 10; i++)
+	{
+		printf("%d ", two[i]);
+	}
+}
+
+5. Complex add_complex(Complex a, Complex b)
+{
+	Complex result;
+
+	result.real = a.real + b.real;
+	result.imag = a.imag + b.imag;
+
+	return result;
+}
+
+6. void insert(int array[], int loc, int value) {
+	int i = 0;
+
+	for (i = ITEMS - 2; i >= loc; i--)
+	{
+		array[i + 1] = array[i];
+	}
+
+	array[loc] = value;
+}
+7. O(n)
+
+8. void delete(int array[], int loc) {
+	int i = 0;
+
+	for (i = loc; i < ITEMS; i++)
+	{
+		if (i + 1 >= ITEMS)
+			array[i] = 0;
+		else
+			array[i] = array[i + 1];
+	}
+
+}
+9. O(n)

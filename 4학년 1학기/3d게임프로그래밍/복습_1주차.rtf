@@ -1,0 +1,118 @@
+{\rtf1\ansi\deff0\nouicompat{\fonttbl{\f0\fnil\fcharset129 \'b8\'bc\'c0\'ba \'b0\'ed\'b5\'f1;}}
+{\*\generator Riched20 10.0.17134}\viewkind4\uc1 
+\pard\sl276\slmult1\f0\fs20\lang18 00. 3D Graphics Fundamentals\par
+Programming\par
+\lang1042\'c4\'c4\'c7\'bb\'c5\'cd \'b1\'b8\'c1\'b6 (Computer Architecture)\par
+OS(\'bf\'ee\'bf\'b5\'c3\'bc\'c1\'a6) -> Data, Program(Memory) <====> CPU(\'b8\'ed\'b7\'c9\'be\'ee Instruction)\par
+CPU <====> GPU, VRAM \'ba\'f1\'b5\'f0\'bf\'c0\'c4\'ab\'b5\'e5(Video Card) ==> Display\par
+CPU <====> Printer, Disk, Mouse, Keyboard <====> OS\par
+API, Win32, Win64, DirectX SDK, Direct3D\par
+GPU\'b0\'a1 \'c7\'ca\'bf\'e4\'c7\'d1 \'c0\'cc\'c0\'af?\par
+\'ba\'b0\'b5\'b5\'c0\'c7 Process\'b8\'a6 \'c0\'a7\'c7\'d8\'bc\'ad\par
+(\'b0\'d4\'c0\'d3\'bf\'a1 \'c7\'ca\'bf\'e4\'c7\'d1 \'b5\'a5\'c0\'cc\'c5\'cd\'b0\'a1 \'b8\'b9\'b1\'e2 \'b6\'a7\'b9\'ae\'bf\'a1 VRAM\'bf\'a1 \'b5\'fb\'b7\'ce \'b4\'e3\'be\'c6\'b3\'f5\'b0\'ed \'b6\'ca\'b7\'c1\'be\'df \'ba\'fc\'b8\'a3\'b4\'d9)\par
+Memory\'b8\'a6(Data\'b8\'a6) \'b8\'b9\'c0\'cc \'be\'b2\'b8\'e9 \'bc\'d3\'b5\'b5\'b0\'a1 \'bb\'a1\'b6\'f3\'c1\'f8\'b4\'d9. (\'c8\'bf\'c0\'b2\'c0\'cc \'c1\'c1\'be\'c6\'c1\'f8\'b4\'d9)\par
+
+\pard\sl240\slmult1 Memory\'b8\'a6 \'b8\'b9\'c0\'cc \'be\'b5\'bc\'f6\'b7\'cf RAM\'c0\'c7 \'bb\'e7\'bf\'eb\'b7\'ae\'c0\'cc \'b3\'f4\'be\'c6\'c1\'ae\'bc\'ad \'bf\'ad\'c0\'cc \'bf\'c3\'b6\'f3\'b0\'a3\'b4\'d9.\par
+\par
+Display(\'b8\'f0\'b4\'cf\'c5\'cd) -> 60Hz(\'c3\'ca\'b4\'e7 60 \'c7\'c1\'b7\'b9\'c0\'d3) \'ba\'b8\'c5\'eb\par
+\'be\'c6\'b9\'ab\'b8\'ae GPU\'bf\'a1\'bc\'ad \'b8\'b9\'c0\'ba Frame\'c0\'bb \'ba\'b8\'b3\'bb\'b5\'b5 \'c7\'cf\'b5\'e5\'bf\'fe\'be\'ee(Display)\'bf\'a1\'bc\'ad \par
+\'b1\'d7\'b0\'cd\'c0\'bb \'c3\'b3\'b8\'ae\'c7\'d2 \'b4\'c9\'b7\'c2\'c0\'cc \'be\'f8\'b4\'d9\'b8\'e9 \'be\'c6\'b9\'ab \'bc\'d2\'bf\'eb\'c0\'cc \'be\'f8\'b4\'d9(Frame\'c0\'bb \'b9\'f6\'b8\'ae\'b4\'c2\'b0\'cd\'b0\'fa \'b0\'b0\'b4\'d9)\par
+\'b1\'d7\'b7\'a1\'bc\'ad \'b0\'e1\'b1\'b9 Display\'c0\'c7 \'c1\'d6\'bb\'e7\'c0\'b2\'b0\'fa \'b8\'c2\'c3\'e7\'c1\'e0\'be\'df \'c7\'d1\'b4\'d9. VSYNC(Vertical Synchronization)\par
+\par
+\'be\'ee\'b6\'b0\'c7\'d1 \'bf\'a3\'c1\'f8\'c0\'bb \'be\'b2\'b4\'f8\'b0\'a3\'bf\'a1 GPU\'b8\'a6 \'c8\'a4\'bb\'e7 \'bd\'c3\'c4\'d1\'bc\'ad \'bb\'e7\'bf\'eb\'b7\'ae\'c0\'bb \'b4\'c3\'b7\'c1\'c1\'d6\'b8\'e9 \'bb\'f3\'b0\'fc \'be\'f8\'c0\'bd\par
+\par
+* Game Programming \par
+2d Graphics, Algorithm, Database, Network, 3d Graphics, Game Math, Physics, \par
+Data Structure, Operating System ==> Engine\par
+\'c7\'c1\'b7\'ce\'b1\'d7\'b7\'a5\'bf\'a1\'bc\'ad \'b0\'a1\'c0\'e5\'b8\'d5\'c0\'fa \'bd\'c5\'b0\'e6\'bd\'e1\'be\'df \'c7\'cf\'b4\'c2\'b0\'cd\par
+>> \'c7\'a5\'c7\'f6(Representation)\par
+\'c4\'c4\'c7\'bb\'c5\'cd\'b7\'ce \'c0\'fc\'b4\'de\'c7\'cf\'b1\'e2 \'c0\'a7\'c7\'d1 \'b8\'f1\'c0\'fb\'c0\'c7 \'b5\'f0\'c0\'da\'c0\'ce(Design)\par
+\par
+*3D\'bf\'cd 2D\'b8\'a6 \'b1\'b8\'ba\'d0\'c7\'cf\'b4\'c2 \'c6\'af\'c0\'cc\'bc\'ba\par
+-\'b0\'f8\'b0\'a3 \'c1\'a6\'be\'e0\'c0\'c7 \'c0\'af\'b9\'ab(y\'c3\'e0 \'c8\'b8\'c0\'fc\'bd\'c3 2D\'b4\'c2 \'b5\'de\'b8\'f0\'bd\'c0\'bf\'a1 \'b4\'eb\'c7\'d1 \'b5\'a5\'c0\'cc\'c5\'cd\'b0\'a1 \'b1\'e2\'ba\'bb\'c0\'fb\'c0\'b8\'b7\'ce \'c1\'b8\'c0\'e7\'c7\'cf\'c1\'f6 \'be\'ca\'c0\'bd)\par
+-3DModel(\'b5\'f0\'bd\'ba\'c7\'c3\'b7\'b9\'c0\'cc -> 2D\'c7\'fc\'c5\'c2)\par
+\par
+2D Game\par
+-2D\'b4\'c2 3D\'bf\'a1 \'ba\'f1\'c7\'d8\'bc\'ad \'b0\'f8\'b0\'a3\'c0\'c7 \'c1\'a6\'be\'e0\'c0\'cc \'c1\'b8\'c0\'e7\'c7\'d1\'b4\'d9.\par
+3D Game\par
+-3D\'b5\'a5\'c0\'cc\'c5\'cd\'b8\'a6 \'b0\'a1\'c1\'f6\'b0\'ed 3D\'b8\'a6 2D \'b0\'f8\'b0\'a3\'bf\'a1(\'b5\'f0\'bd\'ba\'c7\'c3\'b7\'b9\'c0\'cc) \'c7\'a5\'c7\'f6\'c7\'d1\'b4\'d9.\par
+\par
+#Direct3D\par
+*3D Graphics Pipeline (3D\'b7\'ce \'c3\'b3\'b8\'ae\'b5\'c7\'b4\'c2 \'b0\'fa\'c1\'a4)\par
+- \'ba\'af\'c8\'af(Transformation)\par
+- \'c1\'b6\'b8\'ed(Lighting)\par
+*Math (3D\'b7\'ce \'c3\'b3\'b8\'ae\'b8\'a6 \'c0\'a7\'c7\'d8 \'c7\'ca\'bf\'e4\'c7\'d1 \'bc\'f6\'c7\'d0)\par
+- Vector\par
+- Matrix\par
+*Game FrameWork(\'b0\'f1\'b0\'dd)\par
+- Windows Programming(C/C++, DirectX.lib)\par
+- Game Framework(Game Engine \'bf\'a9\'b7\'af\'bf\'e4\'bc\'d2\'c0\'c7 \'c1\'fd\'c7\'d5\'c0\'cc \'b5\'e9\'be\'ee\'b0\'a3 \'b0\'f1\'b0\'dd)\par
+*Direct3D Pipeline\par
+- Direct3D Pipeline(\'b0\'ed\'c1\'a4\'b4\'dc\'b0\'e8 5\'b0\'b3, Shader\'b4\'dc\'b0\'e8 5\'b0\'b3)\par
+*Shader Programming(GPU)\par
+- HLSL\par
+- VS, PS, GS, .etc\par
+*Game resource(Content, Asset)\par
+- Sound\par
+- Graphic\par
+\par
+#Game Engine\par
+\'c0\'da\'c3\'bc\'bf\'a3\'c1\'f8\'c0\'bb \'b8\'b8\'b5\'e9\'b1\'e2 \'c0\'a7\'c7\'d8(\'c0\'cc\'b7\'d0\'c0\'fb\'c0\'ce \'c7\'d0\'b9\'ae \'b9\'d9\'c5\'c1)\par
+, \'bb\'e7\'bf\'eb\'c8\'ad\'bf\'a3\'c1\'f8\'c0\'bb \'bb\'e7\'bf\'eb\'c7\'cf\'b1\'e2 \'c0\'a7\'c7\'d8(\'bd\'c7\'bf\'eb\'c0\'fb\'c0\'ce \'b1\'e2\'bc\'fa \'b9\'d9\'c5\'c1)\par
+\par
+\'c0\'cc\'b7\'d0\'c0\'fb(Theoretical) <---> \'bd\'c7\'bf\'eb\'c0\'fb(Practical)\par
+\par
+#\'b1\'e2\'c3\'ca \'b0\'b3\'b3\'e4\par
+*3D \'b0\'d4\'c0\'d3\par
+- User Input(\'bb\'e7\'bf\'eb\'c0\'da \'c0\'d4\'b7\'c2)\par
+- Resource Management(\'c0\'da\'bf\'f8 \'b0\'fc\'b8\'ae)\par
+- Loading and Rendering Graphics(\'b1\'d7\'b7\'a1\'c7\'c8 \'b7\'ce\'b5\'f9\'b0\'fa \'b7\'bb\'b4\'f5\'b8\'b5)\par
+- Interpreting and Executing Scripts(\'bd\'ba\'c5\'a9\'b8\'b3\'c6\'ae \'c7\'d8\'bc\'ae\'b0\'fa \'bd\'c7\'c7\'e0)\par
+- Playing Sound Effects(\'c0\'bd\'c7\'e2 \'c3\'b3\'b8\'ae)\par
+- Artificial Intelligence(\'c0\'ce\'b0\'f8 \'c1\'f6\'b4\'c9)\par
+\par
+*Rendering Engine\par
+- \'b0\'d4\'c0\'d3 \'bf\'a3\'c1\'f8\'c0\'c7 '\'c7\'d9\'bd\'c9' Module\par
+- Renderer\par
+- \'b0\'a1\'bb\'f3\'c0\'fb\'c0\'ce \'b0\'d4\'c0\'d3 \'bc\'bc\'b0\'e8\'c0\'c7 '3\'c2\'f7\'bf\'f8 \'c7\'a5\'c7\'f6'\'c0\'bb \'bd\'ba\'c5\'a9\'b8\'b0\'bf\'a1 '2\'c2\'f7\'bf\'f8 \'bf\'b5\'bb\'f3'\'c0\'b8\'b7\'ce \'b1\'d7\'b7\'c1\'b3\'bb\'b4\'c2 \'bf\'aa\'c7\'d2\par
+- HOW? \'bc\'f6\'c7\'d0\'c0\'fb 3\'c2\'f7\'bf\'f8 \'c7\'a5\'c7\'f6\'b0\'fa \'c3\'b3\'b8\'ae \'b9\'e6\'b9\'fd\par
+(\'bf\'d6\'b3\'c4\'c7\'cf\'b8\'e9 \'c4\'c4\'c7\'bb\'c5\'cd\'b4\'c2 \'c0\'fc\'bb\'ea\'c0\'bb \'ba\'fc\'b8\'a3\'b0\'d4 \'c7\'d8\'c1\'d6\'b4\'c2 \'b1\'e2\'b0\'e8\'c0\'cc\'b1\'e2 \'b6\'a7\'b9\'ae\'bf\'a1)\par
+\par
+#Rendering\par
+*\'b1\'d7\'b8\'b2 \'b1\'d7\'b8\'ae\'b1\'e2 \'be\'cb\'b0\'ed\'b8\'ae\'c1\'f2(Painter's Algorithm)\par
+\'c8\'ad\'b0\'a1 -> \'c1\'be\'c0\'cc -> \'b1\'d7\'b8\'ae\'b1\'e2(Painting) -> \'b1\'d7\'b8\'b2\par
+\'b0\'b3\'b9\'df\'c0\'da -> \'b5\'f0\'bd\'ba\'c7\'c3\'b7\'b9\'c0\'cc -> \'b7\'bb\'b4\'f5\'b8\'b5(Rendering) -> \'b0\'d4\'c0\'d3\'bc\'bc\'b0\'e8\par
+=\'c8\'ad\'b0\'a1\'c0\'c7 \'bf\'b9\'bf\'cd \'b0\'b3\'b9\'df\'c0\'da\'c0\'c7 \'bf\'b9\'b4\'c2 \'b4\'d9\'b8\'a6\'b0\'d4 \'be\'f8\'c0\'bd\par
+
+\pard\sl276\slmult1\par
+\'c7\'cf\'c1\'f6\'b8\'b8.. \'c2\'f7\'c0\'cc\'c1\'a1\'c0\'cc\'b6\'f3\'b0\'ed \'c7\'cf\'b8\'e9 >> \'c8\'ad\'b0\'a1\'bf\'cd \'b4\'d9\'b8\'a3\'b0\'d4 \'b0\'b3\'b9\'df\'c0\'da\'b4\'c2 \'b0\'d4\'c0\'d3\'bc\'bc\'b0\'e8\'c0\'c7 Rendering \'b0\'fa\'c1\'a4\'c0\'bb \'c3\'ca\'b4\'e7 \par
+60\'c0\'e5 \'c1\'a4\'b5\'b5\'b8\'a6 \'b1\'d7\'b7\'c1\'b3\'bb\'be\'df \'c7\'d1\'b4\'d9.\par
+\par
+\'c1\'b6\'b8\'ed, \'b1\'d7\'b8\'b2\'c0\'da \'b5\'ee\'c0\'c7 \'c1\'bb \'b4\'f5 \'b1\'b8\'c3\'bc\'c0\'fb\'c0\'ce \'c3\'b3\'b8\'ae.\par
+\'b0\'e1\'b1\'b9 Vector\'bf\'cd Matrix\'b0\'a1 \'c1\'df\'bf\'e4\'c7\'cf\'b4\'d9...\par
+\par
+virtual function(\'b0\'a1\'bb\'f3 \'c7\'d4\'bc\'f6)?\par
+A virtual function a member function which is declared within base class and is re-defined\par
+(Overriden) by derived class. (For example) When you refer to a derived class object using a pointer or a reference to the base class, you can call a virtual function for that object and\par
+execute the derived class's versiion of the function.\par
+\par
+virtual \'c7\'d4\'bc\'f6\'b4\'c2 \'c6\'f7\'c0\'ce\'c5\'cd\'c0\'c7 \'b5\'a5\'c0\'cc\'c5\'cd \'c5\'b8\'c0\'d4\'c0\'cc \'be\'c6\'b4\'cf\'b6\'f3 \'c6\'f7\'c0\'ce\'c5\'cd\'b0\'a1 \'b0\'a1\'b8\'ae\'c5\'b0\'b4\'c2 \'b0\'b4\'c3\'bc\'c0\'c7 \'c5\'b8\'c0\'d4\'c0\'c7 \'c7\'d4\'bc\'f6\'b7\'ce \'c8\'a3\'c3\'e2\'c7\'cf\'b4\'c2 \'c5\'b0\'bf\'f6\'b5\'e5 -> \'b0\'b4\'c3\'bc\'c0\'c7 \'c5\'b8\'c0\'d4\'c0\'bb \'b5\'fb\'c1\'ae\'bc\'ad \'c8\'a3\'c3\'e2\'c7\'cf\'b4\'c2 \'c7\'d4\'bc\'f6\par
+\par
+\'c7\'cf\'c0\'a7 \'c5\'ac\'b7\'a1\'bd\'ba\'b0\'a1 \'bb\'f3\'c0\'a7 \'c5\'ac\'b7\'a1\'bd\'ba\'bf\'a1 \'c1\'a2\'b1\'d9\'c7\'cf\'b4\'c2\'b0\'cd >> \'b0\'a1\'b4\'c9\'c7\'cf\'b4\'d9.\par
+\par
+\'c7\'ca\'bf\'e4\'c7\'d1 \'c0\'cc\'c0\'af?\par
+class CGameObject\par
+\par
+virtual void Animate, Render,\par
+CGameObject\'c0\'c7 \'c7\'cf\'c0\'a7\'c5\'ac\'b7\'a1\'bd\'ba \'c5\'b8\'c0\'d4\'c0\'cc \'b4\'de\'b6\'f3\'b5\'b5 \'b1\'d7\'b3\'c9 \'c8\'a3\'c3\'e2\'c7\'d8\'c1\'d6\'b8\'e9 \'c5\'ac\'b7\'a1\'bd\'ba \'c5\'b8\'c0\'d4\'c0\'bb \'ba\'af\'b0\'e6\'c7\'d2 \'c7\'ca\'bf\'e4\'b0\'a1 \'be\'f8\'c0\'cc \par
+\'b5\'bf\'c0\'fb\'c7\'d2\'b4\'e7\'bd\'c3 \'bc\'b3\'c1\'a4\'c7\'d8\'c1\'d6\'be\'fa\'b4\'f8 \'c5\'b8\'c0\'d4\'c0\'c7 \'c7\'d4\'bc\'f6\'b7\'ce \'be\'cb\'be\'c6\'bc\'ad \'c8\'a3\'c3\'e2\'c7\'d8\'c1\'d8\'b4\'d9.\par
+
+\pard\sa200\sl276\slmult1\par
+\par
+\par
+\par
+\par
+\par
+\lang18\par
+}
+ 

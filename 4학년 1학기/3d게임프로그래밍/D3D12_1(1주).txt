@@ -1,0 +1,30 @@
+00. 3D Graphics Fundamentals
+
+.Programming 
+
+Computer Architecture
+
+OS -> Memory
+(Data, Program)
+<>
+CPU -> Instructions
+<>
+GPU, VRAM(Memory) -> Video Card -> Display
+
+GPU need?
+별도의 Process를 위함
+(게임에 필요한 데이터가 많기 때문에 VRAM에 따로 담아놓고 돌려야 빠름)
+
+Memory를(Data 를) 많이 쓰면 속도가 빨라진다.(효율이 좋아진다)
+Memory를 많이 쓸수록 RAM의 사용량이 높아져서 열이 올라간다.
+
+
+Display(모니터) -> 60Hz(초당 60 프레임) 보통임
+아무리 GPU에서 많은 Frame을 보내도 하드웨어(Display)에서 
+그것을 처리할 능력이 없다면 아무 소용이 없다 (Frame을 버리는것과 같다)
+그래서 결국 Display의 주사율과 맞춰줘야 한다. VSYNC(Vertical Synchronization)
+
+어떠한 엔진을 쓰던 GPU를 혹사 시켜 사용량을 늘려주면 상관없다.
+
+
+

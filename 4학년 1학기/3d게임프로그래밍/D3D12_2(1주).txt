@@ -1,0 +1,166 @@
+*Game Programming
+.Implementation
+
+프로그램에서 가장먼저 신경써야 하는것 
+>> 표현(Representation)
+컴퓨터로 전달하기 위한 목적의 디자인
+
+*3D와 2D를 구분하는 특이성
+- 공간의 제약 유무(y축 회전시 2D는 뒷모습에 대한 데이터가 기본적으로 존재하지 않음)
+-3D Model
+디스플레이 -> 2D형태
+
+2D Game
+- 2D는 3D에 비해서 공간의 제약이 존재한다.
+3D Game
+- 3D데이터를 가지고 3D를 2D공간에(디스플레이)
+표현한다.
+
+#Direct3D
+*3D Graphics Pipeline (3D로 처리되는 과정)
+-변환(Transformation)
+-조명(Lighting)
+*Math (3D 처리를 위해 필요한 수학)
+-Vector
+-Matrix
+*Game FrameWork(골격)
+-Windows Programming(C/C++, DirectX.lib)
+-Game Framework(Game Engine 여러요소의 집합이 들어간 골격)
+*Direct3D Pipeline
+-Direct3D Pipeline(고정단계 5개 Shader단계 5개)
+*Shader Programming(GPU)
+-HLSL
+-VS, PS, GS, .etc
+*Game Resource(Content, Asset)
+-Sound
+-Graphic
+
+#Game Engine
+자체엔진을 만들기 위해(이론적인 학문 바탕)
+, 상용화엔진을 사용하기 위해(실용적인 기술 바탕)
+
+이론적(Theoretical) == 실용적(Practical)
+
+#기초 개념
+*3D 게임
+-User Input
+-Resource Management
+-Loading and Rendering Graphics
+-Interpreting and Excuting Scripts
+-Playing Sound Effects
+-Artificial Intelligence
+
+*Rendering Engine
+-게임 엔진의 '핵심' Module
+-Renderer
+-가상적인 게임 세계의 '3차원 표현'을 스크린에 '2차원 영상'으로 
+그려내는 역할
+-How? 수학적 3차원 표현과 처리 방법
+(왜냐하면 컴퓨터는 전산을 빠르게 해주는 기계이기 때문에)
+
+#Rendering
+*그림 그리기 알고리즘(Painter's Algorithm)
+화가 -> 종이 -> 그리기(Painting) -> 그림
+
+개발자 -> 디스플레이 -> 렌더링(Rendering) -> 게임세계
+
+화가의 예와 개발자의 예는 다를게 없음
+
+하지만.. 차이점 >> 화가와 다르게 개발자는 게임세계의 Rendering 과정을 초당 60장 정도를 그려내야 한다.
+
+조명, 그림자 등등의 좀 더 구체적인 처리.
+결국 Vector와 Matrix가 중요하다..
+
+#기하학적 모델링
+
+
+Mesh.h
+
+virtual function(가상함수)?
+A virtual function a member function which is declared within base class and is re-defined (Overriden) by derived class.(For example) When you refer to a derived class object using a pointer or a reference to the base class, you can call a virtual function for that object and execute the derived class’s version of the function.
+
+virtual 함수는 포인터의 데이터 타입이 아니라 포인터가 가리키는 객체의 타입으로 호출하는것
+객체의 타입을 따져서 호출하는 함수
+
+하위 클래스가 상위 클래스에 접근하는것 >> 가능하다.
+
+필요한 이유? 
+class CGameObject 
+
+virtual void Animate, Render, 
+
+CGameObject의 하위클래스 타입이 달라도 그냥 호출해주면 클래스 타입을 변경할 필요가 없이 동적할당시 설정해주었던 타입의 함수로 알아서 호출해준다.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,239 @@
+{\rtf1\ansi\ansicpg949\deff0\nouicompat{\fonttbl{\f0\fnil\fcharset129 \'b8\'bc\'c0\'ba \'b0\'ed\'b5\'f1;}}
+{\*\generator Riched20 10.0.17134}\viewkind4\uc1 
+\pard\sl276\slmult1\f0\fs20\lang18 # \lang1042\'b0\'b4\'c3\'bc, \'b8\'f0\'b5\'a8, \'b8\'de\'bd\'ac\par
+\'b0\'b4\'c3\'bc\'b5\'e9\'c0\'c7 \'b0\'d1\'b8\'f0\'be\'e7 -> 3D\par
+\'b0\'d1\'b8\'f0\'be\'e7\'c0\'bb \'c7\'a5\'c7\'f6\'c7\'cf\'b4\'c2 3d \'b5\'a5\'c0\'cc\'c5\'b8 -> \'b8\'f0\'b5\'a8(\'b8\'de\'bd\'ac), \'b0\'b4\'c3\'bc\par
+\'be\'ee\'b6\'b2 \'b9\'b0\'c3\'bc(\'b0\'b4\'c3\'bc)\'b5\'e9\'c0\'c7 \'b0\'d1\'b8\'f0\'be\'e7\'c0\'bb \'c7\'a5\'c7\'f6\'c7\'cf\'b1\'e2 \'c0\'a7\'c7\'d4\par
+\'b3\'bb\'ba\'ce\'b4\'c2 \'ba\'b8\'c0\'cc\'c1\'f6 \'be\'ca\'b1\'e2 \'b6\'a7\'b9\'ae\'bf\'a1 \'c1\'df\'bf\'e4\'c7\'cf\'c1\'f6 \'be\'ca\'c0\'bd\par
+\'b4\'d9\'b0\'a2\'c7\'fc(\'bb\'ef\'b0\'a2\'c7\'fc)(\'bf\'ac\'b0\'e1\'b5\'c8 \'bc\'b1\'ba\'d0\'b5\'e9\'c0\'c7 \'c1\'fd\'c7\'d5)\'c0\'bb \'b1\'b8\'bc\'ba\'c7\'cf\'b0\'ed \'c0\'d6\'b4\'c2 \'b8\'e9\'c0\'bb \'b1\'d7\'b8\'b0\'b4\'d9.\par
+\'b8\'e9\'b5\'e9\'c0\'c7 \'c1\'fd\'c7\'d5(\'b6\'c7\'b4\'c2 \'bb\'ef\'b0\'a2\'c7\'fc\'b5\'e9\'c0\'c7 \'c1\'fd\'c7\'d5) -> \'b8\'de\'bd\'ac\par
+\'bf\'ac\'b0\'e1\'b5\'c8 \'c1\'a1(\'bd\'c7\'bc\'f6\'c1\'fd\'c7\'d5)\'b5\'e9\'c0\'c7 \'c1\'fd\'c7\'d5 -> \'b4\'d9\'b0\'a2\'c7\'fc\'c0\'bb \'b1\'b8\'bc\'ba\'c7\'d2\'bc\'f6 \'c0\'d6\'c0\'bd -> \'b8\'e9\'c0\'bb \'b1\'b8\'bc\'ba\'b0\'a1\'b4\'c9\par
+\lang18\par
+#\lang1042\'b1\'e2\'c7\'cf\'c7\'d0\'c0\'fb \'b8\'f0\'b5\'a8\'b8\'b5\par
+\par
+\'c1\'f7\'c0\'b0\'b8\'e9\'c3\'bc\par
+\'c0\'ce\'b0\'a3\'c0\'ba \'c3\'d6\'b4\'eb 3\'b0\'b3\'c0\'c7 \'b8\'e9\'b8\'b8 \'ba\'bc \'bc\'f6 \'c0\'d6\'b4\'d9.(\'b3\'aa\'b8\'d3\'c1\'f6\'b4\'c2 \'c0\'ba\'b8\'e9(Back Face))\par
+\'c0\'fc\'b8\'e9(\'ba\'b8\'c0\'cc\'b4\'c2\'b8\'e9)\'c0\'cc\'b3\'c4 \'c0\'ba\'b8\'e9\'c0\'cc\'b3\'c4\'b4\'c2 \'bb\'f3\'b4\'eb\'c0\'fb\'c0\'cc\'b4\'d9. -> \'bc\'f6\'c7\'d0\'c0\'fb\'c0\'ce \'c3\'b3\'b8\'ae\'b0\'a1 \'c7\'ca\'bf\'e4\'c7\'d4\par
+\'bc\'f6\'c7\'d0\'c0\'fb\'c0\'b8\'b7\'ce \'c7\'a5\'c7\'f6\'c7\'cf\'b0\'ed \'bc\'f6\'c7\'d0\'c0\'fb\'c0\'b8\'b7\'ce \'c7\'d8\'b0\'e1\par
+\par
+T(Transform)\tab\tab\tab\tab L(Lighting)\par
+\'b8\'e9\'c0\'bb \'b1\'b8\'bc\'ba\'c7\'cf\'b4\'c2 \'c1\'a1\'c0\'c7 \'c0\'a7\'c4\'a1\tab\tab\'b1\'a4\'bf\'f8\'bb\'f6\par
+\par
+# 2\'c2\'f7\'bf\'f8\'bf\'a1\'bc\'ad\'c0\'c7 \'b1\'e2\'c7\'cf\'c7\'d0\par
+\'c1\'a1\'c0\'bb \'b1\'b8\'bc\'ba\'c7\'cf\'b1\'e2 \'c0\'a7\'c7\'d1 \'c1\'c2\'c7\'a5\'b0\'e8 -> \'c8\'ad\'b8\'e9\'c0\'b8\'b7\'ce \'bf\'c5\'b1\'e4\'b4\'d9.\par
+\par
+\'c8\'ad\'b8\'e9\'bf\'a1 \'bf\'c5\'b1\'e2\'b1\'e2 \'c0\'a7\'c7\'d1 \'c8\'ad\'b8\'e9 \'c1\'c2\'c7\'a5\'b0\'e8\par
+\'c8\'ad\'b8\'e9 \'c1\'c2\'c7\'a5\'b0\'e8 : \'c8\'ad\'b8\'e9\'c0\'ba 2D\'c0\'cc\'b4\'d9. \'b9\'b0\'b8\'ae\'c0\'fb\'c0\'ce \'c0\'fc\'c0\'da\'c0\'e5\'c4\'a1\'b7\'ce \'c0\'cc\'b7\'e7\'be\'ee\'c1\'f8 \'c7\'c8\'bc\'bf\'c1\'fd\'c7\'d5\par
+\tab        \'c7\'c8\'bc\'bf\'c0\'cc\'b1\'e2 \'b6\'a7\'b9\'ae\'bf\'a1 \'c1\'c2\'c7\'a5\'c0\'c7 \'b4\'dc\'c0\'a7\'b4\'c2 \'c1\'a4\'bc\'f6\'b7\'ce \'b5\'c7\'be\'ee \'c0\'d6\'b4\'d9.\par
+\tab        \'c1\'c2\'bb\'f3\'b4\'dc\'ba\'ce\'c5\'cd (0, 0)\'c0\'cc\'b4\'d9. (\'c7\'cf\'c1\'f6\'b8\'b8 \'c7\'c3\'b7\'a7\'c6\'fb\'b8\'b6\'b4\'d9 \'b4\'d9\'b8\'a6 \'bc\'f6 \'c0\'d6\'b4\'d9)\par
+\tab        (\'c0\'af\'b4\'cf\'c6\'bc \'b0\'b0\'c0\'ba \'b0\'e6\'bf\'ec\'bf\'a1\'b4\'c2 \'c1\'c2\'c7\'cf\'b4\'dc\'ba\'ce\'c5\'cd)\par
+\'c1\'f7\'b1\'b3 \'c1\'c2\'c7\'a5\'b0\'e8\par
+\par
+*3\'c2\'f7\'bf\'f8\'bf\'a1\'bc\'ad\'c0\'c7 \'b1\'e2\'c7\'cf\'c7\'d0\par
+\'c1\'a1(Vector)(\'bd\'c7\'bc\'f63\'b0\'b3)\'c0\'c7 \'c7\'a5\'c7\'f6 = (x, y, z)\par
+float x, float y, float z\par
+\par
+\'b4\'d9\'b7\'e7\'b1\'e2 \'b0\'a1\'c0\'e5 \'bd\'ac\'bf\'ee \'c1\'f7\'b1\'b3 \'c1\'c2\'c7\'a5\'b0\'e8\'b8\'a6 \'bb\'e7\'bf\'eb\'c7\'d1\'b4\'d9.\par
+direct3D\'bf\'a1\'bc\'ad\'b4\'c2 \'bf\'de\'bc\'d5 \'c1\'c2\'c7\'a5\'b0\'e8\'b8\'a6 \'bb\'e7\'bf\'eb\'c7\'d1\'b4\'d9.\par
+\'bf\'c0\'b8\'a5\'bc\'d5 \'c1\'c2\'c7\'a5\'b0\'e8 -> OpenGL, 3D Max \'b5\'ee\par
+\'bf\'c0\'b8\'a5\'bc\'d5, \'bf\'de\'bc\'d5\'c0\'c7 \'c1\'c2\'c7\'a5\'b0\'e8\'c0\'c7 \'b0\'f8\'c5\'eb\'c1\'a1\'c0\'ba \'bc\'ad\'b7\'ce \'c1\'f7\'b1\'b3\'c7\'cf\'b0\'d4 \'b8\'b8\'b5\'e9 \'bc\'f6 \'c0\'d6\'c0\'bd.\par
+\'b5\'d1\'b4\'d9 y\'c3\'e0\'c0\'cc Up\'c0\'ce \'c1\'c2\'c7\'a5\'b0\'e8\'b8\'a6 \'bb\'e7\'bf\'eb\'c7\'d1\'b4\'d9.\par
+\'c2\'f7\'c0\'cc\'c1\'a1\'c0\'ba z\'c3\'e0\'c0\'cc \'bc\'ad\'b7\'ce \'b9\'dd\'b4\'eb\'b7\'ce \'b5\'c7\'be\'ee \'c0\'d6\'b4\'d9.\par
+\par
+x(Right Vector), y(Up Vector), z(Look Vector)\par
+\par
+3D Max\'b4\'c2 Local \'c1\'c2\'c7\'a5\'b0\'e8\'b8\'a6 \'bb\'e7\'bf\'eb\'c7\'d1\'b4\'d9.\par
+\par
+* 3\'c2\'f7\'bf\'f8\'bf\'a1\'bc\'ad\'c0\'c7 \'b1\'e2\'c7\'cf\'c7\'d0\par
+\par
+-\'b8\'de\'bd\'ac\'c0\'c7 \'c7\'a5\'c7\'f6\par
+struct Vertex\par
+\{\par
+float x, y, z;\par
+\};\par
+struct Polygon\par
+\{\par
+UINT nVertices;\par
+Vertex *pVertices; //\'c1\'a1\'b5\'e9\'c0\'c7 \'c1\'fd\'c7\'d5\par
+\};\par
+struct Mesh\par
+\{\par
+UINT nFaces;\par
+Polygon *pFaces;   //\'b4\'d9\'b0\'a2\'c7\'fc(\'c6\'fa\'b8\'ae\'b0\'ef)\'b5\'e9\'c0\'c7 \'c1\'fd\'c7\'d5\par
+\};\par
+\par
+\'b0\'b4\'c3\'bc \'c1\'f6\'c7\'e2 Programming -> \'b0\'d4\'c0\'d3\'bc\'bc\'bb\'f3(World)\par
+\par
+#\'b8\'f0\'b5\'a8\'c0\'c7 \'c7\'a5\'c7\'f6\par
+\par
+-\'b8\'f0\'b5\'a8 \'c1\'c2\'c7\'a5\'b0\'e8(Model Space)(Local Space)\par
+\'bf\'f8\'c1\'a1(\'c1\'df\'bf\'e4\'c7\'cf\'c1\'f6 \'be\'ca\'c0\'bd) (0, 0, 0)\par
+\'b0\'b4\'c3\'bc\'c1\'c2\'c7\'a5\'b0\'e8\'c7\'cf\'b0\'ed \'c0\'cf\'c4\'a1\'c7\'cf\'b0\'d4 \'b8\'b8\'b5\'e5\'b4\'c2 \'b0\'cd\'c0\'cc \'c1\'c1\'c0\'bd.\par
+\'c7\'cf\'c1\'f6\'b8\'b8 \'b4\'d9\'b8\'a6\'bc\'f6\'b5\'b5 \'c0\'d6\'b4\'d9.\par
+\'b8\'f0\'b5\'a8\'b8\'b6\'b4\'d9 **\'c0\'da\'c3\'bc\'c0\'fb\'c0\'ce \'ba\'b0\'b5\'b5\'c0\'c7 \'c1\'c2\'c7\'a5\'b0\'e8**\'b8\'a6 \'b0\'ae\'b0\'ed \'c0\'d6\'b4\'d9\'b0\'ed \'b0\'a1\'c1\'a4\par
+\par
+-\'bf\'f9\'b5\'e5 \'c1\'c2\'c7\'a5\'b0\'e8(World Space)\par
+\'b0\'d4\'c0\'d3 \'bc\'bc\'bb\'f3\'c0\'c7 \'b1\'e2\'c1\'d8(World)\'c0\'bb \'c7\'a5\'c7\'f6\'c7\'cf\'b1\'e2 \'c0\'a7\'c7\'d1 \'c1\'c2\'c7\'a5\'b0\'e8\par
+\'c0\'fc\'bf\'aa \'c1\'c2\'c7\'a5\'b0\'e8\'b6\'f3\'b0\'ed \'ba\'d2\'b8\'ae\'b1\'e2\'b5\'b5 \'c7\'d1\'b4\'d9.\par
+\'b8\'f0\'b5\'e7 \'b8\'de\'bd\'ac\'b5\'e9\'c0\'cc \'b5\'bf\'c0\'cf\'c7\'d1 \'c7\'cf\'b3\'aa\'c0\'c7 \'c1\'c2\'c7\'a5\'b0\'e8\'b7\'ce \'c7\'a5\'c7\'f6\par
+\par
+#\'b8\'f0\'b5\'a8\'b0\'fa \'b0\'b4\'c3\'bc\par
+\par
+\'b8\'f0\'b5\'a8(\'b8\'de\'bd\'ac(\'b1\'e2\'c7\'cf\'c7\'d0\'c0\'fb \'b8\'f0\'b5\'a8)) -> \'c7\'fc\'c5\'c2\'b0\'a1 \'b9\'d9\'b2\'ee\'c1\'f6 \'be\'ca\'c0\'bd\'c0\'bb \'c0\'fc\'c0\'e7\'b7\'ce \'c7\'d1\'b4\'d9.\par
+\'b0\'b4\'c3\'bc\'b4\'c2 \'c0\'a7\'c4\'a1, \'b9\'e6\'c7\'e2\'b5\'ee\'c0\'b8\'b7\'ce \'b9\'d9\'b2\'f0\'bc\'f6 \'c0\'d6\'c1\'f6\'b8\'b8 \'b8\'f0\'b5\'a8 \'c0\'da\'c3\'bc\'b4\'c2 \'b9\'d9\'b2\'ee\'c1\'f6 \'be\'ca\'b4\'c2\'b4\'d9.\par
+\par
+\'b0\'b4\'c3\'bc -> 3D \'b8\'f0\'b5\'a8\'c0\'bb \'c0\'e7\'bb\'e7\'bf\'eb\par
+Instancing -> \'b0\'b4\'c3\'bc\'b8\'a6 \'c0\'e7\'bb\'e7\'bf\'eb\par
+\'b0\'b4\'c3\'bc\'c0\'c7 \'c1\'a4\'ba\'b8\'b8\'a6 \'b0\'f8\'c0\'af\'c7\'cf\'b0\'ed \'c0\'e7\'bb\'e7\'bf\'eb -> Instance\par
+\par
+#\'b8\'de\'bd\'ac\'bf\'cd \'c5\'d8\'bd\'ba\'c3\'c4 \'b8\'c5\'c7\'ce\par
+\'b8\'ca(Map) : 2D \'c0\'cc\'b9\'cc\'c1\'f6(Image)\par
+\'b8\'c5\'c7\'ce(Mapping) : 2D \'c0\'cc\'b9\'cc\'c1\'f6 3D \'b7\'bb\'b4\'f5\'b8\'b5 \'b0\'fa\'c1\'a4\'bf\'a1\'bc\'ad \'bb\'e7\'bf\'eb\par
+\par
+\'b8\'de\'bd\'ac -> \'c5\'d8\'bd\'ba\'c3\'c4 \'b8\'c5\'c7\'ce(Texture Mapping)\par
+\par
+# \'b0\'d4\'c0\'d3 \'bf\'f9\'b5\'e5\'c0\'c7 \'b4\'dc\'c0\'a7\par
+\'b0\'b3\'b9\'df\'c0\'da\'b4\'c2 \'b0\'d4\'c0\'d3 \'bf\'f9\'b5\'e5\'c0\'c7 \'c5\'a9\'b1\'e2\'bf\'cd \'b4\'dc\'c0\'a7\'b8\'a6 \'b0\'e1\'c1\'a4\'c7\'cf\'b1\'e2 \'c0\'a7\'c7\'d8 \'be\'c6\'c6\'bc\'bd\'ba\'c6\'ae\'bf\'cd \'c7\'f9\'b7\'c2\'c7\'d8\'be\'df \'c7\'d4\par
+\'c1\'a4\'c0\'fb(Static) : \'bf\'f2\'c1\'f7\'c0\'cc\'c1\'f6 \'be\'ca\'c0\'bd(\'b0\'a1\'b1\'de\'c0\'fb\'c0\'cc\'b8\'e9 2D\'b7\'ce \'bb\'e7\'bf\'eb\'c7\'cf\'b8\'e9 Overhead\'b8\'a6 \'c1\'d9\'c0\'cf \'bc\'f6 \'c0\'d6\'c0\'bd)\par
+\par
+\par
+>> \'c8\'bf\'b0\'fa\'c0\'fb\'c0\'b8\'b7\'ce \'bb\'e7\'bf\'eb\'c7\'cf\'b1\'e2 \'c0\'a7\'c7\'d8\par
+1. Batch(\'c0\'cf\'b0\'fd) \'c3\'b3\'b8\'ae\par
+-> \'b1\'d7\'b8\'b2\'c0\'bb \'b1\'d7\'b8\'b0\'b4\'d9\'b0\'ed \'b0\'a1\'c1\'a4\'c7\'df\'c0\'bb\'b6\'a7 \'b5\'bf\'c0\'cf\'c7\'d1 \'bb\'f6\'b1\'f2\'c0\'bb \'c4\'b5\'b9\'f6\'bd\'ba \'be\'c8\'bf\'a1\'bc\'ad \'b1\'d7\'b7\'c1\'be\'df \'c7\'d2\'b0\'f7\'bf\'a1 \'b4\'d9 \'b1\'d7\'b8\'b0\'b4\'d9\'c0\'bd \par
+\'b4\'f5 \'b1\'d7\'b8\'b1 \'c7\'ca\'bf\'e4\'b0\'a1 \'be\'f8\'b4\'d9\'b8\'e9 \'b4\'d9\'b8\'a5 \'bb\'f6\'b1\'f2\'c0\'bb \'c4\'a5\'c7\'cf\'b4\'c2 \'b9\'e6\'bd\'c4\'c0\'bb \'c3\'eb\'c7\'cf\'b4\'c2 \'b0\'cd\'c0\'bb \'bf\'b9\'b7\'ce \'b5\'e9 \'bc\'f6 \'c0\'d6\'b4\'d9.\par
+---> Overhead\'b8\'a6 \'c1\'d9\'c0\'cf \'bc\'f6 \'c0\'d6\'b4\'d9. (Sorting)\par
+2. \'b9\'cc\'b8\'ae \'b0\'e8\'bb\'ea\par
+\par
+\'b8\'c5\'c7\'ce\'c0\'c7 \'b5\'f0\'c5\'d7\'c0\'cf\'bf\'a1 \'b5\'fb\'b6\'f3\'bc\'ad \'bf\'f9\'b5\'e5\'b0\'a1 \'c4\'bf\'ba\'b8\'c0\'cc\'b0\'d4 \'c7\'d2 \'bc\'f6 \'c0\'d6\'b4\'d9.\par
+Frame Rate\'bf\'cd\'c0\'c7 \'bf\'ac\'b0\'fc\'c0\'cc \'c0\'d6\'c0\'bb \'bc\'f6 \'c0\'d6\'b4\'d9.\par
+\par
+#\'b4\'d9\'b0\'a2\'c7\'fc Mesh \'bf\'cd\'c0\'ce\'b5\'f9 \'bc\'f8\'bc\'ad\par
+-\'c0\'ba\'b8\'e9 \'c1\'a6\'b0\'c5(Back Face Culling)\par
+\par
+-\'c1\'a4\'c1\'a1(Vertex)\line -\'bf\'cd\'c0\'ce\'b5\'f9 \'bc\'f8\'bc\'ad(Winding Order)\par
+\'c0\'ba\'b8\'e9 \'c1\'a6\'b0\'c5 \'c0\'db\'be\'f7\'c0\'bb \'c0\'a7\'c7\'d8 \'be\'c8\'ba\'b8\'c0\'cc\'b4\'c2 \'b8\'e9\'c0\'bb \'c6\'c7\'b4\'dc\'c7\'cf\'b1\'e2 \'c0\'a7\'c7\'d8\'bc\'ad\'b4\'c2 \'c1\'a4\'c1\'a1\'c0\'c7 \'b3\'aa\'bf\'ad \'bc\'f8\'bc\'ad\'b5\'e9\'c0\'bb \'c0\'cf\'b0\'fc\'b5\'c8 \'b9\'e6\'b9\'fd\'c0\'b8\'b7\'ce \'c7\'a5\'c7\'f6\'c7\'cf\'b4\'c2 \'b0\'cd\'c0\'cc \'c7\'ca\'bf\'e4\'c7\'cf\'b4\'d9. Clockwise, Reverse Clockwise -> \'bd\'c3\'b0\'e8, \'b9\'dd\'bd\'c3\'b0\'e8 \'b9\'e6\'c7\'e2 \'b3\'aa\'bf\'ad\par
+\'b8\'e9\'c0\'c7 \'c1\'a4\'c1\'a1\'bc\'f8\'bc\'ad\'b0\'a1 \'bd\'c3\'b0\'e8 -> \'ba\'b8\'c0\'cc\'b4\'c2 \'b8\'e9\par
+\'b8\'e9\'c0\'c7 \'c1\'a4\'c1\'a1\'bc\'f8\'bc\'ad\'b0\'a1 \'b9\'dd\'bd\'c3\'b0\'e8 -> \'be\'c8\'ba\'b8\'c0\'cc\'b4\'c2 \'b8\'e9\par
+-- \'ba\'b8\'c0\'cc\'b4\'c2 \'b8\'e9\'c0\'c7 \'ba\'af\'c0\'bb \'bf\'dc\'c0\'fb\'c7\'cf\'b8\'e9 \'b3\'aa\'b8\'a6 \'b9\'d9\'b6\'f3\'ba\'b8\'b4\'c2 \'b9\'e6\'c7\'e2\'c0\'cc \'b3\'aa\'bf\'c2\'b4\'d9.\par
+--\'be\'c8\'ba\'b8\'c0\'cc\'b4\'c2 \'b8\'e9\'c0\'c7 \'ba\'af\'c0\'bb \'bf\'dc\'c0\'fb\'c7\'cf\'b8\'e9 \'b0\'b4\'c3\'bc\'c0\'c7 \'b3\'bb\'ba\'ce\'b8\'a6 \'b9\'d9\'b6\'f3\'ba\'b8\'b4\'c2 \'b9\'e6\'c7\'e2\'c0\'cc \'b3\'aa\'bf\'c2\'b4\'d9.\par
+\par
+\par
+#\'b7\'bb\'b4\'f5\'b8\'b5\par
+\par
+Scene\par
+Game->\'bf\'a9\'b7\'af\'b0\'b3\'c0\'c7 Stage(\'c8\'a4\'c0\'ba Scene)\par
+Scene->Game World \'b1\'d7 \'c0\'da\'c3\'bc\'b8\'a6 \'c0\'c7\'b9\'cc\'c7\'cf\'b4\'c2 \'b0\'cd.\par
+\par
+Object->Scene\'b0\'fc\'b8\'ae->Scene Rendering->Render\par
+\par
+\'b7\'bb\'b4\'f5\'b8\'b5(Rendering)\par
+\lang18 Object\lang1042\'c0\'c7 \'b0\'d1\'b8\'f0\'be\'e7(Model, Mesh)\'c0\'c7 \'c1\'a4\'ba\'b8\'b0\'a1 \'c0\'d6\'c0\'b8\'b8\'e9 \'b1\'d7\'b0\'cd\'c0\'bb \'b0\'a1\'c1\'ae\'bf\'cd\'bc\'ad \'b1\'d7\'b8\'ae\'b4\'c2 \'c0\'db\'be\'f7\'c0\'bb \'c7\'d1\'b4\'d9.\par
+->\'b4\'d9\'b0\'a2\'c7\'fc\'c0\'bb \'b1\'d7\'b8\'b1 \'bc\'f6 \'c0\'d6\'c0\'b8\'b8\'e9 \'b5\'c8\'b4\'d9. (\'bc\'fd\'c0\'da\'b8\'b8\'c5\'ad \'b9\'dd\'ba\'b9)\par
+\par
+\'c1\'a1 -> \'b4\'d9\'b0\'a2\'c7\'fc(\'c6\'fa\'b8\'ae\'b0\'ef) -> \'b8\'e9 -> \'b8\'de\'bd\'ac\par
+\'b8\'f0\'b5\'e7 \'c7\'c8\'bc\'bf\'b5\'e9\'c0\'bb \'b1\'d7\'b8\'ae\'b4\'c2 \'b0\'cd (\'bb\'f6\'c4\'a5\'c7\'cf\'b4\'c2 \'b0\'cd)\par
+\par
+\'b4\'d9\'b0\'a2\'c7\'fc\'c0\'c7 3D \'b8\'f0\'b5\'a8 \'c1\'c2\'c7\'a5\'b8\'a6 2D \'c8\'ad\'b8\'e9 \'c1\'c2\'c7\'a5(\'c7\'c8\'bc\'bf)\'b7\'ce \'ba\'af\'c8\'af\'c7\'cf\'b4\'c2 \'b0\'fa\'c1\'a4\par
+\par
+3D Rendering\'bf\'a1 \'c7\'ca\'bf\'e4\'c7\'d1 \'b0\'cd\par
+-> \'ba\'af\'c8\'af(Transform) : \'b8\'f0\'be\'e7 \'c5\'a9\'b1\'e2 \'b9\'e6\'c7\'e2\par
+-> Lighting, etc : \'c7\'c8\'bc\'bf \'bb\'f6\'bb\'f3\'c0\'bb \'b0\'e1\'c1\'a4\par
+\par
+# \'c8\'ad\'b8\'e9 \'c1\'c2\'c7\'a5 \'b7\'bb\'b4\'f5\'b8\'b5\par
+\par
+\'bf\'cd\'c0\'cc\'be\'ee \'c7\'c1\'b7\'b9\'c0\'d3(Wireframe) \'b7\'bb\'b4\'f5\'b8\'b5\par
+\par
+# \'ba\'af\'c8\'af \'c6\'c4\'c0\'cc\'c7\'c1\'b6\'f3\'c0\'ce\par
+\par
+\'c6\'c4\'c0\'cc\'c7\'c1\'b6\'f3\'c0\'ce : \'bc\'f6\'b5\'b5\'b0\'fc\'c3\'b3\'b7\'b3 \'be\'ee\'b6\'b0\'c7\'d1 \'b5\'a5\'c0\'cc\'c5\'cd\'b8\'a6 \'c0\'d4\'b7\'c2\'c0\'b8\'b7\'ce \'b3\'d6\'c0\'b8\'b8\'e9 \'be\'ee\'b6\'b0\'c7\'d1 \'b0\'fa\'c1\'a4\'c0\'bb \'c5\'eb\'c7\'d8 \'b0\'e1\'b0\'fa\'b9\'b0\'c0\'cc \'b3\'aa\'bf\'c0\'b0\'d4 \'c7\'cf\'b4\'c2 \'c0\'cf\'b7\'c3\'c0\'c7 \'b0\'fa\'c1\'a4 (\'bc\'f8\'c2\'f7\'c0\'fb\'c0\'b8\'b7\'ce \'bc\'f6\'c7\'e0\'b5\'ca)(\'bc\'f6\'b5\'b5\'b0\'fc\'c3\'b3\'b7\'b3)\par
+\par
+\'ba\'af\'c8\'af \'c6\'c4\'c0\'cc\'c7\'c1\'b6\'f3\'c0\'ce(Transformation Pipeline)\par
+: \'ba\'af\'c8\'af\'c0\'bb \'c7\'d8\'c1\'d6\'b4\'c2 \'c7\'d4\'bc\'f6\par
+\par
+\'b1\'e2\'ba\'bb\'c0\'fb\'c0\'b8\'b7\'ce 4\'b0\'b3\'c0\'c7 \'b4\'dc\'b0\'e8\'b7\'ce \'b1\'b8\'bc\'ba\par
+-\'bf\'f9\'b5\'e5\'ba\'af\'c8\'af(world Transform)\par
+-\'c4\'ab\'b8\'de\'b6\'f3\'ba\'af\'c8\'af(view Transform)\par
+-\'c5\'f5\'bf\'b5\'ba\'af\'c8\'af(projection Transform)\par
+-\'c8\'ad\'b8\'e9\'ba\'af\'c8\'af(Screen Transform)\par
+\par
+\'b0\'e1\'b1\'b9 \'b8\'b6\'c1\'f6\'b8\'b7\'c0\'b8\'b7\'ce \'ba\'af\'c8\'af\'b5\'c7\'b4\'c2 \'b0\'e1\'b0\'fa\'b9\'b0\par
+Screen \'c1\'c2\'c7\'a5(2D\'c1\'c2\'c7\'a5\'b0\'e8) -> \'c7\'c8\'bc\'bf\'b0\'aa\par
+\par
+3D\'c1\'c2\'c7\'a5(\'c1\'a4\'c1\'a1(\'b8\'f0\'b5\'a8\'c1\'c2\'c7\'a5\'b0\'e8)->\'bf\'f9\'b5\'e5\'c1\'c2\'c7\'a5\'b0\'e8->\'c4\'ab\'b8\'de\'b6\'f3\'c1\'c2\'c7\'a5\'b0\'e8)\par
+2D\'c1\'c2\'c7\'a5(\'c5\'f5\'bf\'b5\'c1\'c2\'c7\'a5\'b0\'e8->\'c8\'ad\'b8\'e9\'c1\'c2\'c7\'a5\'b0\'e8)\par
+\par
+# \'ba\'af\'c8\'af \'c6\'c4\'c0\'cc\'c7\'c1\'b6\'f3\'c0\'ce\par
+\par
+\'ba\'af\'c8\'af : (\'c7\'d4\'bc\'f6 == \'ba\'af\'c8\'af == \'c7\'e0\'b7\'c4)\par
+\par
+\'bf\'f9\'b5\'e5\'ba\'af\'c8\'af, \'c4\'ab\'b8\'de\'b6\'f3\'ba\'af\'c8\'af, \'c5\'f5\'bf\'b5\'ba\'af\'c8\'af,\'c8\'ad\'b8\'e9\'ba\'af\'c8\'af ---> \'b8\'f0\'b5\'ce \'c7\'d4\'bc\'f6\'b7\'ce \'c7\'a5\'c7\'f6\'c0\'cc \'b0\'a1\'b4\'c9\'c7\'cf\'b4\'d9.\par
+\'bf\'ec\'b8\'ae\'b4\'c2 \'b1\'c3\'b1\'d8\'c0\'fb\'c0\'b8\'b7\'ce(\'be\'d5\'c0\'b8\'b7\'ce) \'c7\'d4\'bc\'f6\'b8\'a6 \'b8\'b8\'b5\'e5\'b4\'c2 \'b0\'cd\'c0\'cc \'be\'c6\'b4\'cf\'b6\'f3 \'c7\'d4\'bc\'f6\'c0\'c7 \'bf\'aa\'c7\'d2\'c0\'bb \'c7\'cf\'b4\'c2 \'b0\'cd\'b5\'e9\'c0\'bb \'c7\'e0\'b7\'c4\'b7\'ce \'c7\'a5\'c7\'f6\'c7\'d2 \'b0\'cd\'c0\'cc\'b0\'ed \'c7\'e0\'b7\'c4\'b7\'ce \'bf\'ac\'bb\'ea\'c7\'d8\'bc\'ad \'b0\'e1\'b0\'fa\'b9\'b0\'c0\'bb \'be\'f2\'be\'ee\'b3\'be \'b0\'cd\'c0\'cc\'b4\'d9.\par
+\par
+# \'ba\'af\'c8\'af : \'c6\'f2\'c7\'e0\'c0\'cc\'b5\'bf(Translation)\par
+World Transform\par
+\par
+-\'b0\'b4\'c3\'bc(\'b8\'de\'bd\'ac)\'b8\'a6 \'bf\'f9\'b5\'e5\'c1\'c2\'c7\'a5 \'c0\'a7\'c4\'a1\'b7\'ce \'c6\'f2\'c7\'e0\'c0\'cc\'b5\'bf\par
+\'b8\'de\'bd\'ac\'b4\'c2 \'ba\'af\'b0\'e6\'b5\'c7\'c1\'f6 \'be\'ca\'b0\'ed \'b1\'d7\'c0\'fa \'c6\'f2\'c7\'e0\'c0\'b8\'b7\'ce \'c0\'cc\'b5\'bf\'b8\'b8 \'c7\'cf\'b4\'c2 \'b0\'cd.\par
+\par
+\'b8\'f0\'b5\'e7 \'b0\'b4\'c3\'bc\'b8\'a6 \'bf\'f9\'b5\'e5\'ba\'af\'c8\'af\'c0\'bb \'c7\'cf\'b8\'e9 \'b8\'f0\'b5\'e7 \'b0\'b4\'c3\'bc\'b0\'a1 \'bf\'f9\'b5\'e5 \'c1\'c2\'c7\'a5\'b0\'e8\'c0\'c7 \'bf\'f8\'c1\'a1\'c0\'bb \'b1\'e2\'c1\'d8\'c0\'b8\'b7\'ce \'c0\'cc\'b5\'bf\'b5\'c8\'b4\'d9.Position\par
+\par
+\'c0\'ce\'bd\'ba\'c5\'cf\'bd\'cc\par
+\'c7\'cf\'b3\'aa\'c0\'c7 \'b8\'de\'bd\'ac\'b8\'a6 \'bf\'a9\'b7\'af \'b0\'b4\'c3\'bc\'bf\'a1\'bc\'ad \'b0\'f8\'c0\'af\'c7\'cf\'b4\'c2 \'b9\'e6\'b9\'fd\par
+\par
+GameObject->\'b1\'e2\'ba\'bb\'c0\'fb\'c0\'b8\'b7\'ce \'c0\'a7\'c4\'a1\'c1\'a4\'ba\'b8(\'bd\'c7\'bc\'f6), \'b8\'de\'bd\'ac\'c1\'a4\'ba\'b8(\'c6\'f7\'c0\'ce\'c5\'cd)\'b8\'a6 \'b0\'a1\'c1\'f6\'b0\'ed \'c0\'d6\'be\'ee\'be\'df\'c7\'d1\'b4\'d9.\par
+\par
+#\'ba\'af\'c8\'af : \'c8\'b8\'c0\'fc(Rotation)\par
+\'bf\'de\'bc\'d5 \'c1\'c2\'c7\'a5\'b0\'e8\'c0\'c7 \'c3\'e0\'c0\'cc \'be\'f6\'c1\'f6\'c0\'cf\'b6\'a7\'b8\'a6 \'b1\'e2\'c1\'d8\'c0\'b8\'b7\'ce \'c0\'da\'bf\'ac\'bd\'ba\'b7\'b4\'b0\'d4 \'b5\'b9\'be\'c6\'b0\'a1\'b4\'c2 \'b9\'e6\'c7\'e2\'c0\'cc \'be\'e7\'c0\'c7 \'b9\'e6\'c7\'e2\'c0\'b8\'b7\'ce\par
+\'c8\'b8\'c0\'fc\'c7\'cf\'bf\'b4\'c0\'bb\'b6\'a7 \'c8\'b8\'c0\'fc\'b5\'c7\'b4\'c2 \'b9\'e6\'c7\'e2\par
+\par
+C/C++ \'bb\'ef\'b0\'a2\'c7\'d4\'bc\'f6\'b8\'a6 \'c8\'a3\'c3\'e2\'c7\'d2 \'b6\'a7 \'b0\'a2\'b5\'b5\'b4\'c2 \'c8\'a3\'b5\'b5\'b9\'fd(Radian)\par
+#define DegToRad(x) \tab\tab (x * (pi/180)\par
+#deffine RadToDeg(x)\tab\tab (x * (180/pi))\par
+\par
+3D \'c1\'a1\'c0\'bb \'bf\'f8\'c1\'a1\'bf\'a1\'bc\'ad \'c7\'cf\'b3\'aa\'c0\'c7 \'c3\'e0\'c0\'bb \'b1\'e2\'c1\'d8\'c0\'b8\'b7\'ce \'c8\'b8\'c0\'fc\par
+2D \'bf\'a1\'bc\'ad\'b4\'c2 \'bf\'f8\'c1\'a1\'c0\'bb \'b1\'e2\'c1\'d8\'c0\'b8\'b7\'ce \'c8\'b8\'c0\'fc\par
+\par
+# \'c6\'f2\'c7\'e0\'c0\'cc\'b5\'bf\'b0\'fa \'c8\'b8\'c0\'fc\par
+\par
+\'c8\'b8\'c0\'fc\'c0\'ba \'b1\'e2\'ba\'bb\'c0\'fb\'c0\'b8\'b7\'ce \'c1\'c2\'c7\'a5\'b0\'e8\'c0\'c7 \'bf\'f8\'c1\'a1\'c0\'bb \'b1\'e2\'c1\'d8\'c0\'b8\'b7\'ce \'c7\'cf\'b4\'c2 \'b0\'cd\'c0\'b8\'b7\'ce \'b0\'a1\'c1\'a4\par
+\'c6\'f2\'c7\'e0\'c0\'cc\'b5\'bf * \'c8\'b8\'c0\'fc != \'c8\'b8\'c0\'fc * \'c6\'f2\'c7\'e0\'c0\'cc\'b5\'bf (\'c7\'e0\'b7\'c4\'c0\'c7 \'b1\'b3\'c8\'af\'b9\'fd\'c4\'a2 \'bc\'ba\'b8\'b3 X)\par
+(\'b0\'f8\'c0\'fc)\tab\tab   \tab     (\'c0\'da\'c0\'fc)\par
+\'ba\'b8\'c5\'eb\'c0\'ba \'c8\'b8\'c0\'fc\'b8\'d5\'c0\'fa\'c7\'cf\'b0\'ed \'c6\'f2\'c7\'e0\'c0\'cc\'b5\'bf\'c0\'bb \'c7\'d1\'b4\'d9.\par
+\par
+# \'bf\'f9\'b5\'e5 \'c1\'c2\'c7\'a5 \'ba\'af\'c8\'af\par
+\par
+CObject->Mesh(\'c6\'f7\'c0\'ce\'c5\'cd\'c1\'a4\'ba\'b8), \'c0\'a7\'c4\'a1\'c1\'a4\'ba\'b8, \'b9\'e6\'c7\'e2\'c1\'a4\'ba\'b8(Rotation)\par
+\'bf\'c0\'c0\'cf\'b7\'af Angle \'c7\'a5\'b1\'e2\'b9\'fd\par
+\par
+Scaling \'ba\'af\'c8\'af(\'c5\'a9\'b1\'e2\'b8\'a6 \'b9\'d9\'b2\'d9\'b4\'c2 \'ba\'af\'c8\'af) : \'be\'f8\'b4\'d9\'b0\'ed \'bb\'fd\'b0\'a2\'c7\'d8\'b5\'b5\'b5\'c8\'b4\'d9?\par
+Scaling * Rotation * Transform -> \'ba\'b8\'c5\'eb \'b0\'f6\'c7\'cf\'b4\'c2 \'bc\'f8\'bc\'ad\par
+\par
+Scaling \'ba\'af\'c8\'af \'be\'f8\'b4\'d9\'b0\'ed \'bb\'fd\'b0\'a2\'c7\'d8\'b5\'b5 \'b5\'c8\'b4\'d9? -> Scaling \'ba\'af\'c8\'af\'c0\'bb \'bb\'e7\'bf\'eb\'c7\'cf\'b8\'e9 Frame Rate\'b0\'a1 \'b6\'b3\'be\'ee\'c1\'f8\'b4\'d9.\par
+Scaling->\'b8\'f0\'b5\'a8\'c0\'c7 \'c5\'a9\'b1\'e2\'b8\'a6 \'c5\'b0\'bf\'ec\'b1\'e2 \'c0\'a7\'c7\'d8 \'b8\'f0\'b5\'a8\'c0\'c7 \'b8\'f0\'b5\'e7 \'c1\'a4\'c1\'a1\'bf\'a1 \'b4\'eb\'c7\'d8 \'c0\'cc\'b5\'bf \'bf\'ac\'bb\'ea\'c0\'bb \'c7\'cf\'b1\'e2 \'b6\'a7\'b9\'ae\'c0\'cc\'b4\'d9.\par
+\par
+Pitch(X), Yaw(Y), Roll(Z)\par
+\par
+# \'c4\'ab\'b8\'de\'b6\'f3 \'ba\'af\'c8\'af(Viewing Transform)\par
+(\'b0\'a1\'bb\'f3\'c0\'c7 \'c4\'ab\'b8\'de\'b6\'f3)\par
+\par
+\'c4\'ab\'b8\'de\'b6\'f3 class -> \'c0\'a7\'c4\'a1, \'b9\'e6\'c7\'e2, \'ba\'b8\'b4\'c2 \'b0\'a2(\'c8\'ad\'b0\'a2(FOV(Field Of View))\par
+\par
+\'c4\'ab\'b8\'de\'b6\'f3\'b4\'c2 FOV\'b0\'a2\'c0\'bb \'b9\'d9\'c5\'c1\'c0\'b8\'b7\'ce \'b3\'a1\'c0\'cc \'c0\'df\'b8\'b0 \'bb\'e7\'b0\'a2\'bb\'d4\'c0\'c7 \'c7\'fc\'c5\'c2(\'c0\'fd\'b5\'ce\'c3\'bc Frustom)\'b7\'ce \'ba\'bc\'bc\'f6 \'c0\'d6\'b4\'c2 \'b9\'fc\'c0\'a7\'b0\'a1 \'c0\'d6\'b4\'d9.\par
+\par
+\'c4\'ab\'b8\'de\'b6\'f3\'c0\'c7 \'c8\'b8\'c0\'fc\'b0\'fa \'c0\'cc\'b5\'bf\'c0\'ba \'bf\'f8\'b7\'a1 \'bf\'f9\'b5\'e5 \'bc\'bc\'bb\'f3\'c0\'c7 \'b9\'dd\'b4\'eb\'b7\'ce \'c0\'db\'bf\'eb\'b5\'c8\'b4\'d9.(\'ba\'b8\'c3\'e6\'c7\'ca\'bf\'e4)\par
+\par
+\'c8\'b8\'c0\'fc \'c6\'f2\'c7\'e0\'c0\'cc\'b5\'bf \'ba\'af\'c8\'af\'c0\'bb \'b0\'c5\'c4\'a3\'b0\'cd\'c0\'bb \'c4\'ab\'b8\'de\'b6\'f3\'b8\'a6 \'c1\'df\'bd\'c9(\'bf\'f8\'c1\'a1)\'c0\'b8\'b7\'ce \'ba\'af\'c8\'af\'c7\'d8\'c1\'d8\'b4\'d9. (\'c1\'f6\'c3\'e0\'c0\'cf\'c4\'a1)\par
+(RT)^-1 = T^-1 * R^-1\par
+-> \'c0\'cc\'b0\'cd\'c0\'cc \'b9\'d9\'b7\'ce \'c4\'ab\'b8\'de\'b6\'f3 \'ba\'af\'c8\'af(\'b0\'d4\'c0\'d3\'bc\'bc\'bb\'f3\'c0\'bb \'c4\'ab\'b8\'de\'b6\'f3\'c0\'c7 \'c1\'df\'bd\'c9\'c0\'b8\'b7\'ce)\par
+\par
+\'c4\'ab\'b8\'de\'b6\'f3 \'ba\'af\'c8\'af\'c0\'bb \'c7\'cf\'b8\'e9 \'ba\'b8\'c0\'cc\'b0\'ed \'be\'c8\'ba\'b8\'c0\'cc\'b4\'c2 \'b0\'cd\'b5\'e9\'c0\'bb \'bd\'b1\'b0\'d4 \'c6\'c7\'b4\'dc\'c7\'d2 \'bc\'f6 \'c0\'d6\'b4\'d9.\par
+\par
+#CameraTransform\par
+\'bf\'f8\'b7\'a1 \'ba\'af\'c8\'af\'c0\'c7 \'b9\'dd\'b4\'eb\'b7\'ce \'c7\'d8\'be\'df\'c7\'d1\'b4\'d9.\par
+\'c4\'ab\'b8\'de\'b6\'f3 \'ba\'af\'c8\'af T^-1 * R^-1\par
+\par
+vtxCamera = vtxWorld - pCamera->Position\par
+-> \'c4\'ab\'b8\'de\'b6\'f3\'b8\'a6 \'c1\'df\'bd\'c9(\'bf\'f8\'c1\'a1)\'c0\'b8\'b7\'ce \'c6\'f2\'c7\'e0\'c0\'cc\'b5\'bf\'c0\'bb \'bd\'c3\'c4\'d1\'c1\'d8\'b4\'d9.\par
+Pitch, Yaw, Roll -> \'c0\'bd\'c0\'c7 \'b9\'e6\'c7\'e2\'c0\'b8\'b7\'ce\lang18\par
+}
+ 

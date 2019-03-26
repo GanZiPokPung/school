@@ -1,0 +1,145 @@
+# 렌더링
+
+*Scene
+Game -> 여러개의 Stage(혹은 Scene)
+Scene-> Game World 그 자체를 의미하는것.
+
+Object -> Scene관리 -> Scene Rendering -> Render
+
+*렌더링(Rendering)
+Object의 겉모양(Model, Mesh)의 정보가 있으면 그것을 가져와서 그리는 작업을 한다. -> 다각형을 그릴수 있으면 된다.(숫자만큼 반복) 
+
+점 -> 다각형(폴리곤) -> 면 -> 메쉬
+모든 픽셀들을 그리는 것 (색칠하는 것)
+
+다각형의 3D 모델 좌표를 2D 화면 좌표(픽셀)로 변환하는 과정\
+
+3D Rendering에 필요한 것
+->변환(Transform) : 모양 크기 방향
+->Lighting, etc : 픽셀 색상을 결정
+
+# 화면 좌표 렌더링
+
+와이어 프레임(Wireframe) 렌더링
+
+# 변환 파이프라인
+
+파이프라인 : 수도관 처럼 어떠한 데이터를 입력으로 넣으면 어떠한 과정을통해 결과물이 나오게 하는 일련의 과정(순차적으로 수행됨)(수도관처럼)
+
+변환 파이프라인(Transformation Pipeline) 
+: 변환을 해주는 함수
+
+기본적으로 4개의 단계로 구성
+-월드변환(World Transform)
+-카메라변환(View Transform)
+-투영변환(Projection Transform) : 원근감
+-화면변환(Screen Transform)
+
+결국 마지막으로 변환되는 결과물
+Screen 좌표(2D좌표계) -> 픽셀값
+
+3D좌표(정점(모델좌표계)->월드좌표계->카메라좌표계)
+2D좌표(투영좌표계->화면좌표계)
+
+# 변환 파이프라인
+
+변환 : (함수 == 변환 == 행렬)
+
+월드변환, 카메라변환, 투영변환, 화면변환 --> 모두 함수로 표현가능
+우리는 궁극적으로(앞으로) 함수를 만드는 것이 아니라 함수의 역할을 하는
+것들을 행렬로 표현할 것이고 행렬로 연산해서 결과물을 얻어낼 것이다.
+
+# 변환 : 평행이동(Translation)
+World Transform
+
+-객체(메쉬)를 월드좌표 위치로 평행이동
+메쉬는 변경되지 않고 그저 평행으로 이동만 하는것.
+vPositionInWorld.x = 1;
+vPositionInWorld.y = 3;
+vPositionInWorld.z = 3;
+for(Each Polygon in Mesh)
+{
+for(Each Vertex in Polygon)
+{
+Vertex.x += vPositionInWorld.x;
+Vertex.y += vPositionInWorld.y;
+Vertex.z += vPositionInWorld.z;
+}
+}
+
+모든 객체를 월드변환을 하면 모든 객체가 월드 좌표계의 원점을 기준으로 이동이된다.
+Position
+
+인스턴싱
+하나의 메쉬를 여러 객체에서 공유하는 방법
+
+GameObject->기본적으로 위치정보(실수), 메쉬정보(포인터)를 가지고 있어야함.
+
+# 변환 : 회전(Rotation)
+
+X Axis : y2 = y1*cos0 - z1*sin0
+	 z2 = y1*sin0 + z1*cos0 
+Y Axis : x2 = x1*cos0 + z1*sin0
+	 z2 = -x1*sin0 + z1*cos0
+Z Axis : x2  = x1*cos0 - y1*sin0
+         y2 = x1*sin0 + y1*cos0
+외울필요 X(궁금하면 증명방법 찾아보면 됨)
+
+왼손 좌표계의 축이 엄지일때를 기준으로 자연스럽게 돌아가는 방향이 
+양의 방향으로 회전하였을때 회전되는 방향
+
+C/C++ 삼각함수를 호출할 때 각도는 호도법(라디안)
+#define DegToRad(x) 		(x * (pi/180))
+
+3D 점을 원점에서 하나의 축을 기준으로 회전
+2D 에서는 원점을 기준으로 회전
+
+# 평행이동과 회전
+
+회전은 기본적으로 좌표계의 원점을 기준으로 하는 것으로 가정
+
+평행이동 * 회전 != 회전 * 평행이동 (행렬의 교환법칙 성립 X)
+(공전)	       (자전)
+
+보통은 회전먼저하고 평행이동을 한다.
+
+# 월드 좌표 변환
+
+CObject -> Mesh(포인터정보), 위치정보, 방향정보(rotation)
+오일러 Angle 표기법
+
+Scaling 변환(크기를 바꾸는 변환) : 없다고 생각해도된다???
+Scaling * Rotation * Transform -> 보통 곱하는 순서
+
+Scaling 변환 없다고 생각해도된다??? -> Scaling 변환을 사용하면
+			         Frame Rate가 떨어진다.
+Scaling->모델의 크기를 키우기위해 모델의 모든 정점에 대해 이동 연산	 을 한다.
+가급적이면 하지 않는것이 좋다?
+
+Pitch(X), Yow(Y), Roll(Z)
+
+# 카메라 변환(Viewing Transform)
+(가상의 카메라)
+
+카메라class -> 위치, 방향, 보는 각(화각(FOV(Field Of View))
+
+카메라는 FOV각을 바탕으로 사각뿔의 형태(절두체 Frustom)로 볼수 있는 범위가 있다.
+
+카메라의 회전과 이동은 원래 월드 세상의 반대로 작용된다.(보충필요)
+
+회전 평행이동 변환을 거친것을 카메라를 중심(원점)으로 변환해준다.(지축일치)
+(RT)^-1 = T^-1 * R^-1
+-> 이것이 바로 카메라 변환(게임세상을 카메라의 중심으로)
+
+카메라 변환을 하면 보이고 안보이는 것들을 쉽게 판단할 수 있다.
+
+#CameraTransform
+원래 변환의 반대로 해야한다.
+카메라 변환 T^-1 * R^-1
+
+vtxCamera = vtxWorld - pCamera->Position
+-> 카메라를 중심(원점)으로 평행이동을 시켜준다.
+Pitch, Yaw, Roll -> 음의 방향으로
+
+
+

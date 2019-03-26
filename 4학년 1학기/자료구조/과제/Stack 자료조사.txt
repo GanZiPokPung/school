@@ -1,0 +1,32 @@
+1.
+
+void Init(Stack *pstack) -> 스택을 초기화 한다. 스택 생성 후 제일 먼저 호출되어야 한다.
+
+int Is_empty(Stack *pstack) -> 스택이 비어있는지를 검사하고 비어있다면  		TRUE(1) 그렇지 않다면 FALSE(0)를 반환한다.
+
+int Is_full(Stack *pstack) -> 스택이 가득 찼는 검사하고 가득 찬경우 TRUE(1) 그렇지 않으면 FALSE(0)를 반환한다.
+
+void Push(Stack*, Data data) -> data를 스택에 집어넣는 작업을 수행한다.
+		스택 특성상 가장 꼭대기에다 값을 넣는다.
+
+Data Pop(Stack* pstack) -> 가장 마지막에 Push된 data를 삭제하고 삭제한 데이터는 반환한다. 이 함수를 호출하기 위해서는 데이터가 하나 이상 존재하여야 한다.
+
+int Size(Stack* pstack) -> 스택에 존재하는 data갯수를 반환한다.
+
+Data Top(Stack* pstack) -> 가장 위에 있는 data를 반환만한다. 이 함수를 호출하기 위해서는 데이터가 하나 이상 존재하여야 한다.
+
+int Swap(Stack* pstackA, Stack* pstackB) -> 두 스택의 내용을 서로 바꾼다. 바꾸지 못하는 상황(바꾸려는 스택의 개수가 바꾸는 대상 스택의 사이즈를 넘어가는 경우)이 있는경우 FALSE(0)를 반환하고 바꿀수 있는경우 바꾼 후 TRUE(1)를 반환한다.
+
+
+2.
+     
+2.1a. 2 + 5 * (3 + 4) / (a - 3)
+2.1b. 2534+*a3-/+
+2.2a. b - 3 * 4 + (5 - 6) / 7
+2.2b. b34*-56-7/+
+2.3a. 5 + a * 3 - b / (2 + a)
+2.3b. 5a3*+b2a+/-
+2.4a. (6 * 3) + a - 2 / (7 + b)
+2.4b. 63*a+27b+/-
+2.5a. (6 / a) - 3 + (4 * b)
+2.5b. 6a/3-4b*+

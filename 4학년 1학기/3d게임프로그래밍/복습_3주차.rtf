@@ -1,0 +1,114 @@
+{\rtf1\ansi\deff0\nouicompat{\fonttbl{\f0\fnil\fcharset129 \'b8\'bc\'c0\'ba \'b0\'ed\'b5\'f1;}}
+{\*\generator Riched20 10.0.17134}\viewkind4\uc1 
+\pard\sl276\slmult1\f0\fs20\lang1042 #\'c5\'f5\'bf\'b5 \'ba\'af\'c8\'af(Projection Transformation)\par
+\par
+*\'bf\'f8\'b1\'d9 \'c5\'f5\'bf\'b5\'ba\'af\'c8\'af\par
+\'b8\'f0\'b5\'a8\'bf\'a1 \'c0\'d6\'b4\'c2 \'b8\'f0\'b5\'e7 \'c1\'a1 >> World \'c1\'c2\'c7\'a5\'b0\'e8 >> Camera \'c1\'c2\'c7\'a5\'b0\'e8\par
+\par
+\'c0\'cc\'c1\'a6 \'c0\'cc \'c1\'a1\'b5\'e9\'c0\'bb 2D\'b7\'ce \'b9\'d9\'b2\'d9\'b4\'c2 \'c0\'db\'be\'f7\'c0\'bb \'c7\'d1\'b4\'d9.\par
+\par
+Painter's Algorithm >> \'b4\'eb\'c7\'a5\'c0\'fb\'c0\'ce \'bf\'b9\'b7\'ce \'bf\'f8\'b1\'d9\'b0\'a8\par
+\'c4\'ab\'b8\'de\'b6\'f3\'b8\'a6 \'b1\'e2\'c1\'d8\'c0\'b8\'b7\'ce \'b8\'d6\'b8\'ae\'c0\'d6\'b4\'c2 \'b0\'b4\'c3\'bc\'b4\'c2 \'c0\'db\'b0\'d4 \'b0\'a1\'b1\'ee\'bf\'ee \'b0\'b4\'c3\'bc\'b4\'c2 \'c5\'a9\'b0\'d4 \'b1\'d7\'b8\'b0\'b4\'d9.\par
+\par
+2D\'b4\'c2 >> Z\'c3\'e0 \'c1\'c2\'c7\'a5\'b0\'a1 0\'c0\'cc \'b5\'c8\'b4\'d9.(\'c7\'a5\'c7\'f6 \'c7\'d2 \'c7\'ca\'bf\'e4\'b0\'a1 \'be\'f8\'c0\'bd)\par
+\par
+\'c1\'f7\'b0\'a2 \'bb\'ef\'b0\'a2\'c7\'fc >> \'bc\'f6\'bc\'b1\'c0\'c7 \'b9\'df? >> \'c5\'f5\'bf\'b5?\par
+\par
+Near, Far\par
+\par
+FOV 90\'b5\'b5\'b4\'c2..\par
+\'c4\'ab\'b8\'de\'b6\'f3\'bf\'a1\'bc\'ad \'c1\'f6\'b3\'aa\'b0\'a1\'b4\'c2 Z\'c3\'e0\'c0\'bb \'b1\'e2\'c1\'d8\'c0\'b8\'b7\'ce \'c0\'a7 \'be\'c6\'b7\'a1 45\'b5\'b5\par
+\par
+\'c1\'f7\'b0\'a2 \'bb\'ef\'b0\'a2\'c7\'fc\'c0\'bb \'b1\'e2\'c1\'d8\'c0\'b8\'b7\'ce..\par
+Z\'c3\'e0, \'bc\'f6\'bc\'b1\'c0\'c7\'b9\'df(Y\'c3\'e0)\par
+\par
+*\'c5\'f5\'bf\'b5 \'c1\'c2\'c7\'a5\'b0\'e8 >> 2\'c2\'f7\'bf\'f8 \'c1\'c2\'c7\'a5\par
+\par
+\'c4\'ab\'b8\'de\'b6\'f3 \'c1\'c2\'c7\'a5\'b0\'e8 (x, y, z) >> (x/z, y/z, 1)\par
+Z\'c1\'c2\'c7\'a5\'b0\'a1 1\'b7\'ce \'b9\'d9\'b2\'ee\'be\'fa\'c0\'b8\'b9\'c7\'b7\'ce \'bb\'a9\'b9\'f6\'b7\'c1\'b5\'b5 \'b5\'ca(\'b1\'bb\'c0\'cc \'be\'ea\'b1\'e2\'c7\'d2 \'c7\'ca\'bf\'e4\'b0\'a1 \'be\'f8\'c0\'bd)\par
+\par
+-Z\'c3\'e0\'c0\'bb \'b1\'d7\'b3\'c9 \'be\'f8\'be\'d6\'b8\'e9 \'c1\'f7\'b1\'b3\'c5\'f5\'bf\'b5, Z\'c3\'e0\'c0\'bb \'b1\'e2\'c1\'d8\'c0\'b8\'b7\'ce \'b3\'aa\'b4\'a9\'b8\'e9 \'bf\'f8\'b1\'d9\'c5\'f5\'bf\'b5\par
+-y/z OR x/z\'bf\'a1\'bc\'ad\par
+result == (+-)1 => (y == z)\par
+result <   (+-)1 => (y  <  z)\par
+result >   (+-)1 => (y  >  z) -> \'c8\'ad\'b8\'e9\'bf\'a1 \'be\'c8\'ba\'b8\'c0\'cc\'b4\'c2 \'bf\'b5\'bf\'aa\par
+\par
+\'c4\'ab\'b8\'de\'b6\'f3\'bf\'a1\'bc\'ad \'ba\'bc \'bc\'f6 \'c0\'d6\'b4\'c2 \'b8\'f0\'b5\'e7 \'bf\'b5\'bf\'aa\'c0\'c7 \'c5\'f5\'bf\'b5 \'c1\'c2\'c7\'a5\'b4\'c2 -1.0 ~ 1.0 \'c0\'cc\'b4\'d9.\par
+\par
+\'c4\'ab\'b8\'de\'b6\'f3\'c0\'c7 \'bf\'b5\'bf\'aa\'c0\'bb \'ba\'f1\'bd\'ba\'b5\'eb\'c7\'cf\'b0\'d4 \'c1\'a1\'c1\'a1 \'c1\'d9\'bf\'a9\'b3\'aa\'b0\'a1\'b8\'e9 \'b0\'e1\'b1\'b9 \'c1\'a4\'bb\'e7\'b0\'a2\'c7\'fc\'c0\'b8\'b7\'ce \'c7\'a5\'c7\'f6\'c0\'cc \'b5\'c9\'b0\'cd\'c0\'cc\'b4\'d9.\par
+>>> \'b1\'d7\'b0\'cd\'c0\'cc \'b9\'d9\'b7\'ce \'c5\'f5\'bf\'b5 \'c1\'c2\'c7\'a5\'b0\'e8\par
+>> \'c1\'b6\'b0\'c7 : FOV\'b0\'a1 90\'b5\'b5 \'c0\'cf\'b6\'a7\par
+\par
+\'c4\'ab\'b8\'de\'b6\'f3\'c0\'c7 \'c1\'a4 \'b0\'a1\'bf\'ee\'b5\'a5 \'c1\'b8\'c0\'e7\'c7\'cf\'b4\'c2 \'b8\'f0\'b5\'e7 \'c1\'a1\'b5\'e9 >> Z\'c3\'e0 \'c1\'a1\'b5\'e9\par
+\'c0\'cc \'c1\'a1\'b5\'e9\'c0\'bb \'b1\'e2\'c1\'d8\'c0\'b8\'b7\'ce \'c4\'ab\'b8\'de\'b6\'f3 \'c1\'c2\'c7\'a5\'b0\'e8\'b8\'a6 \'b3\'aa\'b4\'a9\'be\'ee \'c1\'d6\'b4\'c2 \'b0\'cd\'c0\'cc\'b4\'d9.\par
+\par
+\'bf\'f8\'b1\'d9 \'c5\'f5\'bf\'b5\'c0\'bb \'c7\'cf\'b8\'e9 \'bb\'fd\'b1\'e2\'b4\'c2 \'bc\'ba\'c1\'fa\par
+1. 3D\'b8\'a6 2D\'b7\'ce \'b9\'d9\'b2\'dc \'bc\'f6 \'c0\'d6\'b4\'d9.\par
+2. FOV\'b0\'a1 90\'b5\'b5 \'c0\'cf\'b6\'a7 Z\'c3\'e0 \'c1\'a1\'c0\'bb \'b1\'e2\'c1\'d8\'c0\'b8\'b7\'ce \'b3\'aa\'b4\'a9\'be\'ee\'c1\'f8 \'b0\'e1\'b0\'fa\'b8\'a6 |x', y'| <= 1\'b7\'ce \'c4\'ab\'b8\'de\'b6\'f3\'bf\'a1\'bc\'ad \'ba\'b8\'c0\'cc\'b4\'c2\'c1\'f6 \par
+\'be\'c8\'ba\'b8\'c0\'cc\'b4\'c2\'c1\'f6\'b8\'a6 \'b1\'b8\'ba\'d0\'c7\'d2 \'bc\'f6 \'c0\'d6\'b4\'d9.\par
+3. \'bf\'f8\'b1\'d9\'b0\'a8\'c0\'bb \'c7\'a5\'c7\'f6\'c7\'d2 \'bc\'f6 \'c0\'d6\'b0\'d4 \'b5\'c8\'b4\'d9.\par
+\par
+- Z\'c3\'e0\'c0\'c7 \'c1\'a1\'c0\'cc \'c1\'a1\'c1\'a1 \'c4\'bf\'c1\'fa\'bc\'f6\'b7\'cf \'c4\'ab\'b8\'de\'b6\'f3 \'c1\'c2\'c7\'a5\'b8\'a6 Z\'c3\'e0 \'c1\'a1\'c0\'bb \'b1\'e2\'c1\'d8\'c0\'b8\'b7\'ce \'b3\'aa\'b4\'a9\'be\'ee\'c1\'d9\'b6\'a7 0\'bf\'a1 \'bc\'f6\'b7\'c5\'c7\'cf\'b0\'d4 \'b5\'c8\'b4\'d9.\par
+\par
+\'c7\'cf\'c1\'f6\'b8\'b8 \'bd\'c7\'c1\'fa\'c0\'fb\'c0\'b8\'b7\'ce \'bb\'f3\'bf\'eb\'c8\'ad\'b5\'c8 \'b0\'d4\'c0\'d3\'b5\'e9\'c0\'ba FOV\'b8\'a6 45~60\'b5\'b5 \'c1\'a4\'b5\'b5\'b8\'a6 \'be\'b4\'b4\'d9?\par
+>> \'bf\'aa\'b5\'bf\'b0\'a8\'c0\'bb \'c1\'d6\'b1\'e2 \'c0\'a7\'c7\'d8\par
+\par
+-Frame Rate\'b8\'a6 \'b3\'f4\'c0\'cc\'b1\'e2 \'c0\'a7\'c7\'d8 \'c4\'ab\'b8\'de\'b6\'f3\'b0\'a1 \'b9\'d9\'b6\'f3\'ba\'b8\'b4\'c2 \'b0\'c5\'b8\'ae\'b8\'a6 \'c0\'fb\'b0\'d4 \'bc\'b3\'c1\'a4\'c7\'cf\'b4\'c2 \'b9\'e6\'b9\'fd\'c0\'cc \'c1\'b8\'c0\'e7\'c7\'d1\'b4\'d9.\par
+-\'b0\'ed\'b7\'ce FOV\'bf\'a1 \'b5\'fb\'b6\'f3\'bc\'ad Frame Rate\'b0\'a1 \'b4\'de\'b6\'f3\'c1\'fa \'bc\'f6 \'c0\'d6\'b4\'d9.\par
+-FOV\'c1\'b6\'c0\'fd, \'bf\'f8\'c6\'f2\'b8\'e9 \'c1\'b6\'c0\'fd\'c0\'bb \'c5\'eb\'c7\'d8 Frame Rate\'b8\'a6 \'c1\'c1\'be\'c6\'c1\'f6\'b0\'d4 \'c7\'d2 \'bc\'f6 \'c0\'d6\'b4\'d9.\par
+\par
+-LOD(Level Of Detail)\par
+\'b8\'d6\'b8\'ae \'c0\'d6\'b4\'c2\'b0\'cd(\'c0\'db\'b0\'d4) -> \'b4\'eb\'c3\'e6(\'ba\'fc\'b8\'a3\'b0\'d4, \'b0\'a3\'b4\'dc\'c7\'d1 \'b0\'e8\'bb\'ea\'c0\'a7\'c1\'d6) => \'b1\'d7\'b3\'c9 \'b4\'c0\'b3\'a6\'b8\'b8 \'c1\'e0\'b5\'b5 \'b5\'ca\par
+\'b0\'a1\'b1\'ee\'c0\'cc \'c0\'d6\'b4\'c2\'b0\'cd(\'c5\'a9\'b0\'d4) -> \'c0\'da\'bc\'bc\'c7\'cf\'b0\'d4(\'b4\'c0\'b8\'ae\'b0\'d4) => \'b1\'d7\'b8\'b0\'b4\'d9.\par
+\par
+-> Camera\'bf\'cd\'c0\'c7 \'b0\'c5\'b8\'ae\'bf\'a1 \'b5\'fb\'b6\'f3\'bc\'ad LOD\'c0\'c7 \'b0\'ad\'b5\'b5\'b0\'a1 \'b4\'de\'b6\'f3\'c1\'f8\'b4\'d9.\par
+\par
+EX) SkyBox >> \'b8\'c5\'b9\'f8 3D? \'b9\'ab\'b8\'f0\'c7\'d1\'c1\'fe\'c0\'cc\'b4\'d9. \'c7\'c3\'b7\'b9\'c0\'cc\'be\'ee\'b0\'a1 \'c7\'cf\'b4\'c3\'c0\'bb \'b5\'f0\'c5\'d7\'c0\'cf\'c7\'cf\'b0\'d4 \'ba\'b8\'c1\'f6 \'be\'ca\'b4\'c2\'b4\'d9.\par
+\tab\tab\'b0\'ed\'b7\'ce \'c0\'da\'bc\'bc\'c7\'cf\'b0\'d4 \'b1\'d7\'b8\'b1 \'c7\'ca\'bf\'e4\'b0\'a1 \'be\'f8\'b4\'d9.\par
+\par
+** \'b0\'d4\'c0\'d3\'bf\'a1\'bc\'ad \'b0\'a1\'c0\'e5 \'c1\'df\'bf\'e4\'c7\'d1 \'b0\'cd\'c0\'ba Frame Rate **\par
+\par
+*\'c0\'d3\'c0\'c7\'c0\'c7 \'b0\'a2\'b5\'b5 FOV\par
+-\'c5\'f5\'bf\'b5 \'c6\'f2\'b8\'e9\'b0\'fa \'c4\'ab\'b8\'de\'b6\'f3 \'bb\'e7\'c0\'cc\'c0\'c7 \'b0\'c5\'b8\'ae(d)\par
+(d = 1) => FOV 90\'b5\'b5\par
+\par
+Xproj = x / (z / d)\par
+Yproj = y / (z / d)\par
+\par
+d\'b8\'a6 \'b0\'a1\'c1\'f6\'b0\'ed z\'b8\'a6 \'b3\'aa\'b4\'a9\'be\'fa\'c0\'bb\'b6\'a7 \'c5\'f5\'bf\'b5 \'b0\'e1\'b0\'fa\'b0\'a1 \'b4\'de\'b6\'f3\'c1\'fa \'bc\'f6 \'c0\'d6\'b4\'d9.\par
+d\'c0\'c7 \'b0\'aa\'c0\'bb \'c5\'eb\'c7\'d8\'bc\'ad z\'c0\'c7 \'c0\'c7\'b9\'cc\'b8\'a6 \'b4\'de\'b8\'ae \'c7\'d2 \'bc\'f6 \'c0\'d6\'b0\'d4 \'b5\'c8\'b4\'d9.\par
+\par
+1 / tan(\'bc\'bc\'c5\'b8)\par
+\par
+\'c0\'cc\'b7\'af\'c7\'d1 d\'b8\'a6 \'c0\'cc\'bf\'eb\'c7\'cf\'b8\'e9 \'b8\'f0\'b5\'e7 FOV\'c0\'c7 \'b0\'e6\'bf\'ec\'b8\'a6 90\'b5\'b5\'b7\'ce \'ba\'af\'b0\'e6\'bd\'c3\'c4\'d1 \'c1\'c1\'c0\'ba \'bc\'ba\'c1\'fa\'c0\'bb \'b8\'c2\'c3\'e7\'c1\'d9 \'bc\'f6 \'c0\'d6\'b4\'d9.\par
+\par
+\'b8\'b8\'be\'e0 FOV\'b0\'a1 60\'b5\'b5\'c0\'ce \'b0\'e6\'bf\'ec df\'b8\'a6 \'c3\'a3\'b4\'c2 \'c7\'d4\'bc\'f6 f(x) = tanx\'b8\'a6 \'bb\'e7\'bf\'eb\'c7\'cf\'bf\'a9 \'c4\'ab\'b8\'de\'b6\'f3 \'c4\'ab\'b8\'de\'b6\'f3 \'c1\'c2\'c7\'a5(x, y, z)\par
+\'bf\'a1\'bc\'ad (x, y, z/d)\'b7\'ce Z\'b3\'aa\'b4\'a9\'b1\'e2\'b8\'a3 \'a4\'a9\'c7\'d8\'c1\'d8\'b4\'d9.,\par
+\'c0\'cc\'b7\'b8\'b0\'d4 \'c7\'cf\'b8\'e9 FOV60\'c0\'c7 \'c8\'af\'b0\'e6\'c0\'bb \'b8\'b8\'c1\'b7\'bd\'c3\'c5\'b4\'b0\'fa \'b5\'bf\'bd\'c3\'bf\'a1 FOV90\'b5\'b5 \'bc\'ba\'c1\'fa\'c0\'bb \'b8\'b8\'c1\'b7\'bd\'c3\'c4\'d1 \'c1\'d9 \'bc\'f6 \'c0\'d6\'b4\'d9.\par
+\par
+result :         d = 1 / tan(FOV/2);\par
+\par
+\'c1\'f7\'b0\'a2 \'bb\'ef\'b0\'a2\'c7\'fc\par
+tan30 = z / y\par
+1 = (z / y ) / tan30\par
+\par
+#\'c8\'ad\'b8\'e9 \'c1\'c2\'c7\'a5 \'ba\'af\'c8\'af\par
+\par
+-\'c5\'f5\'bf\'b5 \'c1\'c2\'c7\'a5 \'b0\'f8\'b0\'a3\'c0\'bb \'c8\'ad\'b8\'e9\'c0\'b8\'b7\'ce \'b8\'c5\'c7\'ce\par
+\par
+*\'ba\'e4\'c6\'f7\'c6\'ae\par
+-\'b8\'f0\'b4\'cf\'c5\'cd \'c8\'ad\'b8\'e9 \'bf\'b5\'bf\'aa\'c0\'b8\'b7\'ce \'bf\'c5\'b1\'e2\'b4\'c2 \'c0\'db\'be\'f7.\par
+\par
+#\'c5\'f5\'bf\'b5 \'ba\'af\'c8\'af\'b0\'fa \'c8\'ad\'b8\'e9 \'c1\'c2\'c7\'a5 \'ba\'af\'c8\'af\par
+\par
+*ProjTrans >> Cam.xyz / Cam.z\par
+*ScreenTrans >> ScreenX = projVertex.x * (ViewportWidth / 2) + \par
+ViewportLeft + (ViewportWidth / 2);\par
+\par
+ScreenY = -projVertex.y * (ViewportHegiht / 2) + \par
+ViewportTop + (ViewportHegiht / 2);\par
+\par
+\par
+\lang18\par
+}
+ 
