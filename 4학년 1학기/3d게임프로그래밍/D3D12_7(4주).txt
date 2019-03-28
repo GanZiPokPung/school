@@ -109,8 +109,12 @@ d = -(ax0 + by0 + cz0) = -D
 
 #평면의 방정식
 
+
+
 (a, b, c)는 법선벡터
 (ax, by, cz)는 법선 벡터와 점 (x, y, z)의 내적이다.
+d는 원점에서 평면까지의 거리.
+
 ax + by + cz + d = 0 <-----> (p, q, r)
 
 ap + bq + cr + d 에 대해	양수 -> 평면 앞
@@ -210,9 +214,10 @@ class CObject
 	MATRIX  m_WorldMatrix;
 };
 
-* 월드 변환 행렬
+* 월드 변환 행렬 
+(객체의 로컬 좌표축들)
   1행 Right 	Vector
-  2행 Up 	Vector
+  2행 Up 		Vector
   3행 Look 	Vector
   4행 Position	Vector
 
