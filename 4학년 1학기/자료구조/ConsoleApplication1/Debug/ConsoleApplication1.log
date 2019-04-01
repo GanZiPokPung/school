@@ -1,0 +1,8 @@
+﻿  DFS_BFS.c
+c:\users\ms\desktop\consoleapplication1\dfs_bfs.c(45): warning C4013: 'init_deque'이(가) 정의되지 않았습니다. extern은 int형을 반환하는 것으로 간주합니다.
+c:\users\ms\desktop\consoleapplication1\dfs_bfs.c(46): warning C4013: 'add_rear'이(가) 정의되지 않았습니다. extern은 int형을 반환하는 것으로 간주합니다.
+c:\users\ms\desktop\consoleapplication1\dfs_bfs.c(49): warning C4013: 'is_empty'이(가) 정의되지 않았습니다. extern은 int형을 반환하는 것으로 간주합니다.
+c:\users\ms\desktop\consoleapplication1\dfs_bfs.c(51): warning C4013: 'delete_rear'이(가) 정의되지 않았습니다. extern은 int형을 반환하는 것으로 간주합니다.
+c:\users\ms\desktop\consoleapplication1\dfs_bfs.c(51): error C2440: '=': 'int'에서 'Location2D'(으)로 변환할 수 없습니다.
+c:\users\ms\desktop\consoleapplication1\dfs_bfs.c(87): warning C4013: 'delete_front'이(가) 정의되지 않았습니다. extern은 int형을 반환하는 것으로 간주합니다.
+c:\users\ms\desktop\consoleapplication1\dfs_bfs.c(87): error C2440: '=': 'int'에서 'Location2D'(으)로 변환할 수 없습니다.
