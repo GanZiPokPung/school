@@ -1,0 +1,107 @@
+d/z => 1 / tan(seta)
+(1/tan(seta)) / screen ratio
+
+z나누기 후 0 ~ 1.0까지 --> Depth라고 부를 것
+
+(x,y,z,1) --PM--> (x,y,z,z) 
+--Z나누기--> (x/z,y/z,1,1)
+
+# D3DXMatrixOrthoLH (직교투영, 정사영투영)
+
+z축에 평행하게 투영이 된다.
+z나누기를 하지 않음
+
+사용되는 곳 --> UI
+
+#화면 좌표 변환 행렬
+
+*뷰포트 
+렌더링을 할 실제 화면의 사각형 영역
+투영된 사각형 영역 ---> 픽셀화
+
+*화면 좌표 변환 행렬
+x, -y는 투영된 사각형의 각 축
+
+*화면 좌표의 역변환
+
+픽킹(Picking)
+화면 좌표 --> 화면 역변환(역행렬) --> 투영 역변환
+--> 카메라 좌표
+
+Z축 나누기를 안하면 3D
+
+투영 사각형은 어떤 사각형이던 모든 점들은 z좌표가 1이다.
+
+z는 1
+
+*픽킹
+
+위를 통해서 우리는 x,y,z == 1을 찾아 냈다.
+
+이제 z축을 기준으로 직선으로 쭉 뻗었을때 존재하는 모든 점들 중에서 가장 가까운 점이 있을때 그것이 픽킹하는 점이다.
+
+*DirectX 뷰포트
+
+*화면 좌표 변환 행렬
+(MaxDepth - MinDepth)
+MinDepth
+
+#Quiz
+
+변환 좌표계
+
+변환과 역변환 둘다 가능하다
+
+Chapter 00 DirectX Math
+
+Vector3 Matrix(4x4) Plane(a, b, c, d)
+
+D3DXVECTOR3 확장(C++)
+D3DXMATRIX 확장(C++)
+D3DXPLANE 확장(C++)
+
+D3DXVec3Length --> Vector의 길이
+D3DXVec3Dot --> Vector끼리의 내적 결과(스칼라)
+D3DXVec3Normalize --> 벡터 정규화
+D3DXVec3Scale --> 벡터 스칼라곱
+D3DXVec3Add --> 벡터끼리의 합
+D3DXVec3Subtract --> 벡터끼리의 차
+D3DXVec3Cross --> 벡터끼리의 외적 결과(벡터)
+D3DXVec3Maximize --> 벡터 둘중에 큰 벡터
+D3DXVec3Minimize --> 벡터 둘중에 작은 벡터
+D3DXVec3Lerp --> 두 벡터 사이의 보간값(0 ~ 1)
+D3DXVec3BaryCentric --> 3 벡터 점 사이의 중간 점
+D3DXVec3CatmullRom --> 두 벡터 사이의 catmullrom 보간값
+D3DXVec3Hermite --> 두 벡터 사이의 에르미트의 스플라인 보간값(검 잔상효과)
+
+D3DXMatrixIdentity --> 행렬 정규화
+D3DXMatrixInverse --> 역행렬
+D3DXMatrixMultiply --> 행렬의 곱
+D3DXMatrixScaling --> 역행렬 축마다 스칼라곱
+D3DXMatrixTranslation --> w축 xyz값을 적용한다.
+(평행이동)
+D3DXMatrixRotationX,Y,Z --> 각축을 라디안값으로 회전하는 행렬을 만든다.
+D3DXMatrixRotationAxis --> 사용자가 정한 벡터의 방향을 축을 기준으로 하여 라디안값으로 회전한다.
+D3DXMatrixRoatationYawPitchRoll --> 사원수회전
+
+D3DXPlaneFromPointNormal --> 점과 법선벡터로 평면을 생성
+D3DXPlaneFromPoint --> 점 세개를 기준으로 평면을 생성
+D3DXPlaneDotNormal --> 평면과 법선벡터의 내적
+a*x + b*y + c*z + d*0
+D3DXPlaneDot --> 평면과 벡터의 내적
+a*x + b*y + c*z + d*w
+D3DXPlaneNormalize --> 법선벡터의 크기로 a, b, c, d 정규화
+D3DXPlaneIntersectLine --> 평면과 선분의 교점의 좌표를 구함, 서로 평행하면 NULL
+
+D3DXVec3TransformCoord --> 벡터와 행렬의 곱(w가 1 위치벡터) 결과 벡터를 w나누기로 3차원 벡터로 바꿈
+(Homogenizing)
+D3DXVec3TransformNormal --> 벡터와 행렬의 곱(w가 0 방향벡터) 결과 벡터를 정규화한다.
+D3DXVec3Transform --> Coord와 같으나 벡터의 값을 3차원으로 바꾸지 않음
+
+D3DXVec3Project --> 모델 좌표계의 벡터를 화면 좌표계로 변환
+D3DXVec3Unproject --> 위를 반대로 함
+D3DXVec3ProjectArray --> ?
+
+
+
+
