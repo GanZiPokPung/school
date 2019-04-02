@@ -27,5 +27,14 @@
     <ClCompile Include="DFS_BFS.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="DS_10_2014182049_B.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="DS_10_2014182049_D.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="maze.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
