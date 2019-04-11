@@ -1,0 +1,317 @@
+#Computer Architecture
+CPU : 네트워킹, 문서작업 등의 처리를 같이 합니다.
+
+*비디오 카드(Video Card)
+GPU : 그림만 그립니다. 클럭 속도가 빠릅니다.
+VRAM : 비디오 메모리 
+
+#Direct3D 디바이스
+
+*그래픽 어댑터
+GPU --> Shader Program
+
+Need Software Device
+
+Main Board -> Graphic Card (fast)
+Graphic Card -> Main Board (maybe slow)
+
+*Direct3D 프로그래밍 환경 설정
+
+link
+d3d12.lib -> Import library
+DLL(모든 함수 등이 다 들어가있음)을 찾아가는 과정입니다.
+보통의 SDK는 헤더 선언과 동시에 lib 추가를 해줍니다.
+
+Windows -> 내부적으로 
+Dynamic Linked Library(DLL)
+-User DLL
+-Curnel DLL
+-Graphic DLL
+
+-도구 및 라이브러리
+필요한 기능에 대해 소스코드 형식으로 제공되어 있습니다.
+
+*그래픽 카드 속성 및 드라이버(Driver)
+
+*프레임 버퍼(Frame Buffer)
+프레임 이미지를 담아놓는 메모리 영역
+
+화면에 출력되는 하나의 Scene -> Frame
+1sec 동안 출력되는 평균 프레임의 수 -> Frame Rate
+
+모니터
+홀수 번째 Field 
+짝수 번째 Field
+
+수평 스캔 범위 : 한줄의 이미지를 만들어 낼 수 있는 속력 (GPU마다 다릅니다.)
+수직 스캔 범위 : 세로로 스캔
+
+컴퓨터와 모니터와의 동기화(Hz단위) 대부분은 60Hz입니다.
+그래서 프레임 레이트는 보통 60이 될것입니다.
+-> 60을 초과한 프레임들은 어차피 버려질 것이기 때문입니다.
+
+#색상 표현(Color Representation)
+*색상의 요소
+
+A(투명도) R(Red) G(Green) B(Blue)
+각각 8bit X 4 -> 32bit
+
+색상의 정규화(Normalization) : a r g b
+0 ~ 255 --> 0.f ~ 1.f
+
+XMVECTOR -> 색상을 표현 가능(XMCOLOR)
+
+32 bit ARGB => XMCOLOR
+128 bit => XMVECTOR
+
+*색상 연산
+색상을 벡터로 취급하여 요소별(32비트 실수) 연산
+
+XMLoadColor => XMCOLOR -> XMVECTOR
+XMStoreColor => XMVECTOR -> XMCOLOR
+
+Alpha -> 불투명도 (1.f)
+
+색상의 연산은 0과 1.f를 넘어가는 수치를 Saturate하여 0 ~ 1.f 범위로 클램핑(고정)한다.
+
+Direct3D Device Interface
+
+공유의 문제 --> 동기화로 해결(Syncronization)
+
+동기화 알고리즘 -> 줄 서기
+
+프레임 버퍼를 출력하는 도중에 응용 프로그램이 출력할 내용을 그 프레임 버퍼에 쓰는 상황이 발생??
+-> Screen Tearing 
+
+*이중 버퍼링(Double Buffering)
+위 상황을 해결하는 방법!
+
+동기화
+수평 동기 수평이 같을때 
+수직 회기 수직이 같을때 까지 전면버퍼 후면버퍼 스왑을 			못하게 막아놓음
+
+이것들이 있으면..
+응용 프로그램은 그냥 버퍼에 쓰기만 하면 디스플레이에서는 그냥 가져다가 쓰면 된다. (공유 문제 해결)
+
+전면버퍼 -> 디스플레이가 가져다가 씀 (응용프로그램이 수				정 불가능)
+후면버퍼 -> 응용프로그램에서 그림을 그림 (디스플레이가 			가져다가 쓸 수 없음)
+
+전면버퍼와 후면버퍼의 집합 -> Swap Chain
+
+후면버퍼의 내용을 전면버퍼로 옮김 -> Presentation
+
+하드웨어적인 방법으로 전면과 후면버퍼를 바꾸는 방법
+-> Flipping --> 전체화면일때(프레임레이트에 조금 더 		도움이 된다.)
+
+Flipping?
+
+버퍼의 내용을 복사 -> Blit
+
+*스왑 체인(Swap Chain)
+
+*프리젠테이션(Presentation)
+
+#COM 객체(COM Object)
+
+-COM(Component Object Model)
+ DLL 형태로 제공
+
+COM Interface --> Encapsulation
+
+추상화 -> 디테일 Down
+디테일 Down -> 바뀔 일이 없음
+
+COM객체의 생성과 소멸이 C++과 완전히 다르다.
+new delete가 아니라 미리 제공하는
+Global 함수를 통해서 생성과 소멸을 해야 한다.
+
+*IUnknown 인터페이스 
+인터페이스는 능력을 표현하는 또다른 수단
+
+보통 앞글자가 I로 제공됨
+
+-AddRef -> ReferenceCount +1
+
+* COM객체의 생성과 소멸
+
+객체의 참조 카운터가 0이 되면 그 객체는 자동으로 소멸된다. 참조 카운터가 0이 되면 다른 객체들이 이 객체를  더 이상 사용 또는 참조하지 않는다는 의미이다.
+
+HRESULT D3D12CreateDevice(... ,void **ppDevice);
+
+ID3D12Device *pd3dDevice = NULL;
+
+D3D12CreateDevice(NULL, ..., &pd3dDevice, ...);
+
+--> NULL => Direct로 부터 장치를 받아온(주소값 200)
+
+함부로 사라지면 안되니까
+Delete를 통해 삭제를 못하게 만들어놓았다..
+
+ID3D12Device* pd3dDeviceCopied = pd3dDevice;
+pd3dDeviceCopied->AddRef();
+pd3dDeviceCopied->Release();
+
+pd3dDevice->Release();
+
+*COM 객체의 생성
+
+1. 포인터 변수 선언
+2. 포인터 변수의 주소를 넘김
+
+CreateDXGIFactory1
+
+void **ppFactory
+
+>> 모든 COM객체를 생성하는 함수의 매개변수의 마지막은 포인터의 포인터로 되어 있다.
+
+*COM 객체가 아닌 경우
+
+*GUID(Globally Unique Identifier)
+인터페이스 클래스 식별자(ID)를 나타내는 128비트(16바이트) 정수 문자열
+
+*IID(Interface Identifier)
+인터페이스를 구별하기 위한 GUID
+
+*__uuidof 연산자(Operator)
+매번 Guid의 이름을 기억할 수 없기 때문에 대신 쓰도록 할수있게 해주는 연산자.
+
+*IID_PPV_ARGS 매크로
+
+__uuidof를 알아서 넣어준다.
+
+D3D12CreateDeivce(..., __uuidof(ID3D12Device), &pd3dDevice); -> 교수는 이거씀
+D3D12CreateDeivce(..., IID_PPV_ARGS(&pd3dDevice)); -> 루나는 이거씀
+
+*ComPtr 클래스
+인터페이스 포인터의 소멸자에서 Release()를 호출하는 스마트 포인터를 구현
+Release를 자동으로 알아서 해준다.
+
+#Window Runtime Library에서 제공 하므로
+#include <wrl.h>
+using Microsoft::WRL:ComPtr;을 해줘야지 쓸수 있음
+
+ComPtr<ID3D12Device> pd3dDevice;
+
+D3D12CreateDevcie(..., IID_PPV_ARGS(&pd3dDevice));
+pd3dDevice->CreateCommandQueue(...);
+/*pd3dDevice->Release(); --> 필요 없음*/
+
+*그래픽스 프로그래밍 인터페이스
+*Direct3D 프로그래밍 인터페이스
+-Direct3D 응용 프로그램
+
+*Direct3D
+-3D Graphics API
+-DirectX SDK
+-Direct3D의 진화(Evolution)
+ 성능(Performance)
+
+DirectX 12 >> Multithreading(GPU멀티쓰레드)
+
+#DXGI
+
+*DXGI(DirectX Graphics Infrastructure)
+DirectX를 쓰기 위한 기반 시설이라는 뜻
+
+커널 모드 드라이버 : 하드웨어의 조작을 하기 위해 필요한 		 드라이버들
+
+DXGI 라이브러리 계층(운영체제)
+DirectX의 기반이 된다.
+밑쪽에 있는 만큼 저수준의 계층이다.
+
+이것이 있어야 하드웨어를 잘 동작할 수 있게 된다.
+
+DXGI도 버전이 있음
+-> 변동사항은 관심 X
+
+*DXGI 어뎁터(Adapter)(GPU), 출력장치(Output)(모니터), 디바이스(Device) 
+어뎁터 : 하드웨어 / 소프트웨어의 능력을 추상화한 객체
+	(비디오 카드)
+
+어댑터
+IDXGIAdapter
+IDXGIAdapter1, 2
+
+출력장치
+IDXGIOutput
+IDXGIOutput1
+
+IDXGISurface
+IDXGISurface1
+
+->
+IDXGIFactory
+IDXGIFactory1
+DXGI Library에 이 모든 것들이 있다.
+
+*DXGI 인터페이스 클래스
+ppt27
+암기해야한다. 익혀야한다. 상속관계도.
+MSDN에서 찾든 뭔 개 지랄은 하던 익히자.
+
+*DXGI 팩토리(Factory) 생성하기
+CreateDXGIFactory -> 인터페이스 포인터를 가지고 있으면 -> SwapChain 인터페이스 호출 가능 -> Present 인터페이스 호출 가능 -> 등등..
+
+*그래픽 어댑터 / 출력장치 열거하기
+EnumAdapters(
+EnumOuputs(
+
+*DXGI와 Direct3D API 함수의 반환값
+Window에서는 앞에 H가 붙으면 모두다 Handle을 뜻한다.
+
+HRESULT -> Int값
+왜 실패했는지에 대한 리턴값을 가지고 있고 그걸 리턴해서 알려주겠다.
+
+S_ -> SUCCEDED
+S_FALSE -> 오류가 발생하지 않았지만 표준적이지 않다.
+E_ -> ERROR
+
+#Direct3D 12 디바이스
+
+*그래픽 어댑터 열거하기
+
+for(UINT i = 0; (pFactory->EnumAdapters1(i, &pAdapter) != DXGI_ERROR_NOT_FOUND); i++)
+{
+vAdapters.push_back(pAdapter);
+// 그래픽 카드를 찾는다.(여러개 가능)
+}
+
+*어댑터 디스플레이 모드(Adapter Display Modes)
+-전체 화면 모드로 변경하기 위해 어댑터의 유효한 디스플레이 모드를 확인
+
+GetDisplayModeList -> 여러 해상도 타입을 가지고 온다.
+
+위 GetDisplayModeList -> 지원하는 해상도 타입의 수
+아래 GetDisplayModeList-> 지원하는 해상도 타입정보 
+
+*Direct Device
+Factory(COM) -> Adapter -> Output -> SwapChain 등등 순서대로 
+
+*Direct3D 12
+
+이전작들과는 다르게 막강한 저수준 하드웨어 프로그래밍을 지원하지만 그것은 프로그래머가 잘해야 써먹을 수 있다.
+지원하는 많은 기능을 줄이지만 저수준의 프로그래밍이 가능하여 좀 더 효율적인 퍼포먼스를 보여줄 수 있다.
+
+*Direct3D 디바이스
+ppt 37 모두 외워야한다.
+
+*ID3D12Device
+ppt 42 모두 외워야한다.
+
+*ID3D12GraphicsCommandList 인터페이스
+ppt 74 모두 외워야한다.
+명령을 실행하는 함수의 집합
+
+
+
+
+
+
+
+
+
+
+
+
+
+

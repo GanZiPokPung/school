@@ -102,6 +102,150 @@ D3DXVec3Project --> 모델 좌표계의 벡터를 화면 좌표계로 변환
 D3DXVec3Unproject --> 위를 반대로 함
 D3DXVec3ProjectArray --> ?
 
+ppt10
+1. translation, multiply
+날아갈 벡터로 회전을 시키지 않음. 그러므로 그냥 평행이동을 하게 될것이다.
+y축으로 회전할것처럼 보이지만 그렇지도 않음. 이유는 translation함수를 호출했기 때문에 m_mtxWorld에는 나머지 회전에 대한 행렬은 채워지지 않았다.
+(단위행렬에서 4행에 위치값만 세팅해서 돌려주기 때문이다.)
+
+2. multiply, multiply
+회전할 양만큼의 행렬을 만들고 원래의 회전행렬과 연산한다2번째줄의 행렬연산으로 더 많이 가게된다.
+왜냐하면 translation행렬은 원래위치+이동할위치로 만들어 놨기 때문이다. 순식간에 화면에서 사라지게 될것이다.
+
+W1(다음프레임) = R * W0(이전프레임)
+
+W1 = M * R * W0(R * T)
+월드좌표계에서 움직인 위치에서 공전을 하게 된다.
+Movement행렬에 회전행렬을 두번 곱하고 다시 월드의 위치행렬과 곱하게 되어 광장히 이상하게 동작할 것이다.
+심지어 위의 식은 Movement행렬이라고 가정을 해주었지 원래 2번에는 mtxTranslation은 원래위치 + 이동한위치 이므로 훨씬 많이 이동하게 된다.
+
+3. W(R*T) * W(R*T)
+RTRT
+
+이전 위치의 좌표에 또 추가적으로 이동하므로 2번처럼 순식간에 사라질것이고 공전이 되는 현상이 나타날것이다.
+
+4. 3번과 비슷하다.
+5. 원하는 결과가 나오게 된다.
+6. 위의 결과를 더 간단하게해서 원하는 결과가 나온다.
+
+ppt 12
+
+이제 CGameObject class는 Mesh들을 가지는 CMesh의 이중 포인터, Transform 행렬을 표현하는 D3DXMATRIX
+this를 상속받는 m_pChild, 서로 공유하는 m_pSibling
+
+<DirectXMath>
+원도우즈 8이후 DirectXMat 사용가능.
+Windows SDK에서 제공한다.
+
+DirectXMath를 사용하는 이유.
+1. 간단한 행렬을 다루는 함수, 벡터의 덧셈 등은 만들 수 있지만 충돌검사를 한다던지 등을 하려면 시간이 정말 오래 걸리게 될 것.
+2. SIMD(Single Instruction Multiple Data)
+
+모든 CPU들은 두개의 숫자를 더할 수 있는 명령어를 갖고 있다.
+명령어들을 Instruction이라 한다.
+하나의 명령어에 데이터가 1개이면 싱글데이터이고
+하나의 명령어에 데이터가 2개이상이면 멀티플데이터이다.
+
+SISD(Single Instruction Single Data)
+SIMD(Single Instruction Multiple Data)
+
+실수 4개를 주고 더하라고하면 하나의 CPU명령어로 계산이 가능하게 한다.
+DirectXMath는 SIMD의 기능을 쓴다.
+
+SSE - Streaming SIMD Extensions
+
+심드의 기능을 활성화시키기위한 속성 SSE2
+
+64bit로 빌드하면 모든 SSE에 대한 속성이 자동으로 지정된다.
+
+SIMD 명령어는 동시에 4개의 32 비트 실수(정수)를 연산할 수 있음. 두 개의 4 요소 벡터를 더할 경우 한 번의 덧셈 명령으로 처리할 수 있음
+(SIMD가 아닐 경우 32 비트 실수를 4번 더해야 함)
+
+XMVECTOR : SIMD 하드웨어 레지스터에 대응, 
+*16-바이트 정렬이 필요함*
+XMMATRIX : 4개의 SIMD 하드웨어 레지스터에 대응, 
+*16-바이트 정렬이 필요함*
+
+동적 메모리 할당과 클래스 또는 구조체의 멤버로 사용할 때에는 주의가 필요하다.
+
+x64 -> 16바이트 정렬
+x86 -> 8바이트 정렬
+
+XMVECTOR
+- 32-비트 실수 또는 정수 요소들의 벡터를 표현하기 위한 자료형(구조체가 아님)
+
+XMMATRIX
+
+*벡터와 행렬을 저장(Store)하기 위한 자료형
+XMFLOAT3A
+XMFLOAT4A
+XMFLOAT4X4A
+XMCOLOR
+
+*DirectXMath
+XMVECTOR / XMMATRIX
+클래스 / 구조체의 멤버로 직접 사용하는 것은 피할 것
+16바이트 정렬을 해주지 않기 때문에?
+
+클래스 / 구조체의 멤버는 XMFLOAT3, XMFLOAT4, XMFLOAT4X4 등을 사용할 것
+1. 클래스/구조체의 멤버를 XMVECTOR, XMMATRIX 지역 변수로 복사
+XMVECTOR XMLoadFloat3(const XMFLOAT3 *pSource);
+2. XMVECTOR, XMMATRIX 지역 변수를 사용하여 계산
+(SIMD 연산)
+3. XMVECTOR, XMMATRIX 지역 변수를 구조체의 멤버로 복사 (Store)
+void XMStoreFloat3([out] XMFLOAT3 *pDst, XMVECTOR v);
+
+DirectX::Colors 상수
+
+
+*D3DXMath에서 포팅(Porting)하기
+
+*DirectX 충돌 검사
+
+충돌(Collision) 구조체
+Bounding Box
+Bounding Oriented Box
+Bounding Sphere
+Bounding Frustum
+
+*DirectX 충돌 검사
+-삼각형 충돌 검사(TriangleTest)
+ContainmentType ContainedBy(삼각형, 프러스텀)
+ContainmentType --> DISJOINT, INTERSECTS, 
+			CONTAINS
+
+PlaneIntersectionType Intersects(삼각형, 평면) 
+PlaneIntersectionType --> FRONT, 		INTERSECTING, BACK
+
+bool Intersects(삼각형 - 광선)
+bool Intersects(삼각형 - 삼각형)
+
+AABB : Axis-Aligned Bounding Box 축 방향으로  정렬된 경계상자. 모든 AABB들은 같은 방향으로 되어 있다. 물체의 최대, 최소값만 알면 구할수 있다. 주로 정적인 물체의 충돌에 많이 사용된다.
+ 
+OBB : Oriented Bounding Box 축이 정렬되지 않고 물체와 함께 변환되는 경계상자
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
