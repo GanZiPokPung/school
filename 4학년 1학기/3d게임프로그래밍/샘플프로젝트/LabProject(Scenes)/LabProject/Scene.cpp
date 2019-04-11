@@ -34,6 +34,7 @@ void CScene::CheckObjectByObjectCollisions()
 	{
 		for (int j = (i + 1); j < m_nObjects; j++)
 		{
+			// 충돌처리 
 			if (m_ppObjects[i]->m_xmOOBB.Intersects(m_ppObjects[j]->m_xmOOBB))
 			{
 				m_ppObjects[i]->m_pObjectCollided = m_ppObjects[j];
@@ -43,8 +44,12 @@ void CScene::CheckObjectByObjectCollisions()
 	}
 	for (int i = 0; i < m_nObjects; i++)
 	{
+		// 충돌 된 경우
 		if (m_ppObjects[i]->m_pObjectCollided)
 		{
+			// 충돌된 물체의 속도와 방향으로 간다.
+			// 서로 튕겨 나간다.
+
 			XMFLOAT3 xmf3MovingDirection = m_ppObjects[i]->m_xmf3MovingDirection;
 			float fMovingSpeed = m_ppObjects[i]->m_fMovingSpeed;
 			m_ppObjects[i]->m_xmf3MovingDirection = m_ppObjects[i]->m_pObjectCollided->m_xmf3MovingDirection;

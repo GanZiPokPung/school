@@ -56,7 +56,10 @@ void CMesh::SetPolygon(int nIndex, CPolygon *pPolygon)
 
 void CMesh::Render(HDC hDCFrameBuffer, XMFLOAT4X4& xmf4x4World, CCamera *pCamera)
 {
+	// World * View * Project
 	XMFLOAT4X4 xmf4x4Transform = Matrix4x4::Multiply(xmf4x4World, pCamera->m_xmf4x4ViewProject);
+	
+	// Screen Transform
 	for (int j = 0; j < m_nPolygons; j++)
 	{
 		int nVertices = m_ppPolygons[j]->m_nVertices;
@@ -134,6 +137,8 @@ CCubeMesh::CCubeMesh(float fWidth, float fHeight, float fDepth) : CMesh(6)
 	pRightFace->SetVertex(3, CVertex(+fHalfWidth, -fHalfHeight, -fHalfDepth));
 	SetPolygon(5, pRightFace);
 }
+
+//CULL_NONE
 
 CCubeMesh::~CCubeMesh(void)
 {

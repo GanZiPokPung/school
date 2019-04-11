@@ -233,6 +233,8 @@ void CGameFramework::ProcessInput()
 	}
 	float cxDelta = 0.0f, cyDelta = 0.0f;
 	POINT ptCursorPos;
+
+	//Ä¿¼­
 	if (GetCapture() == m_hWnd)
 	{
 		SetCursor(NULL);
