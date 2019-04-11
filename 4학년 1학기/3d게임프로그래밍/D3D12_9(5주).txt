@@ -82,9 +82,134 @@ D3DXVec3Transform
 벡터와 행렬의 곱셈
 
 D3DX --> Direct9, 10에서 사용하던것
-왜 사용 안함? ->                                                                                                        
+
+왜 사용 안함? ->   
+
+<PPT - Chapter00. DirectX Math>
+
+ppt10
+1. translation, multiply
+날아갈 벡터로 회전을 시키지 않음. 그러므로 그냥 평행이동 하게 될것.
+y축으로 회전할것처럼보이지만 그렇지도 않음. 이유는
+translation함수를 호출했기 떄문에 m_mtxWorld에는 나머지 회전에 대한 행렬은 채워지지않았음.
+(단위행렬에서 4행에 위치값만 세팅해서 돌려주기 때문.)
+
+2. multiply, multiply
+회전할 양만큼의 행렬을 만들고 원래의 회전행렬과 연산한다.
+2번째줄의 행렬연산으로 더 많이 가게된다.
+왜냐하면 transltation행렬은 원래위치+이동할위치로 만들어놨기때문. 순식간에 화면에서 사라지게 될것.
+
+1번보다 더최악의 이유가 있다.
+
+W1(다음프레임) =  R * W0(이전프레임)
+
+W1 = M * R *W0(R * T)
+월드좌표계에서 움직인 위치에서 공전을 하게 되어버린다.
+무브먼트행렬에 회전행렬을 두번 곱하고 다시 월드의 위치행렬과 곱하게 되어 굉장히 이상하게 동작할 것이다.
+심지어 위의 식은 무브먼트행렬이라고 가정을 해주었지 원래 2번에는 mtxTranslation은 원래위치 + 이동한위치 이므로 훨씬 많이 이동하게된다.
+
+3.
+W(R*T) * W(R * T)
+이전위치의 좌표에 또 추가적으로 이동하므로 2번처럼 순식간에 사라질것이고
+또 공전이 되는 현상이 나타날것.
+4. 3번과 마찬가지.
+5. 원하는 결과가 나오게 된다.
+6. 위의 결과를 더 간단하게해서 원하는 결과가 나온다.
 
 
+<DirectXMath>
+윈도우즈8이후 DirectXMath 사용가능.
+Windows SDK에서 제공한다.
+
+DirectXMath를 사용하는 이유.
+1. 간단한 행렬을 다루는 함수, 벡터의 덧셈 등은 만들 수 있지만 충돌검사를 한다던지 등을 하려면
+시간이 정말 오래걸리게 될 것.
+2. SIMD(Single Instruction Multiple Data)
+
+모든 CPU들은 두개의 숫자를 더할 수 있는 명령어를 갖고 있다.
+명령어들을 Instruction이라 한다.
+하나의 명령어에 데이터가 1개이면 싱글데이터이고
+하나의 명령어에 데이터가 2개이상이면 멀티플데이터이다.
+
+
+
+SISD(Single Instruction Single Data)
+
+
+SIMD(Single Instruction Multiple Data)
+
+실수 4개를 주고 더하라고하면 하나의 CPU명령어로 계산이 가능하게 한다.
+DirectXMath는 SIMD의 기능을 쓴다.
+
+SSE - Streaming SIMD Extensions
+
+심드의 기능을 활성화시키기위한 속성 SSE2
+
+64bit로 빌드하면 모든 SSE에 대한 속성이 자동으로 지정된다.
+
+DirectXMath를 활용하는 이유.
+1.여러 충돌검사라든지 하는 것들을 제공
+2.SIMD의 기능을 활용하기 위해
+
+
+DirectXMath는
+XMVector는 structure로 하지 않고 128bit하드웨어 레지스터에 대응되게 구성되어있음.
+
+64bit에서는 비주얼스튜디오가 16byte가 되도록 정렬방식을 맞춰준다.
+지역변수,매개변수,전역변수는 제대로 정렬을 보장.
+
+클래스나 structure의 멤버변수는 컴파일러가 16byte 정렬로 맞춰주지 않는다.
+
+XMVECTOR는 128bit 메모리 덩어리로 타입을 알려준다.
+
+클래스나 스트럭쳐의 멤버로 사용 할 수 있는 데이터 타입을 따로 추가적으로 제공을 한다.
+XMFLOAT3, XMFLOAT4, XMFLOAT4X4, XMCOLOR
+
+XMFLOATA를 쓰면 16byte로 자동으로 졍렬 되게 한다.
+가급적이면 A가 붙은 애들을 사용할 것.(아마도 Aligned의 약자)
+
+클래스의 멤버로 행렬이나 벡터를 선언할때는
+XMFLOAT 계열을 쓰면 될것.
+
+XMVector,XMMatrix로 변환하는 함수가 필요하게 될것.
+
+inline함수로 되어있음(inline은 헤더파일에 소스코드가 다 들어가있음)
+
+XMScalarCos - c함수와 같은 cos함수.
+XMVectorCos - 각 요소에다가 cos하는 함수. 한번에 해야하면 이런 함수를 활용.
+
+SIMD는 모든 값에 채우기 때문에 결과가 Scalar값이면 XMVector에 모두 같은 값이 들어가게 되어있을것
+다 같은 값이 들어가게 되어있을것.
+
+정밀한 계산보다 빠른 계산을 원하면 Est가 붙은 함수를 활용.
+
+AABB - Axis Aligned Bounding Box
+
+OOBB - Orientied Object Bounding Box
+
+OOBB는 회전정보까지 갖고 있다.
+
+바운딩박스가 4개로 되어있고 전부 structure로 제공된다.
+
+DISJOINT - 만나지않음.
+INTERSECT - 걸쳐져있음.
+CONTAINED - 안에 들어가있음.
+
+FRONT - 평면앞
+INTERSECTING - 삼각형이 평면에 걸쳐져있음.
+BACK - 평면 뒤
+
+
+Intersects
+Origin이 꼭 원점일 필요는 없다.
+어느 원점으로부터의 해당 방향으로의 반직선과의 교점을 true,false로 반환.
+
+거리도 distance인자로 돌려줌.
+
+거리를 알면 얼마정도의 시간 뒤에 충돌이 발생하는지 알수있음.
+
+모든 충돌에서 제일 복잡하고 어려운 것이 두개의 삼각형에서의 교점(직선)을 구하는 것이 매우 연산량이 크다.
+(그래서 bool 값으로 충돌이 되는지만 리턴해준다)                                                          
 
 <PPT - Chapter00. DirectX Math>
 

@@ -1,0 +1,140 @@
+*Direct3D 12
+
+C++ >> D3D >> Display
+GPU >> Display
+
+
+
+이전 버전과 달라진 점 
+
+-명시적 동기화
+우리가 추구해야 할것 >> CPU, GPU 둘 다 사용될 수 있도록, 한쪽은 놀지 않도록
+CPU - GPU 동기화를 명시적으로 책임져야 함
+가장 이상적인 CPU와 GPU의 상태는 둘 다 놀지 않는것이다.
+
+-물리적 메모리 상주 관리
+GPU가 읽는 동안 데이터는 메모리에 상주
+
+-파이프라인 상태 객체
+파이프라인 상태들을 파이프라인 상태 객체들로 단일화 --> 이전 버전보다 쉬워짐
+
+-명령 리스트와 번들
+
+-서술자 힙과 테이블
+
+
+*Direct3D 디바이스
+Direct3D 디바이스는 상태 기계(State Machine)이다.
+
+상태 기계? >> 상태를 유지시키고 바꿀 수 도 있는가?
+*상태를 명시적으로 바꿔주지 않으면 이전 상태를 그대로 유지하고 있다.
+
+원하는 상태로 바꾸라! -> 이제부터 Set이라고 부르자.
+그려라! -> Draw
+Set & Draw -> Rendering
+
+*Direct3D 12 인터페이스 클래스 계층 구조
+
+모든 Direct3D 라이브러리의 클래스는 인터페이스 클래스만 존재하고 이것들만 사용 가능하다.
+
+화살표는 상속구조로 표현한 것이다.
+
+*ID3D12Object
+모든 명령 리스트 디바이스의 상위 클래스
+
+SetName
+객체의 이름을 문자열로 가지게 만들 수 있다.
+만약 SetName을 쓰지 않았다면 Unknown으로 기본설정
+
+무슨 데이터가 되었던 포인터를 사용하면 연결 및 저장이 가능하다.
+나만의 데이터들을 저장해놓거나 읽어오거나 할 수 있게 해주는 함수.
+GetPrivateData
+SetPrivateData
+SetPrivateDataInterface
+
+Create -> COM 객체 생성관련 함수들은 Create가 붙음
+
+CreateCommandList
+>> 출력창에 이름이 뜬다.(SetName으로 이름을 정해주지 않았다면 Unnamed로 출력된다.)
+
+이름을 정해주는게 좋다 왜냐하면 그 이름을 통해 어디서 오류가 생겼는지를 파악할 수 있게 해주기 때문이다.
+
+*D3D12CreateDevice() 함수
+디스플레이 어뎁터를 나타내는 디바이스를 생성
+
+D3D12Create가 들어가면 대부분 --> Global 함수이다.
+
+GetAdapter함수
+EnumAdapters
+D3D12CreateDevice
+
+CreateDXGIFactory1
+EnumWarpAdapter
+
+IDXGI Adapter
+
+*오래된 그래픽카드 >> D3DX 안만들어짐
+*싸구려 그래픽처리능력 >> 처리를 SW에서 처리해야 할수		도 있으므로 프레임저하를 가져온다.
+	(EX. WARP)
+
+D3D12CreateDevice가 실패할 가능성이 있다.
+
+EnumAdapters1 -> 알맞는 그래픽카드를 찾아줌?
+		(여러개에서)
+
+노트북처럼 어떤 그래픽카드가 하나만 들어가 있으면....
+D3D12CreateDevice의 첫번째 인자를 NULL로 주어 디폴트(첫 번째) 어뎁터를 디바이스로 생성한다.
+
+
+D3D_ -> 가 포함되어 있으면 Define된 상수, Sturct, 	Enum 이 대부분이다.
+
+D3D_FEATURE_LEVEL -> D3D를 지원할 버전을 Enum으로 			모아놓은것.
+
+지원하지 않는 D3D_FEATURE_LEVEL를 이용하여 D3D12CreateDevice를 한다면 Error를 리턴할 것이다.
+
+Emulation -> 하드웨어적으로 없는데 마치 있는것 처럼 느껴 줄 수 있도록 해주는것. -> 하지만 느림
+
+DirectX 12에서 --> DirectX 11기능을 쓰겠다..?
+
+하지만.. 12에서 제공하는 강력한 기능을 포기하고 그 밑 버전을 쓸 이유가 전혀 없기 때문에 우리는 무조건 D3D_FEATURE_LEVEL를 D3D_FEATURE_LEVEL_12_1를 쓸것이다.
+
+EnumWarpAdapter -> 그래픽하드웨어 처리를 빠르게 하		기 위해서 쓰이는 계층 WARP , 즉 운영체제가 	
+	가상으로 만들어 놓은 그래픽카드라고 생각하면.
+
+EnumWarpAdapter -> D3D12CreateDevice
+WARP를 사용하여 어뎁터를 만들어 그 어뎁터를 이용하여 Device를 Create하겠다.
+>> 여기서도 Error가 뜨면 운영체제에서도 제공이 안된다는 뜻이므로 포기해야함.
+
+Windows Advanced Rasterization Platform
+Rasterization -> 화면을 픽셀로 무언가를 그리는 행위
+
+*ID3D12Device
+가상 어댑터(Virtual Adapter)를 나타내는 인터페이스
+
+무언가를 만드는 함수가 많다.
+
+Create함수에서 만들어지는 모든 것들은 Device Child Object들이다.
+
+*ID3D12Device::CheckFeatureSupport() 함수
+
+D3D12_FEATURE -> 세부적인 지원 정보들을 모아놓음
+
+*IDXGIFactory::CreateSwapChain() 함수
+
+절차
+1. DXGI Factory(저수준의 기능 제공)
+2. Device(Rendering을 하도록 해줌)
+3. Create Command Queue(이게 있어야 SwapChain 생성 가능)
+4. Create SwapChain
+SwapChain -> Present
+(SwapChain에 Rendering을 해서 Present해야 함
+그래야 화면에 보인다.)
+
+그래서 첫번째 인자로 ID3D12CommandQueue를 받는다.
+
+DXGI_SWAP_CHAIN_DESC.
+DESC(Description) 설명
+구조체...
+
+네장 말한거 꼭 출력하자...!
+

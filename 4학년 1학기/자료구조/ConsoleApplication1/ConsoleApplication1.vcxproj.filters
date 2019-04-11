@@ -36,5 +36,20 @@
     <ClCompile Include="maze.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="DS_11_2014182049.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="DS_12_2014182049.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="DS_14_2014182049.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="btrack.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="소스2.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
