@@ -1,0 +1,160 @@
+#Computer Architecture
+CPU : ³×Æ®¿öÅ·, ¹®¼­ÀÛ¾÷ µîÀÇ Ã³¸®¸¦ °°ÀÌ ÇÑ´Ù.
+
+*ºñµð¿À Ä«µå (Video Card)
+GPU : ±×¸²¸¸ ±×¸°´Ù. Å¬·° ¼Óµµ°¡ ºü¸£´Ù.
+VRAM : ºñµð¿À ¸Þ¸ð¸®
+
+#Direct3D µð¹ÙÀÌ½º
+
+*±×·¡ÇÈ ¾î´ðÅÍ 
+GPU --> Shader Program
+
+Need Software Device
+
+Main Board -> Graphic Card (fast)
+Graphic Card -> Main Board (maybe slow)
+
+-±×·¡ÇÈ Ä«µå
+GPU, VRAM, DAC(Digital to Analog Converter)
+-ÇÏ³ªÀÇ ÄÄÇ»ÅÍ¿¡ ¿©·¯ °³ÀÇ ±×·¡ÇÈ Ä«µå°¡ ÀÖÀ» ¼ö ÀÖ´Ù.
+-±×·¡ÇÈ µð¹ÙÀÌ½º, ÇÏµå¿þ¾î µð¹ÙÀÌ½º, ¼ÒÇÁÆ®¿þ¾î µð¹ÙÀÌ½º
+
+*Direct3D ÇÁ·Î±×·¡¹Ö È¯°æ ¼³Á¤
+
+link
+d3d12.lib -> Import library
+DLL(¸ðµç ÇÔ¼ö µîÀÌ ´Ù µé¾î°¡ÀÖÀ½)À» Ã£¾Æ°¡´Â °úÁ¤ÀÌ´Ù.
+º¸ÅëÀÇ SDK´Â Çì´õ ¼±¾ð°ú µ¿½Ã¿¡ lib Ãß°¡¸¦ ÇØÁØ´Ù.
+
+Windows -> ³»ºÎÀûÀ¸·Î
+Dynamic Linked Library(DLL)
+-User DLL
+-Curnel DLL
+-Graphic DLL
+
+-µµ±¸ ¹× ¶óÀÌºê·¯¸®
+ÇÊ¿äÇÑ ±â´É¿¡ ´ëÇØ ¼Ò½ºÄÚµå Çü½ÄÀ¸·Î Á¦°øµÇ¾î ÀÖ´Ù.
+
+*±×·¡ÇÈ Ä«µå ¼Ó¼º ¹× µå¶óÀÌ¹ö(Driver) 
+
+*ÇÁ·¹ÀÓ ¹öÆÛ(Frame Buffer)
+ÇÁ·¹ÀÓ ÀÌ¹ÌÁö¸¦ ´ã¾Æ³õ´Â ¸Þ¸ð¸® ¿µ¿ª
+
+È­¸é¿¡ Ãâ·ÂµÇ´Â ÇÏ³ªÀÇ Scene -> Frame
+1sec µ¿¾È Ãâ·ÂµÇ´Â Æò±Õ ÇÁ·¹ÀÓÀÇ ¼ö -> Frame Rate
+
+¸ð´ÏÅÍ 
+È¦¼ö ¹øÂ° Field
+Â¦¼ö ¹øÂ° Field
+
+¼öÆò ½ºÄµ ¹üÀ§ : ÇÑÁÙÀÇ ÀÌ¹ÌÁö¸¦ ¸¸µé¾î ³¾ ¼ö ÀÖ´Â ¼Ó·Â(GPU¸¶´Ù ´Ù¸£´Ù.)
+¼öÁ÷ ½ºÄµ ¹üÀ§ : ¼¼·Î·Î ½ºÄµ
+
+ÄÄÇ»ÅÍ¿Í ¸ð´ÏÅÍ¿ÍÀÇ µ¿±âÈ­(Hz´ÜÀ§) ´ëºÎºÐÀº 60HzÀÌ´Ù.
+±×·¡¼­ ÇÁ·¹ÀÓ ·¹ÀÌÆ®´Â º¸Åë 60ÀÌ´Ù.
+-> 60À» ÃÊ°úÇÏ´Â ÇÁ·¹ÀÓµéÀº ¾îÂ÷ÇÇ ¾²Áö ¾Ê°í ¹ö·ÁÁö±â ¶§¹®ÀÌ´Ù.
+
+#»ö»ó Ç¥Çö(Color Representation)
+*»ö»óÀÇ ¿ä¼Ò
+
+A(Åõ¸íµµ) R(Red) G(Green) B(Blue)
+°¢°¢ 8bit X 4 -> 32bit
+
+»ö»óÀÇ Á¤±ÔÈ­(Normalization) : a r g b
+0 ~ 255 --> 0.f ~ 1.f
+
+»ö»óÀÇ Ç¥Çö
+XMVECTOR -> »ö»óÀ» Ç¥Çö °¡´É(XMCOLOR)
+
+32 bit (8 * ARGB) => XMCOLOR
+128 bit (32 * 4) => XMVECTOR
+
+*»ö»ó ¿¬»ê
+»ö»óÀ» º¤ÅÍ·Î Ãë±ÞÇÏ¿© ¿ä¼Òº°(32ºñÆ® ½Ç¼ö) ¿¬»ê
+
+XMLoadColor => XMCOLOR -> XMVECTOR
+XMStoreColor => XMVECTOR -> XMCOLOR
+
+Alpha -> ºÒÅõ¸íµµ(1.f)
+
+»ö»óÀÇ ¿¬»êÀº 0°ú 1.f¸¦ ³Ñ¾î°¡´Â ¼öÄ¡¸¦ saturateÇÏ¿© 0 ~ 1.f ¹üÀ§·Î Å¬·¥ÇÎ(°íÁ¤)ÇÑ´Ù.
+
+*Direct3D Device Interface
+
+°øÀ¯ÀÇ ¹®Á¦ --> µ¿±âÈ­·Î ÇØ°á(Syncronization)
+
+±×·¡ÇÈ ¾î´ðÅÍ°¡ ÇÏ³ªÀÇ ÇÁ·¹ÀÓ ¹öÆÛ¸¦ µð½ºÇÃ·¹ÀÌ·Î Ãâ·ÂÇÏ°í ÀÖ´Â µµÁß¿¡ ÀÀ¿ë ÇÁ·Î±×·¥ÀÌ ­x·ÂÇÒ ³»¿ëÀ» ±× ÇÁ·¹ÀÓ ¹öÆÛ¿¡ ¾²´Â »óÈ²ÀÌ ¹ß»ýÇÏ¸é? --> Screen Tearing, Screen Flickering
+
+µ¿±âÈ­ ¾Ë°í¸®Áò --> ÁÙ ¼­±â
+
+*ÀÌÁß ¹öÆÛ¸µ(Double Buffering)
+À§ »óÈ²À» ÇØ°áÇÏ´Â ¹æ¹ý!
+
+µ¿±âÈ­
+¼öÆò µ¿±â -> ¼öÆòÀÌ °°À»¶§
+¼öÁ÷ È¸±â -> ¼öÁ÷ÀÌ °°À»¶§±îÁö Àü¸é¹öÆÛ ÈÄ¸é¹öÆÛ ½º¿ÒÀ» ¸øÇÏ°Ô ¸·¾Æ ³õÀ½
+
+ÀÌ°ÍµéÀÌ ÀÖÀ¸¸é...
+ÀÀ¿ë ÇÁ·Î±×·¥Àº ±×³É ¹öÆÛ¿¡ ¾²±â¸¸ ÇÏ¸é µð½ºÇÃ·¹ÀÌ¿¡¼­´Â ±×³É °¡Á®´Ù°¡ ¾²¸é µÈ´Ù. (°øÀ¯ ¹®Á¦°¡ ÇØ°á!)
+
+Àü¸é¹öÆÛ -> µð½ºÇÃ·¹ÀÌ°¡ °¡Á®´Ù°¡ ¾¸(ÀÀ¿ëÇÁ·Î±×·¥ÀÌ ¼öÁ¤ ºÒ°¡´É)
+ÈÄ¸é¹öÆÛ -> ÀÀ¿ëÇÁ·Î±×·¥¿¡¼­ ±×¸²À» ±×¸²(µð½ºÇÃ·¹ÀÌ°¡ °¡Á®´Ù°¡ ¾µ ¼ö ¾øÀ½)
+
+Àü¸é¹öÆÛ¿Í ÈÄ¸é¹öÆÛÀÇ ÁýÇÕ -> Swap Chain
+
+ÈÄ¸é¹öÆÛÀÇ ³»¿ëÀ» Àü¸é¹öÆÛ·Î ¿Å±è ->   Presentation
+
+Flipping?
+ÇÏµå¿þ¾îÀûÀÎ ¹æ¹ýÀ¸·Î Àü¸é°ú ÈÄ¸é¹öÆÛ¸¦ ¹Ù²Ù´Â ¹æ¹ý
+->Flipping --> ÀüÃ¼È­¸éÀÏ¶§(ÇÁ·¹ÀÓ ·¹ÀÌÆ®¿¡ Á¶±Ý ´õ µµ¿òÀÌ µÈ´Ù)
+
+
+¹öÆÛÀÇ ³»¿ëÀ» º¹»ç -> Blit
+
+*½º¿Ò Ã¼ÀÎ(Swap Chain)
+
+*ÇÁ¸®Á¨Å×ÀÌ¼Ç(Presentation)
+
+
+#COM °´Ã¼(COM Object)
+
+(COM) (Component Object Model)
+DLL ÇüÅÂ·Î Á¦°ø
+
+COM Interface -> Encapaulation
+>> ³»ºÎ¸¦ ³ëÃâÇÏÁö ¾Ê°í È£Ãâ °¡´ÉÇÑ ¸Þ¼Òµå ÇÔ¼öµé¸¸ ³ëÃâ
+
+Ãß»óÈ­ -> µðÅ×ÀÏ Down
+µðÅ×ÀÏ Down -> ¹Ù²ð ÀÏÀÌ ¾øÀ½
+
+COM °´Ã¼ÀÇ »ý¼º°ú ¼Ò¸êÀÌ C++°ú´Â ¿ÏÀüÈ÷ ´Ù¸£´Ù.
+new delete°¡ ¾Æ´Ï¶ó ¹Ì¸® Á¦°øÇÏ´Â
+Global ÇÔ¼ö¸¦ ÅëÇØ¼­ »ý¼º°ú ¼Ò¸êÀ» ÇØ¾ß ÇÑ´Ù.
+
+*IUnknown ÀÎÅÍÆäÀÌ½º 
+COM °´Ã¼ÀÇ ÃÖ»óÀ§ Å¬·¡½º
+¸ðµç COM ÀÎÅÍÆäÀÌ½º´Â IUnknown ÀÎÅÍÆäÀÌ½º¿¡¼­ ÆÄ»ý(Derived)
+
+ÀÎÅÍÆäÀÌ½º´Â ´É·ÂÀ» Ç¥ÇöÇÏ´Â ¶Ç´Ù¸¥ ¼ö´Ü.
+
+º¸Åë ¾Õ±ÛÀÚ°¡ I·Î Á¦°øµÊ
+
+IUnknown::AddRef
+-> ReferenceCount +1
+->ÀÌ°ÍÀº ÀÌ ¸Þ¼Òµå¸¦ È£Ãâ ÇÏ´Â °´Ã¼°¡ ÀÌ °´Ã¼¸¦ »ç¿ëÇÏ°í ÀÖÀ½À» ³ªÅ¸³½´Ù.
+IUnknown::Release
+-> ReferenceCount - 1
+-> ÀÌ°ÍÀº ÀÌ ¸Þ¼Òµå¸¦ È£ÃâÇÏ´Â °´Ã¼°¡ ÀÌ °´Ã¼¸¦ ´õ ÀÌ»ó »ç¿ëÇÏÁö ¾ÊÀ½À» ³ªÅ¸³½´Ù.
+IUnknown::QueryInterface
+-> ÀÌ °´Ã¼°¡ ¾î¶² ÀÎÅÍÆäÀÌ½º¸¦ Á¦°øÇÏ´Â °¡¸¦ ÁúÀÇÇÑ´Ù.
+
+ÀÀ¿ë ÇÁ·Î±×·¥ <<<< (ÀÎÅÍÆäÀÌ½º) >>>> °´Ã¼
+
+*COM °´Ã¼ÀÇ »ý¼º°ú ¼Ò¸ê
+°´Ã¼ÀÇ ÂüÁ¶ Ä«¿îÅÍ°¡ 0ÀÌ µÇ¸é ±× °´Ã¼´Â ÀÚµ¿À¸·Î ¼Ò¸êµÈ´Ù. ÂüÁ¶ Ä«¿îÅÍ°¡ 0ÀÌ µÇ¸é ´Ù¸¥ °´Ã¼µéÀÌ ÀÌ °´Ã¼¸¦ ´õ ÀÌ»ó »ç¿ë ¶Ç´Â ÂüÁ¶ÇÏÁö ¾Ê´Â´Ù´Â ÀÇ¹ÌÀÌ´Ù.
+
+»ý¼ºÀ» À§ÇÑ APIÇÔ¼ö°¡ º°µµ·Î Á¸ÀçÇÏ¿© new³ª delete¸¦ »ç¿ëÇÏÁö ¾Ê´Â´Ù.
+AddRef³ª ReleaseÇÔ¼ö¸¦ »ç¿ëÇÑ´Ù.
+
+ppt18ºÎÅÍ

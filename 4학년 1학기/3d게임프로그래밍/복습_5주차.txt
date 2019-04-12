@@ -223,7 +223,8 @@ bool Intersects(삼각형 - 삼각형)
 AABB : Axis-Aligned Bounding Box 축 방향으로  정렬된 경계상자. 모든 AABB들은 같은 방향으로 되어 있다. 물체의 최대, 최소값만 알면 구할수 있다. 주로 정적인 물체의 충돌에 많이 사용된다.
  
 OBB : Oriented Bounding Box 축이 정렬되지 않고 물체와 함께 변환되는 경계상자
-
+         SAT 이론을 이용한다. (Separating Axis Theory) 분리축 이론
+         두 개의 바운딩 박스가 서로 충돌하지 않는다면, 둘 사이를 가르는 직선이 존재한다.
 
 
 
