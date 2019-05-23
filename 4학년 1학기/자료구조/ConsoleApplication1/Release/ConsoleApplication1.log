@@ -1,0 +1,32 @@
+﻿  btrack.c
+  DS_14_2014182049.c
+  DFS_BFS.c
+DFS_BFS.c(45): warning C4013: 'init_deque'이(가) 정의되지 않았습니다. extern은 int형을 반환하는 것으로 간주합니다.
+DFS_BFS.c(46): warning C4013: 'add_rear'이(가) 정의되지 않았습니다. extern은 int형을 반환하는 것으로 간주합니다.
+DFS_BFS.c(49): warning C4013: 'is_empty'이(가) 정의되지 않았습니다. extern은 int형을 반환하는 것으로 간주합니다.
+DFS_BFS.c(51): warning C4013: 'delete_rear'이(가) 정의되지 않았습니다. extern은 int형을 반환하는 것으로 간주합니다.
+DFS_BFS.c(51): error C2440: '=': 'int'에서 'Location2D'(으)로 변환할 수 없습니다.
+DFS_BFS.c(87): warning C4013: 'delete_front'이(가) 정의되지 않았습니다. extern은 int형을 반환하는 것으로 간주합니다.
+DFS_BFS.c(87): error C2440: '=': 'int'에서 'Location2D'(으)로 변환할 수 없습니다.
+  DS_10_2014182049_B.c
+DS_10_2014182049_B.c(56): warning C4477: 'printf' : 서식 문자열 '%2d'에 'int' 형식의 인수가 필요하지만 variadic 인수 1의 형식이 'Element'입니다.
+  DS_10_2014182049_D.c
+DS_10_2014182049_D.c(56): warning C4477: 'printf' : 서식 문자열 '%2d'에 'int' 형식의 인수가 필요하지만 variadic 인수 1의 형식이 'Element'입니다.
+  DS_11_2014182049.c
+  DS_12_2014182049.c
+  DS_18_2014182049_03.c
+DS_18_2014182049_03.c(31): warning C4098: 'reverse_contents': 'void' 함수에서 값을 반환하고 있습니다.
+  DS_18_2014182049_04.c
+  DS_18_2014182049_05.c
+c1 : fatal error C1083: 소스 파일을 열 수 없습니다. 'DS_18_2014182049_05.c': No such file or directory
+  maze.c
+  oxford.c
+  소스.c
+  postfix.c
+postfix.c(72): warning C4244: '=': 'Element'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+postfix.c(73): warning C4244: '=': 'Element'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+postfix.c(80): warning C4244: '=': 'Element'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+postfix.c(81): warning C4244: '=': 'Element'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  in2post.c
+  소스2.c
+  DS_21_2014182049.c

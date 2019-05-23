@@ -1,0 +1,85 @@
+*다중 샘플링
+
+-계단 현상(Stair-Sampling)
+
+-슈퍼 샘플링
+
+픽셀 튀어나온 곳을 깎아낸다 
+-> 픽셀의 평균을 내서 색깔들을 바꾸는 방법
+
+후면 버퍼에 4배 크게 그려서(Render Target) 색깔들의 평균을 내어 구하는 방법
+DirectX에서는 슈퍼 샘플링을 지원하지 않는다.
+
+-MSAA(Multi Sampling Anti-Aliasing)
+슈퍼 샘플링과 비슷하지만 훨씬 더 적게 걸린다.
+
+픽셀 -> 서브 픽셀
+
+*가시성 
+*포함 여부
+
+슈퍼 샘플링 : 서브픽셀을 따로 그림
+멀티 샘플링 : 서브픽셀을 모두 동일하게 만듬
+
+Sample Count -> 32개 까지 가능하다.(32x)
+
+-
+Quality Level -> 0(4xMSAA 지원 불가능) ~ 가능한 레벨까지
+		하지만 지원되는 레벨 이상의 레벨을 설정하면 스왑체인이 안만들어 진다.
+
+
+*SwapChain의 구조체
+
+*IDXGISwapChain
+
+
+CreateRenderTargetView를 사용하여 View를 만듬
+모든 리소스들은 뷰를 통해서 사용하도록 만들어 놨다.
+
+비디오 메모리 (스왑체인)  
+
+그림을 그릴 대상으로 인식 -> RenderTargetView
+
+ResourceView
+
+GetBuffer-> 필요한 형태의 Surface로 가지고 올 수 있다.
+
+*IDXGIFactory2::CreateSwapChainForHwnd() 함수
+BOOL Stereo->입체영상 출력을 하기 위한 스왑체인을 만들기 위함
+
+*전체 화면 모드와 윈도우 모드의 전환
+전체화면 -> 프레임 레이트 상승
+
+Alt + Enter 키를 처리하면 전체화면, 윈도우 모드를 자동적으로 전환(Toggle)
+IDXGISwapChain::SetFullscreenState() 함수를 호출하여 이 기능을 키고 끌수 있다.
+
+ResizeBuffer->해상도가 낮은 창모드가 있다고 가정했을때 전체화면으로 전환시 픽셀의 수가 많아지니까 
+          그것을 확대하는 작업을 한다.
+
+ResizeTarget->바탕화면의 해상도를 바꾸는 함수 (바탕화면의 해상도를 바꾸면 전면버퍼가 나의 후면버퍼와 동일해져서 
+					플리핑이 가능해진다)
+
+*명령 큐(Command Queue), 명령 리스트(Command List)
+
+ID3D12CommandQueue::ExecuteCommandLists() 때가 되었을때만 실행된다.
+
+명령을 담는 리스트(Command Allocator)
+
+프레임에 따라서 명령처리 속도
+
+CPU도 놀지 않고 GPU도 놀지 않도록 만들어 주는것이 우리의 목표
+
+*명령 할당자(Command Allocator)
+D3D12_COMMAND_QUEUE_DESC
+-> UINT NodeMask (GPU 멀티 코어 처리. 학부생 수준이 아니기 때문에 싱글 코어 쓸것이다.)
+
+Reset을 사용하면 명령 할당자에 있는 것들을 모두 제거
+
+CreateCommandList
+
+*ID3D12GraphicsCommandList 인터페이스
+
+*명령 리스트의 실행
+
+ExecuteCommandLists->추가할 명령 리스트
+

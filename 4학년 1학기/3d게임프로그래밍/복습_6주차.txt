@@ -157,4 +157,105 @@ IUnknown::QueryInterface
 생성을 위한 API함수가 별도로 존재하여 new나 delete를 사용하지 않는다.
 AddRef나 Release함수를 사용한다.
 
-ppt18부터
+*COM 객체의 생성
+CreateDXGIFactory1
+(REFIID riid,
+void **ppFactory)
+
+IDXGIFactory1 *pdxgiFactory = NULL;
+CreateDXGIFactory1(__uuidof(IDXGIFactory1), (void**)(&pdxgiFactory));
+
+HRESULT D3D12CreateDevice(..., void **ppDevice);
+
+ID3D12Device *pd3dDevice = NULL;
+
+D3D12CreateDevice(NULL, ..., &pd3dDevice, ...);
+
+NULL => Direct로 부터 장치를 받아온 (주소값 200)
+
+함부로 사라지면 안되니까 
+Delete를 통해 삭제를 못하게 만들어놓았다.
+
+ID3D12Device* pd3dDeviceCopied = pd3dDevice;
+pd3dDeviceCopied->AddRef();
+pd3dDeviceCopied->Release();
+pd3dDevice->Release();
+
+1. 포인터 변수 선언
+2. 포인터 변수의 주소를 넘김
+
+>> 모든 COM객체를 생성하는 함수의 매개변수의 마지막은 포인터의 포인터로 되어 있다.
+
+*COM객체가 아닌 경우
+
+UINT nDisplayModes = 0;
+pdxgiOuput->GetDisplayModeList(dxgiFormal, nFlags, &nDisplayModes, NULL);
+DXGI_MODE_DESC *pModeDesc = new DXGI_MODE_DESC[nDisplayModes];
+pdxgiOuput->GetDisplayModeList(dxgiFormat, nFlags, &nDisplayModes, pModeDescs);
+
+*GUID(Globally Unique Identifier)
+전역 고유 식별자
+인터페이스 클래스 식별자(ID)를 나타내는 128비트(16바이트) 정수 문자열
+-ComPtr 클래스
+
+*IID(Interface Indenfifier)
+인터페이스를 구별하기 위한 GUID
+
+*__uuidof 연산자(Operator)
+매번 Guid의 이름을 기억할 수 없기 때문에 대신 쓰도록할수있게 해주는 연산자.
+식에 연결된 GUID를 검색한다.
+
+*IID_PPV_ARGS 매크로
+
+__uuidof를 알아서 넣어준다.
+
+D3D12CreateDevice(..., __uuidof(ID3D12Device), &pd3dDevice); -> 교수
+
+D3D12CreateDevice(..., IID_PPV_ARGS(&pd3dDevice)); -> 루나
+
+*ComPtr 클래스 
+인터페이스 포인터의 소멸자에서 Release()를 호출하는 스마트 포인터를 구현
+Release를 자동으로 알아서 해준다.
+
+
+#Window Runtime Library에서 제공하므로
+#include <wrl.h>
+using Microsoft::WRL::ComPtr;을 해줘야지 쓸 수 있음
+
+ComPtr<ID3D12Device> pd3dDevice;
+
+D3D12CreateDevice(..., IID_PPV_ARGS(&pd3dDevice));
+pd3dDevice->CreateCommandQueue(...);
+/*pd3dDevice->Release(); --> 필요 없음*/
+
+*그래픽스 프로그래밍 인터페이스
+*Direct3D 프로그래밍 인터페이스
+-Direct3D 응용 프로그램
+
+*Direct3D
+-3D Graphics API
+-DirectX SDK
+-Direct3D의 진화(Evolution)
+성능(Performance)
+
+DirectX 12 >> Multithreading(GPU멀티쓰레드)
+
+#DXGI
+
+*DXGI(DirectX Graphics Infrastructure)
+DirectX를 쓰기 위한 기반 시설이라는 뜻
+
+커널 모드 드라이버 : 하드웨어의 조작을 하기 위해 필요		한 드라이버들
+
+DXGI 라이브러리 계층(운영체제)
+DirectX의 기반이 된다.
+밑쪽에 있는 만큼 저수준의 계층이다.
+
+이것이 있어야 하드웨어를 잘 동작할 수 있게 된다.
+
+DXGI도 버전이 있음
+-> 변동사항은 몰라도 됨.
+
+*DXGI 어뎁터(Adapter)(GPU), 출력장치(Output)(모니터), 디바이스(Device)
+어뎁터 : 하드웨어 / 소프트웨어의 능력을 추상화한 객체
+	(비디오 카드)

@@ -1,0 +1,87 @@
+*ID3D12Device::CreateRenderTargetView
+
+1. Resource가 필요 (CreateCommittedResource)
+2. Descriptor Heap 필요 (4가지 종류)
+3. Descriptor 타입에 따라서 Create View
+
+*ID3D12Device::CreateDepthStencilView도 거의 동일
+
+*깊이 버퍼(Depth Buffer)
+
+카메라 좌표계 원점
+
+x, y, z축으로 세상을 바라보는데 카메라 좌표계에서 동일한 투영되는 여러점 중에서
+z값이 제일 적은 점이 먼저 보인다.
+
+원근 투영 변환 행렬로 변환 -> Aspect Rate, FOV, 근평면원평면 
+
+이렇게 하면 z값은 이제 0(근평면)부터 1(원평면)로 바뀐다. x, y는 -1부터 1까지
+
+0과 1을 벗어나면 그림을 그릴 필요가 없으니...
+
+Normalize된 z값을 Depth Value라고 부른다.
+
+ex) Picking -> 가까운 z Depth Value를 찾는다.
+화면에 x, y로 부터 오브젝트를 찾는 과정
+핵심 : 2d점을 3d 점으로 바꾼다. (역변환)
+원평면 근평면, FOV
+
+-Ray를 쏴서 가장 먼저 닿는 깊이 값을 검사하여 Picking 여부 체크  
+
+Painter's Algorithm (멀리 있는것 부터 먼저)
+멀리있고 가까이 있는 점이 투영이 될때에는 가까운 점을 그려야함
+
+멀리있는것 부터 먼저 그린다.(Depth Value의 값을 이용하여)
+
+가까운 점을 찾으려면 매 프레임 마다 Sorting을 해야됨.
+그리는 순서를 정하는 방법 -> Depth Value Sorting
+어떤 픽셀로 투영되는 점들을 Sorting
+
+Sorting을 하면 Sorting할게 많아지므로 오버헤드가 생기니까...
+Depth 값을 따른 버퍼에 저장하지 뭐.. -> 그게 Depth Buffer
+Depth Buffer는 Float들의 배열이라고 생각하자.
+
+-Depth Buffer Algorithm
+Depth Buffer는 먼저 모두 1.f로 초기화
+그리고 가장 가까운 깊이값을 Depth Buffer에 저장
+
+x, y, z축을 기준으로 공간을 자른다.
+-> 8조각 (Octree) 8의 거듭제곱 형식으로 자름.
+
+절두체 컬링(Frustum Culling)
+Depth Algoritm을 하기 전에 이미 컬링을 하기 때문에 Depth Buffer로 컬링이 되지는 않는다.
+
+*ID3D12Device::CreateDepthStencilView
+
+Depth Buffer, Description, Desc
+
+*ID3D12Device::CreateCommittedResource
+-> Depth Buffer는 그림값이 아닌 그냥 실수값만 가지고 있다.
+
+Depth Buffer의 리소스를 생성하자!
+리소스? 그림 그릴 데이터!
+
+-D3D12_HEAP_PROPERTIES
+힙 메모리의 유형(D3D12_HEAP_TYPE)
+
+D3D12_HEAP_TYPE
+->DEFAULT(GPU는 읽고 쓰기 가능, CPU는 접근 불가능, 대부분 리소스에 적용)
+이렇게 하면 서로 동기화할 필요가 없다?
+(이 경우가 제일 빠른 경우)
+->UPLOAD(GPU는 읽고 쓰기 가능, CPU는 쓸수만 있고 읽을 수는 없음(읽고 쓸 경로가 서로 다르다.))
+대부분의 리소스는 Read Only이다.
+CPU가 가진 리소스 데이터를 VRAM에 쓰기만 할거다..(읽을 필요 없다 어차피 내 리소스였으니까)
+전형적인 사용 -> 주로 바뀌는 경우에 사용하자
+1. _DEFAULT 힙의 리소스를 CPU 데이터로 초기화
+2. 상수 버퍼의 동적 데이터를 반복적으로 업로드(갱신)
+한 프레임 동안에는 Constant처럼 바뀌지 않을것이다. -> 상수 버퍼(Constant 						View)
+->READBACK(읽기 위한 힙, CPU가 읽을 수 있음)
+GPU가 그림을 그리는 도중에 CPU가 일부 데이터(Depth버퍼, 렌더타겟뷰)를 읽어간다. 
+보통은 캡쳐하는 경우에 쓰인다.(CPU에서 정보를 가져와 저장한다.)
+(READBACK은 정말 느리니까 피치 못할 사정이 아니면 안쓰는게 좋다.)
+
+
+offline(Device Create etc.) <-->  online(Set & Draw)
+
+Device Create는 렌더 도중에 하면 안된다..
+반대의 경우도 마찬가지.

@@ -1,0 +1,7 @@
+EPSINLON 머신 오차범위
+
+bool IsZero(float fValue) {return((fabsf(fValue) < EPSILON)); } // 오차범위보다 크다면 실수가 0.f가 아니다.
+bool IsEaual(float fA, float fB){return (::IsZero(fA-fB));} // IsZero를 사용하여 0.f일때 같다고 판단
+
+Vertices->Primitives->Fragments->Pixels
+

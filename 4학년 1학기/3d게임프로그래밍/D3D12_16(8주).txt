@@ -1,0 +1,77 @@
+*쉐이더 리소스(Shader Resource)
+
+리소스는 렌더링 과정동안 GPU가 사용하는 데이터임
+
+리소스 예-->
+모델, 정점 데이터, 텍스쳐, 변환 행렬  
+
+1. 텍스쳐 (그림 데이터)
+
+-판별 기준
+색상 정보가 있으면 -> 그림 -> 텍스쳐
+없으면 -> 그림 아니다. -> 버퍼
+
+리소스 메모리 할당 -> CPU
+메모리 초기화 -> CPU
+
+--> GPU에서는 그저 그 정보를 읽는다.
+
+2. 버퍼
+
+-파이프라인
+그래픽 파이프라인(그림 그리는)
+계산 파이프라인(계산 하는)
+
+(GPU는 코어 수가 많기 때문에 병렬처리를 이용하여 계산을 아주 효율적으로 처리 할 수 있다.)
+
+-리소스 뷰
+GPU -> 가상 메모리 관리
+
+물리적 메모리와 가상 메모리는 다를 수 있다.
+
+View가 메모리 정보의 주소를 가지고 있고 View를 움직여 주면 메모리 정보를 다른 것으로 바꿀 수 있다.
+
+파이프라인에 연결 -> 바인딩(Binding) 우리는 앞으로 Set이라고 부를	것이다.(실제 함수들에 set이 붙어있음)
+
+ex) Constant Buffer View, ~~ View
+
+*리소스
+1. 커밋 리소스
+가상 메모리 물리적 메모리 모두 생성
+->가상, 물리적 메모리 공간을 하나로 생각하게 해준다.
+2. 위치 리소스
+3. 예약 리소스
+
+QueryVideoMemoryInfo()
+
+*서술자 (View라고도 할 수 있다)
+리소스를 설명하는 자료구조
+
+Descriptor Heap
+-서술자를 저장할 수 있는 배열이다.
+
+서술자 테이블은 같은 종류의 서술자들만 저장이 가능하다.
+
+서술자의 크기는 GPU 하드웨어에 따라 다르기 때문에
+GetDescriptorHandleIncrementSize()
+를 이용하여 Size를 아는 것이 필요하다.
+
+-서술자 핸들
+서술자의 주소 : C에서 포인터와 유사하다.
+CPU와 GPU에서 접근이 가능하다.
+GetCPUDescriptorHandleForHeapStart
+GetGPUDescriptorHandleForHeapStart
+
+*ID3D12DesciptorHeap
+Vertex Buffer View
+Index Buffer View
+Stream Output View
+이 세가지는 CreateDesciptorHeap에서 만들지 않는다.
+
+D3D12_GPU_DESCRIPTOR_HANDLE-->
+GPU, CPU에게 여기서 접근하라고 알려주는 역할을 한다.
+
+*ID3D12Device::CreateRenderTargetView
+
+Desciptor Heap, Resource --> View 
+

@@ -43,7 +43,9 @@ Dynamic Linked Library(DLL)
 홀수 번째 Field 
 짝수 번째 Field
 
+수평 회귀
 수평 스캔 범위 : 한줄의 이미지를 만들어 낼 수 있는 속력 (GPU마다 다릅니다.)
+수직 회귀
 수직 스캔 범위 : 세로로 스캔
 
 컴퓨터와 모니터와의 동기화(Hz단위) 대부분은 60Hz입니다.
@@ -101,7 +103,7 @@ Direct3D Device Interface
 후면버퍼의 내용을 전면버퍼로 옮김 -> Presentation
 
 하드웨어적인 방법으로 전면과 후면버퍼를 바꾸는 방법
--> Flipping --> 전체화면일때(프레임레이트에 조금 더 		도움이 된다.)
+-> Flipping --> 전체화면일때(프레임레이트에 조금 더 		도움이 된다.) OS에서 관리 하지 않고 directional 하게 처리하기 때문에
 
 Flipping?
 

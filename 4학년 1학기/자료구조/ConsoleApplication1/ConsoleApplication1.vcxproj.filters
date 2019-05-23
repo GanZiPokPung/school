@@ -51,5 +51,20 @@
     <ClCompile Include="소스2.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="DS_18_2014182049_03.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="DS_18_2014182049_04.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="DS_18_2014182049_05.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="DS_21_2014182049.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="oxford.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

@@ -1,0 +1,180 @@
+1. 4번
+2. 2번
+3. 4번
+4. 3번
+5. 1번
+6. 1번
+7. 3번
+8. 2번
+9. 4번
+10. 
+(1) 6 4 9 2 5 7 10 1 3 8 11
+(2) 6 4 2 1 3 5 9 7 10 8 11
+(3) 1 3 2 5 4 7 8 11 10 9 6
+(4) 1 2 3 4 5 6 7 9 8 10 11 
+(5) 6 4 9 2 5 7 10 1 3 8 11
+11. 8
+12. 
+#include<stdio.h>
+#include<stdlib.h>
+
+typedef int Element;
+typedef struct _tagNode
+{
+	Element data;
+	struct _tagNode *left;
+	struct _tagNode *right;
+}NODE;
+
+typedef struct _tagTree
+{
+	NODE *root;
+}TREE;
+
+NODE* CreateNode(Element data, NODE *left, NODE *right)
+{
+	NODE *node = (NODE*)malloc(sizeof(NODE));
+
+	node->data = data;
+	node->left = left;
+	node->right = right;
+
+	return node;
+}
+
+void DestroyNode(NODE *node)
+{
+	if (node->left) DestroyNode(node->left);
+	if (node->right) DestroyNode(node->right);
+	free(node);
+}
+
+void SumTreeNodes(NODE *node, int *result)
+{
+	*result += node->data;
+
+	if (node->left)
+	{
+		SumTreeNodes(node->left, result);
+	}
+	if (node->right)
+	{
+		SumTreeNodes(node->right, result);
+	}
+
+	return;
+}
+
+int main()
+{
+	TREE tree;
+	int result = 0;
+
+	NODE *l4 = CreateNode(4, NULL, NULL);
+	NODE *r5 = CreateNode(5, NULL, NULL);
+	NODE *l3 = CreateNode(3, l4, r5);
+
+	NODE *l7 = CreateNode(7, NULL, NULL);
+	NODE *r8 = CreateNode(8, NULL, NULL);
+	NODE *r6 = CreateNode(6, l7, r8);
+
+	NODE *l2 = CreateNode(2, l3, r6);
+
+	NODE *l10 = CreateNode(10, NULL, NULL);
+	NODE *r11 = CreateNode(11, NULL, NULL);
+	NODE *r9 = CreateNode(9, l10, r11);
+	
+	tree.root = CreateNode(1, l2, r9);
+
+	SumTreeNodes(tree.root, &result);
+
+	printf("노드의 합은 %d입니다.\n", result);
+
+	DestroyNode(tree.root);
+
+	return 0;
+}
+13.
+#include<stdio.h>
+#include<stdlib.h>
+
+typedef int Element;
+typedef struct _tagNode
+{
+	Element data;
+	struct _tagNode *left;
+	struct _tagNode *right;
+}NODE;
+
+typedef struct _tagTree
+{
+	NODE *root;
+}TREE;
+
+NODE* CreateNode(Element data, NODE *left, NODE *right)
+{
+	NODE *node = (NODE*)malloc(sizeof(NODE));
+
+	node->data = data;
+	node->left = left;
+	node->right = right;
+
+	return node;
+}
+
+void DestroyNode(NODE *node)
+{
+	if (node->left) DestroyNode(node->left);
+	if (node->right) DestroyNode(node->right);
+	free(node);
+}
+
+void PrintLowerValue(NODE *node, int value)
+{
+	if (node->data < value)
+	{
+		printf("%d 보다 작은 노드 : %d\n", value, node->data);
+	}
+
+	if (node->left)
+	{
+		PrintLowerValue(node->left, value);
+	}
+	if (node->right)
+	{
+		PrintLowerValue(node->right, value);
+	}
+
+	return;
+}
+
+int main()
+{
+	TREE tree;
+	int input = 0;
+
+	NODE *l4 = CreateNode(40, NULL, NULL);
+	NODE *r5 = CreateNode(50, NULL, NULL);
+	NODE *l3 = CreateNode(30, l4, r5);
+
+	NODE *l7 = CreateNode(17, NULL, NULL);
+	NODE *r8 = CreateNode(28, NULL, NULL);
+	NODE *r6 = CreateNode(36, l7, r8);
+
+	NODE *l2 = CreateNode(22, l3, r6);
+
+	NODE *l10 = CreateNode(19, NULL, NULL);
+	NODE *r11 = CreateNode(16, NULL, NULL);
+	NODE *r9 = CreateNode(4, l10, r11);
+	
+	tree.root = CreateNode(5, l2, r9);
+
+	printf("값을 입력하시오 : ");
+	scanf("%d", &input);
+
+	PrintLowerValue(tree.root, input);
+
+	DestroyNode(tree.root);
+
+	return 0;
+}
