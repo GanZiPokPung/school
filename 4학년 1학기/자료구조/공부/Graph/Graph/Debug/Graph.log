@@ -1,0 +1,28 @@
+﻿  DS_26_2014182049.c
+c:\users\ms\desktop\graph\graph\ds_26_2014182049.c(102): warning C4098: 'Graph_isEmpty': 'void' 함수에서 값을 반환하고 있습니다.
+c:\users\ms\desktop\graph\graph\ds_26_2014182049.c(118): warning C4047: '함수': 'size_t'의 간접 참조 수준이 'GraphVertex **'과(와) 다릅니다.
+c:\users\ms\desktop\graph\graph\ds_26_2014182049.c(118): warning C4024: 'malloc': 형식 및 실제 매개 변수 1의 형식이 서로 다릅니다.
+c:\users\ms\desktop\graph\graph\ds_26_2014182049.c(118): warning C4020: 'malloc': 실제 매개 변수가 너무 많습니다.
+c:\users\ms\desktop\graph\graph\ds_26_2014182049.c(142): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(208): note: 'fopen' 선언을 참조하십시오.
+c:\users\ms\desktop\graph\graph\ds_26_2014182049.c(151): warning C4996: 'strtok': This function or variable may be unsafe. Consider using strtok_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\string.h(440): note: 'strtok' 선언을 참조하십시오.
+c:\users\ms\desktop\graph\graph\ds_26_2014182049.c(169): warning C4996: 'strtok': This function or variable may be unsafe. Consider using strtok_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\string.h(440): note: 'strtok' 선언을 참조하십시오.
+c:\users\ms\desktop\graph\graph\ds_26_2014182049.c(172): warning C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(2263): note: 'sscanf' 선언을 참조하십시오.
+c:\users\ms\desktop\graph\graph\ds_26_2014182049.c(200): warning C4996: 'strtok': This function or variable may be unsafe. Consider using strtok_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\string.h(440): note: 'strtok' 선언을 참조하십시오.
+c:\users\ms\desktop\graph\graph\ds_26_2014182049.c(209): warning C4996: 'strtok': This function or variable may be unsafe. Consider using strtok_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\string.h(440): note: 'strtok' 선언을 참조하십시오.
+c:\users\ms\desktop\graph\graph\ds_26_2014182049.c(215): warning C4996: 'strtok': This function or variable may be unsafe. Consider using strtok_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\string.h(440): note: 'strtok' 선언을 참조하십시오.
+c:\users\ms\desktop\graph\graph\ds_26_2014182049.c(233): warning C4996: 'strtok': This function or variable may be unsafe. Consider using strtok_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\string.h(440): note: 'strtok' 선언을 참조하십시오.
+c:\users\ms\desktop\graph\graph\ds_26_2014182049.c(234): warning C4996: 'strtok': This function or variable may be unsafe. Consider using strtok_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\string.h(440): note: 'strtok' 선언을 참조하십시오.
+c:\users\ms\desktop\graph\graph\ds_26_2014182049.c(240): warning C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(2263): note: 'sscanf' 선언을 참조하십시오.
+c:\users\ms\desktop\graph\graph\ds_26_2014182049.c(243): warning C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(2263): note: 'sscanf' 선언을 참조하십시오.
+  Graph.vcxproj -> C:\Users\MS\Desktop\Graph\Debug\Graph.exe
