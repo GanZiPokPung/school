@@ -1,0 +1,146 @@
+*그래픽 파이프라인 상태의 생성
+
+-Sets
+각각의 프리미티브 약자 Set
+IASet OMSet 등등
+SetView -> 쉐이더 단계에다가 리소스를 연결하기 위함
+
+ID3D12Device::CreateGraphicPipelineState
+
+-> 나머지 상태들을 한꺼번에 생성할 수 있는 함수
+
+매개변수 -> VS PS DS HS GS (쉐이더)    각각 State로 부를 수 있다.
+	  StreamOuput (스트림 출력)   
+	  BlendState (블랜딩) -> OM에서 처리
+	  SampleMask
+	  RasterizerState
+	  DepthStencilState
+	  InputLayout(입력 조립기의 추가적인 상태)
+	  ...
+	  NumRenderTargets
+	  RTVFormats
+	  DSVFormat
+	  ...
+	  Flags
+
+상태를 설정한다고 하는 것이란....
+1. 그래픽 파이프라인 단계에서의 Set함수를 통해서 설정하는 것
+2. PipelineState Object를 만들어 설정하면 한꺼번에 설정이 가능.
+
+한꺼번에 모든 데이터를 설정하는 것이 더 좋음..
+
+ID3D12GraphicsCommandList::SetPipelineState
+-> PipelineState를 사용하여 Set하는 방법
+
+IASetIndexBuffer, 등등 
+
+둘다 사용해야 한다.
+
+
+*입력-조립 단계 준비하기
+
+InputLayout 멤버를 채워넣고..
+IASet... 함수들을 호출한다.
+
+정점버퍼 -> struct나 class의 배열
+	 
+	 정점버퍼 각각 정점의 구조를 설명하는 것을 Layout이라고 할 수 있다.
+	 
+	 노말벡터 등이 포함되어 있을 수도 있고 아닐수도 있고..
+	 그것을 설명하는 State가 InpuLayoutState이다.
+
+*ID3D12Device::CreateCommittedResource
+
+버퍼, Texture  -> D3D12_HEAP_TYPE_DEFAULT
+
+상수버퍼 -> 하나의 Draw Call 내에서는 안바뀜
+(D3D12_HEAP_TYPE_UPLOAD)	   
+
+
+D3D12_RESOURCE_STATES
+D3D12_RESOURCE_STATE_VERTEX_AND_CONSTANT_BUFFER
+
+-D3D12_RESOURCE_DESC
+1차원 배열
+-> Width (배열의 크기) 
+-> Height (1차원이니까 사이즈 1) 
+DXGI_FORMAT
+
+*리소스의 생성
+- 정점 버퍼(Vertex Buffer)의 생성
+DepthOrArraySize -> 텍스쳐의 배열 
+
+CPU에 있는 정점 버퍼를 GPU 메모리에 복사하기 위해서는 UploadHeap이 필요하다.
+
+CPU에 있는 정보를 UploadHeap에 올리고 UploadHeap에 있는 것을 CopyResource함수를 이용해 복사한다.
+
+하지만 힙을 ->Release를 하면 안된다. 아직은 복사가 안되었다.
+CommandQueue에만 들어갔지 아직 CommandQueue를 수행하지 않았으니까..
+CommandQueue를 수행한 후에 Release해주면 된다.
+
+*리소스의 갱신(ID3D12Resource::Map() 함수의 사용)
+-D3D12_HEAP_TYPE_DEFAULT 힙
+Map() 호출을 할 수 없음
+-D3D12_HEAP_TYPE_UPLOAD
+
+Map
+비디오 메모리의 주소를 가지고 올 수 있음.
+서브리소스 -> 보통 텍스쳐 Mip Map 
+텍스쳐가 아니면 0으로 놓자.
+
+D3D12_RANGE *pReadRange // CPU가 접근할 메모리 영역
+void **ppData // 서브리소스에 대한 포인터 
+
+D3D12_HEAP_TYPE_UPLOAD는 map을 해도 unmap을 하지 않아도 된다.
+왜냐면 자주 값 바꿀거니까 unmap을 번거롭게 해줄 필요가 없다.
+
+*리소스 갱신(CopyResource())
+// GPU에서 리소스 전체를 복사함
+
+비동기화 함수 호출이다. 함수를 호출 한다고 해서 그 즉시 일어나는 함수가 아니다.
+
+CommandList에 있는 모든 함수들은 비동기화 함수이다.
+
+*입력 레이아웃
+
+-D3D12_INPUT_LAYOUT_DESC
+
+D3D12_INPUT_ELEMENT_DESC* // 입력 원소들의 배열
+UINT NumElement // 입력 원소의 개수
+
+SemanticIndex는 기본적으로 0이고 갯수가 여러개일때 올라간다.
+DXGI_FORMAT Format 하나의 SemanticIndex를 표현할 데이터 형
+
+UINT InputSlot 원소를 지정할 16개의 Input 슬롯 (0 ~ 15)
+
+ByteOffset -> 오프셋 위치를 자동으로 찾도록 하고 싶으면 D3D12_APPEND_ALIGNED_ELEMENT
+
+D3D12_INPUT_CLASSIFICATION 
+// 정점 데이터
+// 인스턴스 데이터
+
+InstanceDataStepRate -> 인스턴스 데이터가 몇 개의 인스턴스에 반복되는 가를 	
+			나타냄.
+
+*D3D12_INPUT_ELEMENT_DESC
+
+Vertex_Data와 Instance_Data는 서로 같은 슬롯에 넣어줄 수 없다.
+다른 정보 이므로..
+
+struct로 구조체를 만들어주는게 편하다.
+struct VS_INPUT {
+	float4 position : POSITION; // 꼬리표만 달면 알아서 찾는다.
+	float4 color : COLOR0;
+	float4 instance : INSTANCE;
+}
+
+*정점 조립
+
+Instance 정보 -> 객체의 정보
+
+모든 그림은 인스턴싱을 해서 그릴 수 있다.
+
+모든 똑같은 오브젝트가 1000개 있다고 가정했을때 모델 정보는 한가지만 가지고 인스턴스 정보 1000개를 이용해 그릴 수 있다. Draw call을 줄일 수 있다.
+
+Draw함수의 호출 횟수를 줄이는것 -> Set을 줄이는것
+

@@ -66,5 +66,8 @@
     <ClCompile Include="oxford.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="DS_31_2014182049.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

@@ -1,0 +1,132 @@
+*ID3D12Device::CreateCommittedResource
+
+*렌더 타겟 뷰(서술자) 생성
+
+1. 서술자 힙을 먼저 만들자
+
+(DepthStencil View)
+
+m_nSwapChainBuffers -> 뷰(서술자)의 개수
+
+2. 힙이 있으면 힙의 핸들을 가지고 올 수 있으니 핸들들을 가지고 와서 저장하자.
+
+3. 힙을 만들었으니 RenderTargetView도 만들고 DepthStencilView도 만들자.
+
+CreateRenderTargetView()
+->d3dRtvCPUDescriptorHandle.ptr += m_nRtvDescriptorSize;
+ // 다음 RTV Descriptor Heap 주소값으로 이동
+
+서술자 왜필요함? -> 리소스를 파이프라인에 바인딩하기 위해서 필요함
+
+*렌더 타겟과 깊이 스텐실 버퍼를 파이프라인에 연결
+- 렌더 타겟과 깊이 스텐실 버퍼를 위한 CPU 서술자를 설정
+
+-OMSetRenderTargets 동시에 여러 렌더 타겟들을 연결할 수 있다.(최대 8개 까지 가능하다.) 깊이스텐실 버퍼도 연결할 수 있다.
+
+한개만 연결? -> 그림을 그리는 종이가 한장
+여덟개가 있으면? -> 종이가 여러장
+
+Input Assembler ---> ... ---> Output Merger 
+이렇게 나온 결과는 Render Targer으로 들어가야 한다.
+
+Render Target, Depth Stencil Buffer 
+
+CPU에서  그래픽 카드까지 오래걸리니까 
+빠른 처리를 위해서...
+여러번 작업하지 말고 한꺼번에 작업하자! -> 그래서 Set관련 함수들은 여러개를 한				       꺼번에 할 수 있도록 대부분 되어있다.
+
+/* 중요한 작업! */
+Set의 횟수도 줄이고(한꺼번에 set) Draw횟수도 줄이는것(예를들면 절두체 컬링)이 가장 이상적이다. -> Batch
+(상태 변화의 횟수를 최소화 해야한다.)
+
+Set과 Draw를 줄이는 확실한 알고리즘은 존재하지 않는다. 왜냐하면 상황이 항상 달라지기 때문이다. 유동적이다! 상황에 맞게 줄여야되는 목표를 가지고 수단과 방법을 가리지 않는다.
+
+UINT NumRenderTargetDescriptors // 렌더 타겟 서술자의 개수
+D3D12_CPU_DESCRIPTOR_HANDLE *pRenderTargetDescriptors // 서술자들의 배열
+BOOL RTsSingleHandleToDescriptorRange // True일때 연속되는 것 False일때 단일
+D3D12_CPU_DESCRIPTOR_HANDLE *pDepthStencilDescriptor // 깊이스텐실서술자
+깊이스텐실 버퍼 안쓰고 싶으면 NULL
+
+하지만 RTV가 없는데 깊이 스텐실버퍼는 있는 반대의 경우는? 필요없음
+그림 그릴때 쓰는게 깊이 스텐실버퍼인데 그림그릴 대상이 없어지니까...
+
+*렌더 타겟 버퍼와 깊이 스텐실 버퍼 초기화
+
+=>출력을 할 수 있는 무언가는 연결이 되었으니... 그림을 그리자!
+
+그림을 그리기 전에 일단 그려진 그림을 지우고 그려야 하니까..
+ClearRenderTargetView, ClearDepthStencilView
+->View를 사용해서 Resource를 지워라..
+
+-ClearRenderTargetView
+D3D12_CPU_DESCRIPTOR_HANDLE RenderTargetView
+FLOAT ColorRGBA[4]
+UINT NumRects -> 사각형의 갯수 (사각형이 있는 이유는 이 범위만 Clear할 수 있도록 기능을 제공하기 때문이다.) 
+D3D12_RECT *pRects -> NULL로 주면 화면 전체를 다 지워라.
+
+D3D12_RECT는 렌더타겟의 픽셀좌표값을 위치값으로 받는다.
+
+-ClearDepthStencilView
+D3D12_CPU_DESCRIPTOR_HANDLE DepthStencilView // 깊이 스텐실 서술자
+D3D12_CLEAR_FLAGS ClearFlags // 초기화할 데이터 유형
+FLOAT Depth // 초기화 할 깊이 값 -> 상황에 따라서 알맞게 초기화 하면 된다.
+UINT8 Stencil // 초기화 할 스텐실 값
+UINT NumRects 
+D3D12_RECT *pRects
+
+*레스터라이저 단계 (Rasterizer Stage) 설정
+
+레스터라이저 -> 픽셀들의 좌표를 스크린 좌표로 바꾸어 주는 파이프라인 단계
+
+-뷰포트 설정
+뷰포트 -> 화면에 그려질 사각형의 영역
+기하 쉐이더를 다루면 여러 Viewport를 설정할 수 있다. 일단은 1개만 쓰겠다.
+
+-시저 사각형 설정
+렌더링에서 제거하지 않을 영역
+
+m_pd3dCommandList->RSSetViewports(1, &m_d3dViewPort);
+m_pd3dCommandList->RSSetScissorRects(...);
+
+*리소스 장벽 (Resource Barrier)
+
+RT(Render Target)
+
+모든 리소스는 GPU가 쓰는것 
+
+D3D=Resource 보내줌=>RT==>DXGI(읽어다가 그림)
+
+Present함수
+
+Resource Layer라는 Object
+장벽이 허물어 져야만 Present같은 함수를 쓰도록 하게 할것이다.(동기화?)
+
+*리소스 상태 
+Render Target State
+
+여러 값들을 사용하여 상태를 표현한다.
+
+빨간색 (Write),
+파란색 (Read),
+분홍색 (Read & Write)
+
+-리소스 초기 상태
+디폴트 힙(Default Heap) : D3D12_RESOURCE_STATE_COPY_DEST
+업로드 힙(Upload Heap) : D3D12_RESOURCE_STATE_GENERIC_READ
+읽기 힙(Readback Heap) : D3D12_RESOURCE_STATE_COPY_DEST
+스왑 체인 후면 버퍼 
+정점 버퍼
+인덱스 버퍼
+텍스쳐
+
+리소스의 암시적인(Implicit) 상태 전이(동기화가 필요없음)
+_STATE_COMMON 상태일때 적절한 상태로 자동적으로 전이가 될 수 있음
+
+하지만 DEPTH_WRITE, DEPTH_READ는 자동 전이 X
+
+장벽의 타입은 세가지
+1. 전이 장벽 (이걸 사용할것이다.)
+2. 겹침 장벽 (아직 X)
+3. 무순서 접근 뷰 장벽 (아직 X)
+
+배리어의 타입(일단은 전이 장벽 사용) -> 타입에 맞는 트렌지션 조건들

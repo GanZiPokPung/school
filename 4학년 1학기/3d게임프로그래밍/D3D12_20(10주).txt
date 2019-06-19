@@ -1,0 +1,107 @@
+*정점 버퍼 뷰 생성
+
+GetGPUVirtualAddress // 버퍼 리소스의 GPU 주소 반환
+
+ID3D12Resource의 포인터 반환
+
+
+D3D12_VERTEX_BUFFER_VIEW
+
+정점 버퍼의 크기(바이트)
+정점 버퍼 각 원소의 크기(바이트), 하나의 정점 크기
+
+IASetVertexBuffers를 사용하여 여러 정점 버퍼들을 Set할 수 있다.
+
+VertexBuffer는 DescriptorHeap을 사용하여 View를 만들 필요가 없다.
+
+
+어느 슬롯에 연결할 것인가를 알고 IASetVertexBuffers 함수를 사용하여야 한다.
+
+
+*프리미티브 유형(Primitive Topologies)
+
+IASetPrimitiveTopology
+
+PointList, LineList, LineStrip, ...., Triangle, ...
+
+(1 ~ 32)
+
+인접성 정보가 있으면 유용한 처리들을 할 수 있다.
+모델러가 인접성 정보를 알려주면 더 좋다.
+하지만 기하 쉐이더를 다루기 전까지는 전혀 사용할 기회가 없다.
+
+D3D_PRIMITIVE_TOPOLOGY_POINTLIST -> 점들의 리스트
+~_LINELIST -> 선분들의 리스트 (두개의 점 -> 선분 하나)
+~_LINESTRIP -> 선분들의 스트립 (모든 Primitive들이 연결된다는 뜻이다.)
+			     (모든 선분들을 연결한다)
+~_TRIANGLELIST
+~_TRIANGLESTRIP
+
+모든 모델러는 모델을 만들때 TrinangleList로 만든다. (보통은)
+
+STRIP은 더 적은 정점 데이터로 많은 Topology를 표현할 수 있다.
+
+-> 이러한 Topology의 패턴을 알아야 하는 이유?
+
+*DrawInstanced
+UINT VertexCountPerInstance //렌더링할 정점의 개수
+UINT InstanceCount // 인스턴의 개수, 인스턴스 데이터를 쓰지 않으면 1
+UINT StartVertexLocation // 시작 정점의 위치(인덱스)
+UINT StartInstanceLocation // 인스턴스 인덱스에 더해지는 값
+
+레스터라이저에서 은면 제거 작업을 한다. 전체적인 컬리 시저링
+
+와인딩 순서는 삼각형에 한해서 의미가 있다.
+
+아래 위 아래 위 ~~.. 삼각형의 짝수번째가 반시계 와인딩 순서를 갖는다는 것을 
+		IA가 알고 있기 때문에 
+		만약 그런 상태라면 자동으로 시계방향으로 만들어준다.
+
+*인덱스 버퍼
+
+객체가 달라지면 정점 버퍼를 Set을 해야한다.
+
+버텍스버퍼를 하나 만들고 슬롯 하나에100개의 모든 정점을 다 담을 수 있는 엄청나게 큰 버퍼를 Set하면? --> 크기는 아니까 크기별로 주소를 참조해서 값을 메모리에 한꺼번에 담는다.
+
+-> 그러면 Set을 한번만 하면 된다. (이렇게 안하면 오브젝트 갯수만큼 Set해야함)
+
+--> ##우리는 Draw와 Set을 줄이는데에 목적이 있다!
+
+하나의 슬롯에 담아놓고 원하는 타입의 정점 버퍼를 가져다가 그릴수 있다.
+
+Object가 달라질때 Draw할때 
+
+-
+일반인 메쉬의 삼각형들은 연결이 되어 있을 것이다.
+그렇게 되면 정점들은 불가피 하게 여러번 사용하게 될것이다.
+이걸 그대로 사용하면? -> 메모리 낭비, 시간 낭비가 될것이다.
+
+왜? Transformation (변환)을 중복되는 정점이 여러번 하기 때문에 시간이 낭비..
+그리고... 정점 쉐이더에서 레스터라이저에 값을 주면 z나누기, 클리핑, 픽셀화 등등을 하는데 정점이 중복되면 이 중복된 횟수 만큼 더 작업을 해주기 때문에 시간 낭비.
+
+인덱스는 unsigned int 
+-> 1/4 만큼 일단 메모리를 절약
+
+16비트 Index, 32비트 Index 두가지 자료형을 사용하여 사용자의 의도대로 메모리를 절약 할 수 있다. 
+
+인덱스를 알고 있으면... Vertex Buffer를 하나씩 인덱스 정보를 주면 된다.
+3dMax에서 모델의 인덱스 정보를 제공하는 기능이 있다.
+
+DrawIndexedInstanced(
+UINT IndecCountPerInstance, // 인덱스 개수
+UINT InstanceCount, // 인스턴스의 개수
+UINT StartIndexLocation, // 시작 인덱스의 위치(인덱스)
+INT BaseVertexLocation, // 각 정점 인덱스에 더해지는 값
+UINT StartInstanceLocation // 인스턴스 인덱스에 더해지는 값
+);
+
+*인덱스 버퍼 뷰 생성
+
+D3D12_INDEX_BUFFER_VIEW
+
+>> D3D12_GPU_VIRTUAL_ADDRESS BufferLocation
+     UINT SizeInBytes
+     DXGI_FORMAT Format
+
+*메쉬(삼각형) 그리기
+

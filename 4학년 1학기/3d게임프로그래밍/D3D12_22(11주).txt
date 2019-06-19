@@ -1,0 +1,133 @@
+*삼각형 그리기
+
+Vertex Shader의 파라미터로 사용자 임의로 넘겨줄 수는 없다.
+
+global value -> shader에서 쓸 수 있는...
+
+루트 시그니쳐 
+
+삼각형을 회전하고 싶다?
+회전 행렬을 넘겨주어 -> VS의 글로벌 변수로 넘겨줘야 한다.
+
+*루트 시그너쳐 (Root Signature)
+
+Signature -> 함수들을 오버로딩할때 시그너쳐가 다르면 오버로딩이 가능하다.
+
+int f(int a);
+int f(int a, b);
+
+C++과 다르게 리턴 타입이 달라도 시그너쳐 타입이 같다고 할 수 있다.
+
+Root(함수 바깥에 있으니까)를 시그너쳐(글로벌 변수)로 생각하고...
+
+*파이프라인이 동작될때 쉐이더가 필요한 리소스들을 각각의 쉐이더의 파라미터가 아닌 글로벌 변수로 선언하고 쉐이더 단계에서 사용할 수 있도록 해주는 것이 루트 시그너쳐이다!
+
+type
+-그래픽 루트 시그너쳐 (graphics root signature)
+-계산 루트 시그너쳐 (compute root signature)
+
+루트 매개변수(Root Parameters) -> 실제로는 글로벌 변수
+하나의 루트 시그너쳐는 64개의 32 비트 배열(테이블)로 구성된
+많이 사용하는 매개변수를 앞쪽에(빠른 메모리) 배치하는 것이 좋음.
+
+테이블(배열)을 만들어서 그곳에 값을 넘겨주어 그것을 쉐이더가 사용하는 원리라고 생각하면 된다. 
+
+넘길 수 있는 값들의 유형
+-루트 상수(Root Constant) : 쉐이더의 상수 버퍼로 대응, 32비트
+업데이트후 하나의 Draw Call 단계에서는 안 바뀔 것이기 때문에 상수로 치자.
+-루트 서술자(Root Descriptor) : 상수 버퍼(CBV), 버퍼(SRV, UAV), 64비트
+리소스를 설명하는 정보? -> 서술자
+-서술자 테이블(Descriptor Table) : 리소스 서술자 힙의 영역을 표현
+서술자 배열
+
+쉐이더 Language에는 포인터라는 개념이 없다.
+
+파이프라인 단계에서 파라미터 type을 알려줘야 한다. 
+
+루트 인자(Root Argument)
+
+쉐이더에서는 상수를 사용하고 있는데 파이프라인에서 업데이트 해주지 않으면
+-> 오류를 출력창에 보여줄 것이다.
+
+*상수 버퍼(constant buffer)의 생성
+
+상수 버퍼는 여러 개의 쉐이더 상수들의 그룹을 동시에 갱신할 수 있는 특별한 버퍼 크기는 최소 하드웨어 할당 크기 256바이트의 배수이어야 한다.
+
+((nBytesOfData + 255) & ~255) -> nBytesOfData에 맞는 256바이트의 배수				로 만들어 준다.
+
+하나의 draw함수 내에서는 상수로 변하지 않는 변수
+사용할 대부분의 것들은 상수 버퍼나 텍스쳐 일것이다.
+
+그러므로 텍스쳐가 아닌것은 상수 버퍼로 하면된다.
+
+하나의 상수 버퍼(뷰)는 4096개의 벡터를 포함 할 수 있다.(64kb)
+cbuffer cbWorldMatrix : register(b0){
+  matrix gmtxWorld : packoffset(c0);//전역 변수로 상수 버퍼 뷰 변수선언
+};
+
+루트 매개변수
+
+-루트 상수
+매개 변수가 32비트 상수들을 포함, 서술자 힙이 필요없음
+-루트 서술자
+매개변수가 서술자를 직접 포함, 서술자 힙이 필요없음
+-서술자 테이블
+서술자 힙에 간접적으로 접근해야 하므로 시간이 걸림
+서술자 힙이 필요함
+
+만약 100개의 행렬을 쉐이더에서 쓴다고 가정한다면 루트 상수로는 크기가 초과하므로 사용이 힘들것이다. 하지만 서술자 테이블을 사용하면 서술자 테이블 안에 100개의 Descriptor들을 가지고 그 서술자 하나가 행렬을 가지고 있으면 된다.
+
+즉 
+루트 상수 -> 하나의 행렬
+루트 서술자 -> 32개의 행렬
+서술자 테이블 -> 여러개의 행렬
+
+상수 버퍼는 갱신 속도가 빠르다.
+
+D3D12SerializeRootSignature
+
+ID3DBlob -> Blob 메모리 (직렬화된 루트 시그너쳐)
+
+D3D12_ROOT_SIGNATURE_DESC
+
+D3D12_SHADER_VISIBILITY -> 쉐이더를 사용할 곳
+(ALL)로 해주면 모든 쉐이더에 접근이 가능해진다.
+하지만 ALL로 해주면 성능상의 문제가 있다.
+
+상수버퍼를 사용할때 Register 메모리를 사용해서
+Register(b0) b는 상수버퍼를 나타내는 알파벳 
+	     그리고 숫자가 붙는다.
+
+모든 상수버퍼에는 Register가 필요하다.
+
+D3D12_ROOT_CONSTANTS
+UINT ShaderRegister
+UINT RegisterSpace
+UINT Num32BitValues
+
+텍스쳐를 읽기 위해서 필요한 Object가 Sampler 였다.
+
+D3D12_STATIC_SAMPLER_DESC -> DirectX에서 미리 만들어 놓은 Sampler 
+
+리소스->D3D12_GPU_VIRTUAL_ADDRESS
+
+*회전하는 삼각형 그리기
+
+이제 Cbuffer로 행렬을 파라미터를 넘길때 XMMatrixTranspose (전치 행렬)해주고 넘긴다.
+
+CBuffer => 256
+
+CreateDescriptorHeap
+->CreateCommittedResource
+->CreateConstantBufferView
+->SetGraphicsRootDescriptorTable
+
+256의 배수가 아니면 에러 메시지를 출력창에 띄워줄것이다.
+
+루트 시그너쳐 -> 엄청 중요하다. 
+텍스쳐 매핑, 투영 변환까지 등등.. 
+
+3가지 파라미터 -> 잘 이해하고 잘 써먹어야 한다.
+
+정말 중요하다!
+ 

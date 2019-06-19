@@ -1,0 +1,248 @@
+HLSL(High Level Shader Language for DirectX)
+
+VS에서 Compile 해줌
+
+-C와 C++과 상당히 유사하다.
+세미콜론, 중괄호, 함수(function), 구조체(struct)
+전처리(Preprocessor) 등
+
+-하지만 C와 C++과 크게 다른 점
+포인터를 지원하지 않음
+템플릿을 지원하지 않음
+재귀함수 지원하지 않음
+
+전역변수 -> 상수버퍼(cbuffer)에 추가 (16개 중에서 14개 사용가능?)
+
+*쉐이더 예제
+정점 색상 출력
+텍스쳐 매핑(Texture Mapping)
+조명 계산 등등 만들 수 있다.
+
+*쉐이더 모델(Shader Model)
+공통 쉐이더 코어(Common Shader Core)를 기반으로 설계
+
+우리는 앞으로 쉐이더 모델 5를 사용할것이다.
+-> 계산 쉐이더, 테셀레이션, 등등 사용 가능한 버전
+
+*연산자(Operators)
+대부분 C, C++과 비슷하다.
+연산자들은 타입에 맞게 연산을 해준다. 요소별 연산. 
+(예를들면 벡터 + 벡터, 행렬 + 행렬, 실수 + 실수 등..)
+
+%연산자는 정수에 대해서만 가능하지만 HLSL은 실수도 지원한다. 
+하지만 조금 다르다. float f3 = f1 % f2; // 0.5, 실수 나눗셈의 나머지
+
+*키워드
+*전처리 지시자
+*예약어와 기본 문법
+HLSL에서 예약 변수 또는 함수 이름으로 사용 금지
+
+Identifier, 공백문자, 정수 표현, 실수 표현(기본적으로 32비트로 나오기 때문에 double을 사용하고 싶으면 맨 뒤에 L을 붙여야함)
+, 문자, 문자열 모두 지원한다.
+
+*변수(Variables)
+이름(Name), 적용 범위(Scope), 메타데이터(Metadata)
+전역변수, 지역변수, 함수 파라메터
+
+HLSL에서 전역변수를 사용하는 이유 99퍼는 정보를 루트 시그너쳐를 사용해서 연결하기 위해서이다.
+
+-Storage_Class (변수의 범위와 기간에 대한 정보를 컴파일러에게 알려준다.)
+extern -> 컴파일러에게 전역 변수 정보만 알리는 기능을 한다. (어딘가에다(다른 코드에) 전역변수 선언을 한다.)
+(컴파일러는 전역변수에 extern이 있어도 없어도 extern이라고 인식한다.)
+GPU는 자원의 정보(전역변수)를 함부로 바꿀 수 없다.(unordered access를 사용하면 가능)
+static -> 모든 변수들은 가까운것 부터 찾아 행동된다. 로컬변수에 static을 붙이면 메모리는 없어지지 않고 이전 값을 유지한다.
+      즉 static은 lifetime을 바꿔주는 역할을 한다. static을 사용하면 extern을 썼더라도 다른 곳에서 사용이 불가능하다.
+      static 변수는 다른 전역변수와 다르게 변경이 가능하다.(c전역 변수와 동일하게 동작)
+      기본적으로 전역 변수는 기본적으로 초기화를 할 필요가 없지만 static변수는 해야 할 수도 있다.
+uniform -> constant와 의미가 비슷하다. (모든 정점/픽셀 처리를 완료할 때까지 값이 변하지 않는 변수)
+	   전역변수는 기본적으로 uniform 취급, D3d 응용 프로그램에서 값을 변경
+
+-Type Modifier -> 변수의 데이터 형의 의미를 수정
+const, row_major, column_major(default 더 빠르기 때문에)
+
+-Annotation : 사용자 정의 정보(주석)
+
+-packoffset : 쉐이더 상수 변수 팩킹 오프셋
+
+-register : 쉐이더 변수를 특정한 레지스터에 지정 (레지스터 메모리)
+	빠른 반면 크기의 제한이 있다.
+	register type : b(cbuffer), t(texture), c(buffer offset), s(sampler), u(unorderes access view)
+
+2개는 컴파일러가 쓰고 16개 중 14개의 레지스터를 사용할 수 있다.
+
+레지스터 b 한개는 4096개 벡터들의 배열
+상수버퍼 레지스터는 갯수 제한이 있지만 텍스쳐 레지스터는 갯수제한이 없다.(비디오 메모리가 허용하는 크기만큼 쓸수 있음)
+
+상수버퍼는 변수들을 한꺼번에 바꾼다. 그래서 변수가 너무 많으면 비효율적인 측면이 있을 수도 있다.
+처리할 프레임 별로 상수버퍼를 쪼개서 분산하여 Set해주면 훨씬 효율적이다. 
+
+*크기 제한, 사용 방법 제한, 갱신 빈도 등의 따라서 상수 버퍼를 구분해줘야 한다.*
+
+*상수 버퍼 변수의 팩킹 규칙
+-HLSL은 상수 버퍼의 변수들을 16바이트 경계를 넘지 않도록 팩킹함
+-하나의 변수가 경계에 걸치게 되면 새로운 4-요소 벡터에서 시작함(주소 지정)
+-구조체 첫 번째 변수는 다음 4-요소 벡터에서 시작됨
+-배열은 기본적으로 팩킹되지 않고 배열의 모든 원소는 4-요소 벡터로 저장됨
+-팩킹되니 쉐이더 상수 버퍼와 응용 프로그램의 메모리 구조가 다를 수 있음
+
+struct를 선언해서 이런 struct변수를 global로 만들어 놓고 바꾸면서 struct에 맞는 리소스를 만들어서
+cbuffer(레지스터)에 전달한다. 
+
+cbuffer의 순서를 맞춰주지 않으면(빈 공간이 생겨서) struct에서 읽어야 할 값을 건너뛰어 이상한 메모리(Garbage)를 읽을 수 있다.
+
+struct에서 맞춰주어야한다. 예를 들면 빈공간의 크기만큼 Garbage# struct 멤버변수를 선언
+
+cbuffer 구조체 안에 구조체 -> 새로운 레지스터로 넘어간다.
+
+*쉐이더 상수(Shader Constant)
+->상수 버퍼 : 글로벌 변수의 값들을 바꾸어줄 용도로 만들어주는
+
+쉐이더 모델 5.1부터
+structure 전체를 하나의 변수로 만들수도 있고 배열을 만들수도 있음
+
+tbuffer 텍스쳐 버퍼(cbuffer와 다르게 제약이 없음) -> 잘 쓰지 않음
+
+*자료형
+-> Buffer<Type> Name;	(Type은 4-요소 벡터까지)
+Buffer<float4> gBuffer;
+float4 bufferData = gBuffer.Load(1);
+
+벡터 선언
+-> TypeNumber Name	(Type은 스칼라 자료형)
+vector <Type, Number> VariableName
+
+행렬 선언
+-> TypeRowsxCols Name   (Type은 스칼라 자료형)
+matrix<Type, Number> VariableName;
+
+Type Name[#]
+
+*벡터 데이터형
+float4 pos = float4(1, 2, 3, 4);
+float f = pos.z; // 3 = pos[2]
+위치 : x, y, z, w
+색상 : r, g, b, a
+
+Swizzling
+float2 temp;
+temp = pos.xy; -> 요소별로 대입한다.
+temp = pos.rg;
+[temp = pos.xg; -> 이건 Error]
+
+float4 f4D = 1.f; // float4 f4D = float4(1, 1, 1, 1)
+f4D = pos;
+f4D.xz = pos; // f4D.xz = pos.xy
+f4D.zx = pos.xz; 	(Masking)
+f4D.xzyw = pos.w;
+f4D.wzyx = pos;
+f4D.xx = pos.xy; // Error
+f4D.xg = pos.rg // Error
+
+Masking : 하나 이상의 요소에 저장할 수 있음.
+
+*행렬 데이터형
+
+위와 거의 비슷하다.
+행렬은 2차원 배열이라고 생각하면 편함.
+
+float 2x2 m = {0.f, 1.f, 2.1f, 2.2f};
+
+float2 temp;
+temp = m[0]; // 배열처럼 사용
+
+temp = m[0][0][0][1]; // 배열[] 표현은 Swizzling이 불가능
+
+
+*벡터와 행렬 수식
+
+모든 연산자의 의미는 요소별 연산이다.
+
+*내장 함수
+1ㄹ1
+(요소별) 내장 함수
+
+-clip(x) -> 0보다 작으면 현재 픽셀을 버림(픽셀 쉐이더)
+clip의 매개변수를 음수로 써야 버린다.
+
+round-> 반올림
+reflect(i, n) -> 반사벡터
+reflect(i, n, nq) -> 굴절벡터 nq(굴절률)
+
+*자료형(Data Types)
+-구조체(Structure)
+
+시멘틱 변수(: POSITION, : NORMAL 등등) -> 파이프라인에서 시멘틱들을 쓸 수 있도록 해준다.
+시스템 시멘틱 변수 -> 
+
+RS에서 보간을 하는 방법은 기본적으로 Linear(선형 보간)이다.
+nointerpolation을 제외하고는 나머지는 굳이 자료형 앞에 보간 설정 키워드를 넣지 않는다.
+
+*자료형(Data Types) : 버퍼
+Buffer<Type> Name; (Read Only)
+RWBuffer<Type> Name; (Read, Write 모두 가능)
+
+StructuredBuffer<Type> Name; // Structure 들의 버퍼
+RWStructuredBuffer<Type> Name;
+
+*흐름 제어(Flow Control)
+
+C랑 100퍼 똑같음
+discard(픽셀 쉐이더에서 픽셀을 버리는 문장! break, continue같은 문장!)만 추가
+clip은 함수 discard는 문장
+
+ex) ...장황한 코드....discard; -> 이 픽셀 쉐이더는 있으나 마나..
+	그래서 if문을 사용하여 조건을 만족했을때 픽셀을 버리도록 사용한다.
+
+[Attribute] for (Initializer; Conditional; Iterator)
+-> 컴파일러한테 컴파일 할때 의미를 좀 바꾸자. 건너뛰어봐~, 펼쳐봐~ => 그럼 실행 속도가 좀 빨라질수도 있다.
+컴파일 시간 증가, but 실행 속도 빨라짐
+
+*함수(Function)
+*내장함수(Intrinsic Functions)
+
+mul(x, y) 행렬끼리의 곱 (행렬 곱셈)
+	  벡터와 행렬의 곱 
+mul(1.f, y) 행렬 스칼라곱(요소별 연산)
+
+
+면에 접하는 벡터 -> 탄젠트 벡터 (접선)
+접선에 수직인 벡터 -> 노말 벡터 (법선)
+
+x, y, z축은 서로 수직이다..
+
+Tx, Ty, Tz
+Bx, By, Bz
+Nx, Ny, Nz
+
+T, B 내적 = 0
+T, N 내적 = 0
+
+--> 직교 행렬 -> 직교 행렬은 역행렬이 전치 행렬과 똑같다.
+
+vM -> 1x3 X 3x3 => 1x3 (하지만 여백이 부족하여 교수님은 3x1로 결과를 표현해놓았음)
+Mv -> 3x3 결과가 나오니 3x3 X 3x1로 바꿔서 3x1 결과가 나오게 한다.
+그냥 순서대로 넣어주면 1x3이든 3x1이든 x,y,z 값을 얻을 수 있다.
+
+vM == M^-1v
+vM^-1 (역변환 하고 싶다?) == Mv 해주면됨.
+
+(전치행렬 역행렬 조건이 성립해야 할때만 위의 조건이 성립된다)
+4x4을 역행렬로 사용하여 곱해주면 이상해지기 때문에 4x4는 쓰면 안된다!
+
+*HLSL 쉐이더 최적화(Optimization)
+
+쉐이더는 계산하는 양이 엄청 많으니까 계산 결과를 재사용하면 계산양을 많이 줄일 수 있다.
+
+
+###Terrain###
+
+y = h(x, z) -> 함수를 이용하여 x, z 위치를 통해 y값을 구한다. 뭘 이용해서? -> 이미지를 이용해서 (픽셀값 0 ~ 255)
+
+*높이 맵(Height Map)
+
+Height Mapping
+
+밝은 쪽 -> 높은 곳
+어두운 쪽 -> 낮은 곳
+
+지형의 해상도와 가로 세로 간격은 서로 비례한다. -> 사용자는 얼마나 지형을 세밀하게 할것인가를 정하면된다.

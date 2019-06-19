@@ -1,0 +1,117 @@
+
+CreateCommand
+CreateCommandAllocator
+CreateCommandList
+
+
+command allocator
+
+->command list
+
+command list에 있는 command들을 GPU가 순서대로 실행한다.
+
+*ExcuteCommandLists() 함수 -> 여러개의 명령 리스트들을 한꺼번에 집어넣을 수 있음
+
+*리스트에 있는 명령어들이 순서대로 때가 되어야 실행이 되는 구조이다..
+
+
+명령 리스트 --> Close (Command List가 닫힌 상태)
+	   --> Reset (재사용)
+
+Reset() -> Command함수들 호출 -> Close()
+
+*CreateCommandList
+한꺼번에 추가, 하나만 추가 다 가능하다.
+
+*CPU/GPU 동기화 (Synchronization)
+함수가 실행되기 위한 매개변수들 --> 리소스(Resource)
+
+매 프레임 마다...
+리소스 -> Vidoe Memory에 할당 -> Command List에 있는 함수를 실행하기 위한 			                   매개변수
+
+매 프레임 마다 실행할 명령들이 항상 똑같을 수가 없다. (매번 달라질 수 도 있다)
+
+그래서 동기화를 해야 한다. 
+
+동기화를 하기 가장 좋은 (기본적인) 방법 --> 줄서기
+쓰는 사람에게 뭔가 장치를 마련해 준다. (그 장치는 바로 동기화 오브젝트)
+
+쓰는 쪽에다가 동기화 방법 --> 읽어갔다는 신호가 오면 써도 된다.
+
+CPU (Write) GPU (Read)
+GPU가 Read할때 까지 CPU는 기다린다.
+
+->이러한 장치가 바로...
+*펜스 객체(ID3D12Fence 인터페이스)
+
+*펜스 객체의 생성
+CreateFence(UINT64 InitialValue, D3D12_FENCE_FLASS Flags, REFIID riid, 
+void **ppFence);
+
+D3D12_FENCE_FLAG_SHARED -> GPU나 어뎁터가 여러개일 경우 서로 공유해서 사			   용하기 위함
+
+
+CPU 명령을 내리고 기다리는 동안 GPU에서 끝났다는 정보를 CPU에 알려주기 위해 
+SetEventOnCompletion
+
+>>CPU가 명령을 내리고 펜스를 세우고 기다린다.
+
+Fence 관련 함수
+Signal(ID3D12Fence *pFence, UINT64 Value)
+
+Wait(ID3D12Fence *pFence, UINT64 Value) pFence가 Value가 될때까지 기다린다.
+
+*펜스 객체
+
+Busy Weight
+CPU가 펜스의 값을 읽어보고 다른일을 할수 있는지(바뀔때 까지) 검사를 한다.
+
+효율적인 방법 : CPU는 GPU 수행을 기다리는 동안 다른 일을 수행한다.
+
+운영체제에 동기화 오브젝트들을 제공한다. --> CreateEvent
+
+함수 SetEventOnCompletion
+값이 False였다가 누군가가 True로 바꾸며 끝났다는 신호를 준다. (깨운다.)
+
+Sleep(CPU를 운영체제에 반납)
+
+ID3D12CommandQueue -> Signal
+ID3D12Fence -> Signal 
+둘은 서로 다르다.
+
+Fence의 값은 GPU가 아닌 D3D Lib에 있는 CommandQueue가 바꾸는 것이다.
+
+
+*쉐이더 리소스(Shader Resource)
+
+-리소스는 렌더링 과정동안 GPU가 사용하는 데이터(비디오 메모리에 저장)임
+후면버퍼, 깊이 / 스텐실 버퍼, 기하 데이터, 텍스쳐, 버퍼, ...
+
+
+Resource는 크게 두가지로 나눌수 있다.
+1. Buffer   (색깔이 없다)
+2. Texture (색깔이 있다)
+
+파이프라인
+그래픽스 파이프라인(Graphics Pipeline)
+게산 파이프라인(Compute Pipeline)
+
+리소스 뷰(Resource View)
+리소스(Video Memory)
+
+Descriptor(설명자)라고도 불린다.
+
+어떠한 자료구조이다.
+
+Render Target View, 등등 --> Resource에 대한 View를 만드는것
+
+
+CreateShaderResourceView : 쉐이더가 그림을 그리기 위해서 쓰는 데이터의 뷰다.
+(READ_ONLY) 읽기만 하고 바꾸는 일은 하지 않을거다...
+
+리소스는 View형태로 Pipeline에 bind(Set) 된다.
+
+
+*리소스(Resource)
+
+
