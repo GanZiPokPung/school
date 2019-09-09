@@ -1,0 +1,27 @@
+*Pico2D 최적화 기법
+
+>> Load_image에서 오버헤드가 심함
+>> 예외처리 (None 일때 한번만 Load하고 인스턴스를 또 만들때는 기존에 로드한 이미지를 쓴다.)
+>> python에서는 class 변수라고 함.
+
+class => class 변수 공간, 객체 변수 공간
+
+>> C++에서는  static Data Member와 비슷
+
+*캐릭터 컨트롤러(Character Controller)
+ 
+상태 다이어그램(State Diagram)
+-시스템의 변화를 모델링하는 다이어그램
+-사건이나 시간에 따라 시스템 내의 객체들이 자신의 상태(state)를 바꾸는 과정을 
+ 모델링 함
+-Modeling, specification 및 implementation에 모두 사용되는 강력한 툴
+
+State transition 상태 변환
+상태
+1.state(상태)
+2.entry action(어떤 상태로 들어감)
+3.exit action(어떤 상태를 빠져나옴)
+4.do activity(상태에 따라 취하는 어떤 행동)
+
+
+

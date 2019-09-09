@@ -1,0 +1,44 @@
+게임이란?
+
+"가상 월드에 존재하는 여러 객체들의 상호작용"
+
+게임의 기본 구성 요소
+*배경
+*캐릭터, 오브젝트
+*UI-GUI, 입력(키, 마우스, 터치)
+*AI
+*사운드
+
+2D 게임?
+현재 진행 중인 게임 가상 월드의 내용을 화면에 2D그림으로 보여주는 것
+배경, 캐릭터(오브젝트)의 표현(렌더링)을 2D이미지들의 조합으로 구성함!
+
+working directory
+open_canvas()
+10 X 10
+hide_lattice()
+show_lattice()
+close_canvas()
+image = load_image('character')
+Pivot >> 캐릭터의 중점이 되는 점 
+	개발자와 디자니어 기획자의 협력이 중요한곳
+	입이 맞춰줘야함
+
+image.draw_now(300, 200)
+image.draw_now(500, 400)
+
+clear_canvas_now()
+
+repository 
+Local repository
+Remote repository
+
+Flickering (화면이 깜빡이는 현상)
+
+Frame Buffer (프레임 버퍼)
+
+COMPUTOR ---> BUFFER ---> MONITOR
+
+Double Buffering (더블 버퍼링)
+
+Page Flipping (페이지 플리핑)

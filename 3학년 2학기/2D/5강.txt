@@ -1,0 +1,36 @@
+*선분 상에 Point 찍기
+-Point에서 Point'까지 Move
+Physically move : time, velocity,
+		distance, 
+
+s = s' + v * t;
+
+->선분을 정확하게 그리려면, 
+bresenham algorithm을 이용해야 한다.
+(Sub, Sum을 사용하여 고속으로 직선그림)
+
+->Game 최적화
+Memory allocation 보다는 Calculation speed 
+
+-직선의 방정식을 구한다.
+y = ax + b
+a = (y2 - y1)/(x2 - x1)
+b = y1 - x1 * a
+
+-Parametric Representation of Lines
+-Vector(Scale과 Direction을 갖는 Physical quantity)
+vector크기 = 
+sqrt(x축거리^2 + y축거리^2)
+vector방향 = 
+(x축거리 / 크기, y축거리 / 크기)
+
+p3벡터 위 t%지점의 점을 m(t)라고 하면,
+벡터 m(t)?
+
+m(t) = p1 + t p3 = p1 + t(p2 - p1)
+     = (1-t)p1 + t p2
+
+m(t)는 결국, p1과 p2를 1-t:t의 비율로
+섞은 것임. m(t)는 두 점 p1과 p2의 선형 조합임.
+
+*Spline 곡선
