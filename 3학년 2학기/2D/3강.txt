@@ -1,0 +1,48 @@
+게임이란 무엇인가?(시험문제 출제)
+
+*One Source Multi Use
+잘만든 게임이 성공해서 여러 플랫폼에 이식하는것
+
+
+게임 --> 이제는 한 플랫폼에만 종속되는 분야가 아니다..
+
+*Cross Platform방식이 유행 >>> Engine
+
+Engine-->여러 플랫폼에 이식이 가능
+
+*SDL Library
+
+
+JPG PNG 차이점(시험문제 출제)
+*JPG
+>> 압축이 잘되는 사진 파일형식
+>> 손실 압축 .. 대신 압축 극대화 (원본 훼손)
+>> 가끔 텍스쳐에 많이 쓰임
+
+*PNG
+>> 게임에서 많이 쓰임
+>> 무손실 압축 (원본 훼손 X)
+
+os.getcwd()
+>>current working diractory
+
+C:\\Program Files\\Python37 << 기본작업폴더
+
+
+Image의 중점은 Pivot(피봇)
+어디에 두는지는 상관 없지만 Artist와 Programmer와의
+합의가 필요하다.
+
+과제 : Github 사용
+Drill#3 사각형 운동과 원 운동을 번갈아 가면서 
+무한 반복함.
+
+커밋 로그에, 과제 이름, 학번, 이름
+그리고 유튜브 링크 기록
+(실행되는 화면을 찍어서 유튭에 올림)
+
+History에서 Commit log 확인.
+오른쪽 마우스 클릭 후,
+"View on github"함으로써, Github
+Server에서 내용 확인 가능
+(링크를 카톡방에 올려라)

@@ -1,0 +1,203 @@
+물체는 표면에서 반사만 되는 것이 아니라 빛이 투과되는 경우도 있는데, 이 경우에는 굴절될 수도 있다.
+
+일단은 굴절은 생각하지 않고 반사만 생각하겠다.
+
+
+Highlight -> 빛의 반사 강도 (이걸 높게 하면 주변보다 엄청나게 반짝거린다.)
+
+
+주변이 거칠면 ----> 확산 반사
+주변이 평평하면 ----> 스펙큘러 조명
+
+램버트 법칙
+
+
+Specular Power == Smoothness --> P (표면의 매끄러운 정도) (스펙큘러 조명이 좁은 범위에서 일어난다.)
+
+
+* Global Illumination -> 전역 조명
+  PBR(Physically Based Rendering) -> 물리 기반 렌더링
+
+
+Light Position -> Light Direction
+Normal -> 지형의 법선벡터
+Camera Position -> Camera Look Direction
+
+IA -> VS -> RS -> PS(pixel shader) -> OM
+
+PS에서 Light를 계산
+
+*픽셀 조명
+픽셀마다 처리 한다면 -> 조명이 많아지면 계산에 시간이 많이 들어감
+-> 상황에 따라서 FPS가 떨어지거나 올라갈수가 있다.
+
+*정점 조명
+VS에서 처리 한다면? -> 삼각형을 출력한다고 했을때 -> 3번만 계산하고...
+-> RS에서 각 픽셀의 색깔을 interpolation해준다. => 계산상의 엄청난 이점이 있다.
+Gradation (그라데이션)
+
+하지만... 문제가 있는데...
+
+=>큰 직사각형이 만약에 정점이 딱 4개만 있으면 ... 라이트가 그 정점에 들어오지 않으면 조명이 도형에 비치지 않는다.
+==> 해결책! : 정점을 늘리자.., 혹은 이런 경우가 있는 상황은 픽셀 조명을 쓰자.
+
+(보통 섞어서 쓴다?)
+
+조명 계산을 위해서는 모든 정점들이 법선벡터를 가져야 한다.
+
+모든 물체들은 추가적으로 물체에 대한 Diffuse, Ambient, Specular, Emissive, SpecPower값이 필요하다.
+
+#
+
+* 정점(픽셀)의 조명 계산식
+
+조명에 의한 정점(픽셀)의 색상 : I = (A + D + S) + E
+
+A (주변 광원 색상)
+D (확산 광원 색상)
+S (스팩큘러 색상)
+
+
+* 정점의 법선 벡터 변환하기
+
+법선 벡터를 변환 하려고 하면 변환행렬의 역행렬의 전치 행렬를 사용하여야 한다. -> 증명도 있음
+Scale변환이 있을때
+
+상용화 엔진 메뉴얼에서는..
+성능을 생각한다고 하면 Scale 변환을 쓰지 마라..라고 한다.
+Scale 변환 -> 정점 간격 변화(크기 변화) -> 법선 벡터의 크기 변환 (이게 생각보다 복잡)
+
+* 조명을 위한 구조체
+
+Mesh -> 부분집합으로 나눔(SubMesh)(머리카락, 등)
+
+메쉬에 연결되어 있는 재질들..
+
+#조명의 3가지 타입 
+1. PL(Point Light) - 점광원
+백열 전구와 같다. 빛을 내는 조명이 있고 모든 방향으로 빛들이 나감.
+또한 점점 멀어질수록 빛이 약해질것이다. 거리에 따라 빛의 세기가 반비례. (Range)반지름 -> 보다 크면 빛이 도달하지 않음.
+D = 1/Range
+Attenuation (감쇄)
+AF(Attenuation Factor)를 계산하여 감쇄값
+
+I = A + D + S + E
+A = A * AF
+D = D * AF
+S = S * AF
+
+점조명에서는 Directional ㅣlisg
+
+
+2. SL(Spot Lights) - 스팟 조명
+손전등과 같다.
+Range -> 원뿔의 높이
+각도를 두대를 높으면 -> 하나는 빛을 비추는 영역 -> 하나는 엄청나게 밝아지는 영역  '
+
+Lsf => cos(a) - cos(p) / cos (p) .  < 0
+    => cos(0) - cos(p) > 0 
+
+3.DL(Directional.Light) - 빛의 양이 줄어들지 않는다. 왜냐하면 지구를 비추고 있는 해가 엄청나가 멀기 때문에 결국 도달할 Terrain 관점에서는 direction이 모두 비슷하다.
+
+XMFLOAT3 m_xmf3Direction;
+
+Directional Light가 너무 많다? 
+-> 온 세상의 Light 컬러가 균일해진다.
+-> 그림자도 생기지 않는다.
+==> 결국 입체적으로 보여지지가 않는다.
+
+Directional Light를 아주 밝게 만들고 Ambient를 적당하게 설정
+-> 가장 실수하는 부분
+Directional Light는 하나만 만들자.. 그러는게 맞다.
+
+
+# 재질 
+
+어떤 빛이 비추었을때 재질의 색은 그 빛의 색을 반영한다.
+재질의 색깔과 Directional Light의 색깔이 서로 반영되어 적용된다.
+
+Ambient가 현재 모두 빨강으로 보이는 상황.
+->Ambient조명이 있으면 그 조명을 반사를 하겠구나..
+->주변 조명은 빨간 색깔로 되어 있겠구나...
+
+빛을 많이 받는 부분은 확산반사가 일어나겠구나..
+
+빛의 현재 색깔들을 관찰하여 재질이 어떤 성질을 가지는지를 유추해볼수있다.
+혹은 구현해 볼 수 있다. 
+재질에 따라서 반사된 빛의 색이 다르게 보일 수있다.
+
+# 발광 재질(조명)
+
+재질에 Emissive Color
+
+m_fSpecularPower --> 밝게 빛나는 부위가 좁아지거나, 커지거나(smoothness)를 표현할 수 있다.
+
+# 조명 시스템
+
+실내의 경우..
+
+Directional Light(는 1개만..), Point Light, Spot Light
+가 정말 많이 있을 수 있다.
+
+유효한 범위의 라이트만 조명 연산을 하면 효율적인 처리가 가능하다.
+
+또한 수많은 재질이 있을 것이다. 이러한 여러한 재질을 모든 조명들과 
+연산하면 정말 프레임 레이트가 엄청나게 떨어질 것이다.
+
+그러한 프레임 레이트를 살리도록 여러 꼼수를 쓴다.
+==> 일정 조명 이상으로 키면 그 다음부터는 켜든 끄든 거의 차이를 느끼지 못할 것이다.
+
+Batch Processing!!
+
+어떤 기준(조명 정보와 재질 정보를 바탕으로)을 마련하고 그 기준을 바탕으로 조명을 계산하도록 강구하도록 해보자...
+
+조명 처리를 위한 일반적인 솔루션은 존재하지 않는다. -> 그러므로.. -> 나의 방식대로 효율적으로 처리를 해줘야 하겠다.
+
+-> 일정한 개수에 대해서만 조명 계산을 하면 된다!
+
+조명 계산을 위해서는...
+position vector, normal vector가 넘어옴
+
+재질정보 struct Material
+빛의 정보 struct DirectionalLight
+
+# ComputeDirectionalLight
+Diffuse 반사의 비 -> fDiffuseFactor
+
+법선벡터와 조명 방향이 둔각이거나 직각 -> DiffuseFactor가 음수
+
+Diffuse factor에 따른 스펙큘러세기 -> SpecularFactor
+
+위 ifdef -> phong shading
+아래 else -> blin phong shading
+
+# ComputePointLight
+
+DiffuseFactor가 0보다 작거나 같으면 반사 X
+Range가 distance보다 작으면 계산 X
+
+마지막에 감쇄값을 diffuse, specular, ambient에 적용한다.
+
+공식에 대한 곱하는 순서는 바뀌어도 결과값은 변하지 않는다.
+=> 곱셈은 교환법칙이 성립하기 때문에
+
+# ComputeSpotLight
+
+computepointlight와 비슷하다.
+
+# Shader Code
+cbCameraInfo => 카메라 정보를 바탕으로 조명 계산을 하기 때문에 필요
+
+레지스터 중복?? -> 왜?? -> VS, PS 단계에서의 버퍼를 따로 사용하기 때문
+
+전반적인 계산(pos, worldmat, normal) -> ComputeDirectionalLight -> ComputeSpotLight -> ComputePointLight -> 도출해낸 D, S, A값들을 모두 더한다.
+
+# 조명 계산
+
+코드가 너무 복잡하다...
+
+LIGHT의 기본적인 정보들을 struct로 만들어 그 LIGHT를 배열화 시킨다.
+MATERIAL도 마찬가지...
+
+# 조명 계산의 효율성
+
