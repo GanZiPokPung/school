@@ -1,0 +1,96 @@
+// ConsoleApplication2.cpp : 이 파일에는 'main' 함수가 포함됩니다. 거기서 프로그램 실행이 시작되고 종료됩니다.
+//
+
+#include "pch.h"
+#include <iostream>
+// ConsoleApplication3.cpp : 이 파일에는 'main' 함수가 포함됩니다. 거기서 프로그램 실행이 시작되고 종료됩니다.
+//
+
+#include <thread>
+#include <mutex>
+#include <chrono>
+#include <vector>
+#include <atomic>
+//
+using namespace std;
+using namespace chrono;
+
+atomic <int> sum;
+mutex ml;
+
+void do_work(const int& num_threads)
+{
+volatile int local_sum = 0;
+
+for (int i = 0; i < 50000000 / num_threads; ++i)
+{
+//_asm add sum, 2;
+
+// 1
+//ml.lock();
+//sum += 2;
+//ml.unlock();
+
+// 2
+//_asm lock add sum, 2;
+
+local_sum += 2;
+
+// sum += 2;
+//오류
+//sum = sum + 2;
+
+}
+ml.lock();
+sum += local_sum;
+ml.unlock();
+}
+
+int main()
+{
+//system("pause");
+
+// 쓰레드를 만듦
+
+// 가끔 싱글코어 설정시에도 값이 이상한것이 나올 수도 있음.
+for (int num_thread = 1; num_thread <= 16; num_thread *= 2)
+{
+sum = 0;
+//  벡터를 사용하여 쓰레드를 관리하겠다.
+vector<thread> threads;
+auto start_time = high_resolution_clock::now();
+//
+for (int i = 0; i < num_thread; ++i)
+{
+// push_back을 하면 만들어서 복사까지 한다.
+// emplace_back을 쓰자.
+// 매개변수1 : 함수, 나머지 매개변수 : 앞에 넣은 함수의 매개변수
+// 리턴값을 따로 넣을 수가 없음.
+threads.emplace_back(do_work, num_thread);
+}
+for (auto &th : threads)
+{
+th.join();
+}
+//
+auto end_time = high_resolution_clock::now();
+auto exec_time = end_time - start_time;
+int exec_ms = duration_cast<milliseconds>(exec_time).count();
+
+threads.clear();
+
+// .join()을 해주지 않는다면
+// 쓰레드의 작업 중 출력하므로 제대로된 결과가 나오지 않을것이다.
+// abort() has been called 가 뜰것이다.
+// 쓰레드 처리 도중 발생하는 오류
+// 쓰레드 처리 중인데 지우려고 하니까..
+// 이건 메모리를 할당했는데 해제하지 않았다는 것과 똑같다.
+
+// 근데 10억이 안나오고 엉뚱한 값이 나온다. 왜?
+// 에러가 있을수 없는 코드인데? ==> 운영체제를 알면 답이 나온다.
+// "sum += 2가 문제다!"
+cout << "Threads[" << num_thread << "], " << "Sum = " << sum;
+cout << ", Exec_time = " << exec_ms << "ms\n";
+}
+system("pause");
+}
