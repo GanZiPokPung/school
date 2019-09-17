@@ -1,0 +1,73 @@
+DirectX12 Camera - 09.02
+
+# 카메라 변환 행렬(View Matrix)
+-> 월드좌표계에서의 카메라를 기준으로 상대적인 좌표로 표현하는 변환
+
+월드 변환 행렬을 -> 역행렬화(+ 카메라의 위치)
+
+XMMatrixLookAtLH
+
+XMMatrixPerspectiveFovLH
+-> 종횡비, FOV, Near, Far
+
+
+# 카메라의 회전(Rotation), 이동
+
+*카메라는 회전, 이동 등을 할때 카메라 내에 보이는 세상은 반대로 행동한다.
+
+m_xmmtxView * xmmtxRotation
+m_xmmtxView * xmmtxTranslation
+
+# 카메라 변환 행렬 생성(쉬운 방법)
+->직접 역행렬 기준으로 원소들 마다 대입해줌
+
+# 카메라
+
+* 카메라를 쓰는 이용방식에 따라서 제약조건이 달라진다.
+
+* 카메라의 위치에 플레이어의 위치는 동일하지 않은 경우가 더 많다.  
+플레이어 위치 - 카메라 위치 => Offset 위치(보통 Y축)
+
+GameObject 구성요소
+-> Transform Matrix
+-> Mesh
+-> Camera(Player한정)
+
+스페이스 쉽 카메라 -> 1인칭, 3인칭과 다르게 플레이어의 		  이동 회전이 곧 카메라의 이동 회전
+
+1인칭 -> 고개를 돌리기 때문에 제약이 존재한다.
+또한 고개를 돌리기 때문에 목 쪽의 위치의 Z축의 회전값을 Offset을 통해 계산하여 그 각도만큼의 변환행렬이 필요하다.
+3인칭 -> 몸통을 돌리기 때문에 제약이 존재한다.
+
+때문에 m_fPitch, m_fYaw, m_fRoll 의 제한이 필요함
+m_fTimeLag -> 이것으로 지연효과를 통해 이동과 회전하는 것을 중간과정을 보여주면 Smooth한 이동, 회전이 가능해진다. (얼마의 속도로?) interpolation
+--> 서버의 회전, 이동값을 클라이언트에 그대로 적용하면 순간이동 하는 것처럼 보일 것이다. 이것을 좀 더 스무스하게 하려면.. 위의 방법을 사용하면 된다.
+
+# 플레이어 객체
+CGameObject 상속
+m_xmf3Velocity -> 속도값 이동 Power
+m_xmf3Gravity -> 중력속도
+
+m_fMaxVelocityXZ, m_fMaxVelocityY 
+-> 축의 속도값(제한)
+m_fFriction -> 마찰력
+
+m_pPlayerUpdatedContext, m_pCameraUpdatedContext
+-> Player의 위치나 방향같은 것들이 의미가 있도록
+(예를들면 지형 등)
+
+축이 바뀌면 Look을 Normalize 해주어야 한다.
+그리고 그 정보를 바탕으로 Right, Up을 구해준다.
+
+대항 벡터
+-> 정규화된 반대 방향 벡터 + 계수
+
+Up을 0, 1, 0으로 만든다음, Right와 Look을 구함
+왜냐하면 사람은 항상 똑바르게 서있기 때문에.
+
+SPACESHIP_CAMEARA -> 사람이 아닌 오브젝트의 카메라 
+
+
+m_pCamera -> 있으면 Player, 없으면 그냥 Object
+
+
