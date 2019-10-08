@@ -81,6 +81,9 @@ int MainServer::Running()
 				continue;		
 		}
 		closesocket(m_clientSocket);
+		cout << "클라이언트가 종료되었습니다." << endl;
+		cout << "IP : " << inet_ntoa(m_clientAddr.sin_addr)
+			<< " Port번호 : " << ntohs(m_clientAddr.sin_port) << endl;
 	}
 
 	return 0;
