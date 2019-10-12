@@ -1,5 +1,4 @@
 #pragma once
-#include "Includes.h"
 
 class MainServer
 {
@@ -13,8 +12,18 @@ public:
 	void Release();
 
 private:
-	int ReceiveProcess();
-	int SendProcess();
+	static int ReceiveProcess(char *buf, bool& isSend, const DWORD& receivedByte, const SOCKET& clientsocket);
+	static int SendProcess(char* buf, DWORD& sendByte, const bool& isSend, const SOCKET& clientsocket);
+	static int EndProcess(const SOCKET& clientsocket);
+
+	// 콜백 함수
+private:
+	static void CALLBACK recv_callback(DWORD Error, DWORD dataBytes, LPWSAOVERLAPPED overlapped, DWORD InFlags);
+	static void CALLBACK send_callback(DWORD Error, DWORD dataBytes, LPWSAOVERLAPPED overlapped, DWORD InFlags);
+
+private:
+	static map<SOCKET, SOCKETINFO> m_mapClients;
+	static int m_userCount;
 
 private:
 	// 윈속 데이터 변수
@@ -31,12 +40,6 @@ private:
 
 	ChessManager* m_chessManager;
 
-	char m_infoBuffer[MAX_BUFFER];
-	// 갱신된 인덱스
-	int m_newIndexX, m_newIndexY;
-	// 움직일 수 있는지에 대한 여부
-	bool m_canMove = false;
-	// 클라이언트로 부터 정보를 받고 보낼지에 대한 여부
-	bool m_isSend = false;
+
 };
 

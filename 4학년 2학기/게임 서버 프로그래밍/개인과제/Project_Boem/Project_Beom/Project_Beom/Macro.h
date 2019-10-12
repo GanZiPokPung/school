@@ -43,3 +43,25 @@ const T1 Lerp(const T2& start, const T2& end, float process)
 {
 	return T1((1.f - process) * start + process * end);
 }
+
+// 안전한 동적할당 해제
+template<typename T>
+void SAFE_DELETE(T* p)
+{
+	if (p)
+	{
+		delete p;
+		p = nullptr;
+	}
+}
+
+// 안전한 동적할당 해제 (배열)
+template<typename T>
+void SAFE_DELETE_ARRAY(T* p)
+{
+	if (p)
+	{
+		delete[] p;
+		p = nullptr;
+	}
+}

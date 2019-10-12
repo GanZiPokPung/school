@@ -67,6 +67,9 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
     </Filter>
+    <Filter Include="97.Manager\System">
+      <UniqueIdentifier>{5f81e013-1854-4fd5-b786-dc0c2d35df0c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -159,6 +162,12 @@
     <ClInclude Include="TestMenuScene.h">
       <Filter>97.Manager\Scene\SceneMenu</Filter>
     </ClInclude>
+    <ClInclude Include="WinCallbackManager.h">
+      <Filter>97.Manager\System</Filter>
+    </ClInclude>
+    <ClInclude Include="UserClass.h">
+      <Filter>98.Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -220,6 +229,9 @@
     </ClCompile>
     <ClCompile Include="TestMenuScene.cpp">
       <Filter>97.Manager\Scene\SceneMenu</Filter>
+    </ClCompile>
+    <ClCompile Include="WinCallbackManager.cpp">
+      <Filter>97.Manager\System</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

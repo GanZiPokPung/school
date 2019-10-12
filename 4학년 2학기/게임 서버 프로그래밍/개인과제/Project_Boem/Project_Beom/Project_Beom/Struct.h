@@ -15,3 +15,36 @@ typedef struct ChessBoardInfo
 	int TileSize_Width;
 	int TileSize_Height;
 }BOARDINFO;
+
+typedef struct MustInfo
+{
+	PACKETTYPE netType;
+	int indexX, indexY;
+	int id;
+}MUSTINFO;
+
+typedef struct MoveInfo
+{
+	int others_id;
+	char canMove;
+}MOVEINFO;
+
+typedef struct InputInfo
+{
+	int inputType;
+	char canMove;
+}INPUTINFO;
+
+typedef struct SetIndexInfo
+{
+	int oldIndexX, oldIndexY;
+	int newIndexX, newIndexY;
+}INDEXINFO;
+
+typedef struct OtherInfo
+{
+	CHANGETYPE type;
+	int others_id;
+	int others_indexX;
+	int others_indexY;
+}OTHERINFO;

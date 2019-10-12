@@ -9,6 +9,9 @@ public:
 	const bool GetKeyState(const KEYSTATE& KeyState, const int& VirtualKey);
 
 public:
+	void SetRunning(const bool& check) { m_IsRunning = check; }
+
+public:
 	int UpdateKey();
 
 private:
@@ -16,5 +19,6 @@ private:
 
 private:
 	bool m_KeyArr[STATE_END][KEY_MAX];
+	bool m_IsRunning = true;
 };
 

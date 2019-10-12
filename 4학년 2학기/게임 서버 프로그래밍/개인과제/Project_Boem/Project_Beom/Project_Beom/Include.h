@@ -6,3 +6,4 @@
 #include "Struct.h"
 #include "Extern.h"
 #include "Macro.h"
+#include "UserClass.h"

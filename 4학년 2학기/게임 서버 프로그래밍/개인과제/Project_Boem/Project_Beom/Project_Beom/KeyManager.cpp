@@ -23,6 +23,12 @@ const bool KeyManager::GetKeyState(const KEYSTATE& KeyState, const int & Virtual
 
 int KeyManager::UpdateKey()
 {
+	if (false == m_IsRunning)
+	{
+		ZeroMemory(&m_KeyArr, sizeof(KEY_MAX) * STATE_END);
+		return 0;
+	}
+
 	// Keyboard
 	ComputeKeyState(VK_LEFT);
 	ComputeKeyState(VK_RIGHT);

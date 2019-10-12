@@ -1,7 +1,7 @@
 #pragma once
 
-const UINT WINSIZE_X = 1024;
-const UINT WINSIZE_Y = 1024;
+const UINT WINSIZE_X = 900;
+const UINT WINSIZE_Y = 900;
 
 const UINT NEWWINSIZE_X = 350;
 const UINT NEWWINSIZE_Y = 200;

@@ -20,7 +20,29 @@ bool TestMenuScene::Initialize()
 
 int TestMenuScene::Update(const float& TimeDelta)
 {
+	//WinCallbackManager* CallbackManager = GET_MANAGER<WinCallbackManager>();
+	//
+	//switch (CallbackManager->_GetMessage())
+	//{
+	//case WM_COMMAND:
+	//{
+	//	switch (CallbackManager->GetWParam())
+	//	{
+	//	case 2:
+	//	{
+	//		// IP 입력 창에 버튼을 누른 경우
+	//		/*char szEdit[128] = { 0, };
+	//		GetWindowTextA(hEdit, szEdit, 128);
 
+	//		if (true == GET_MANAGER<NetworkManager>()->ConnectToServer(szEdit))
+	//		{
+	//			GET_MANAGER<SceneManager>()->ChangeSceneState(SCENE_TEST);
+	//		}
+	//		break;*/
+	//	}
+	//	}
+	//}
+	//}
 
 	return 0;
 }

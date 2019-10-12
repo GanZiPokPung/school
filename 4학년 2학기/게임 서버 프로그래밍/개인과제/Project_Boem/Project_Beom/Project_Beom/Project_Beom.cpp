@@ -66,10 +66,12 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	
 	// Frame 선언
 	FrameManager *pFrameManager = GET_MANAGER<FrameManager>();
+
+	// 원하는 프레임만큼 제한을 설정
 	if (false == pFrameManager->Add_Frame(L"Frame_30", 30.f))
 		return FALSE;
 
-	if (false == pFrameManager->Add_Frame(L"Frame_60", 75.f))
+	if (false == pFrameManager->Add_Frame(L"Frame_60", 60.f))
 		return FALSE;
 
 	if (false == pFrameManager->Add_Frame(L"Frame_200", 200.f))
@@ -83,11 +85,12 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	// KeyManager 선언
 	KeyManager *pKeyManager = GET_MANAGER<KeyManager>();
 
+	// Network Manager 선언 및 초기화
 	NetworkManager* pNetManager = GET_MANAGER<NetworkManager>();
 	if (false == pNetManager->Initialize())
 		return FALSE;
 
-	// MainGame
+	// MainGame 선언 및 초기화
 	Maingame mainGame;
 	if (false == mainGame.Initialize())
 	{
@@ -119,6 +122,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 			timeCount += TimeDelta;
 
+			// 델타타임을 축적하다가 프레임 제한에 맞는 시간이 되었을때 (혹은 넘어갔을때)
 			if (pFrameManager->Permit_Call(strFrame, TimeDelta))
 			{	
 				float FrameTimeDelta = pFrameManager->Get_FrameTimeDelta(strFrame);
@@ -264,11 +268,27 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 //
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
+	//
+	WinCallbackManager* CallbackManager = GET_MANAGER<WinCallbackManager>();
+	CallbackManager->SetWParam(wParam);
+	CallbackManager->SetLParam(lParam);
+	CallbackManager->SetMessage(message);
+	
     switch (message)
     {
+	case WM_SETFOCUS:
+		// 포커스 얻음
+		GET_MANAGER<KeyManager>()->SetRunning(true);
+		break;
+	case WM_KILLFOCUS:
+		// 포커스 잃음
+		GET_MANAGER<KeyManager>()->SetRunning(false);
+		break;
+
     case WM_COMMAND:
         {
             int wmId = LOWORD(wParam);
+
             // 메뉴 선택을 구문 분석합니다:
             switch (wmId)
 			{
@@ -278,12 +298,18 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 				char szEdit[128] = { 0, };
 				GetWindowTextA(hEdit, szEdit, 128);
 
+				// 입력한 IP주소로 서버에 접속 시도
 				if (true == GET_MANAGER<NetworkManager>()->ConnectToServer(szEdit))
 				{
-					GET_MANAGER<SceneManager>()->ChangeSceneState(SCENE_TEST);
+					// 접속이 되면 메인 씬으로 전환
+					if (false == GET_MANAGER<SceneManager>()->ChangeSceneState(SCENE_TEST))
+					{
+						DestroyWindow(hWnd);
+						break;
+					}
 				}
-				break;
 			}
+				break;
             case IDM_ABOUT:
                 DialogBox(hInst, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, About);
                 break;

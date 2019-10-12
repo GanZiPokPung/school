@@ -6,3 +6,5 @@ const UINT MAX_BUFFER		= 1024;
 const USHORT SERVER_PORT	= 3500;
 
 const UINT BOARDSIZE = 8;
+
+const UINT EMPTY_INDEX = 0;

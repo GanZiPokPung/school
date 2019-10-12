@@ -1,10 +1,14 @@
-﻿#include "Includes.h"
+﻿// Project_Beom_Server.cpp : 이 파일에는 'main' 함수가 포함됩니다. 거기서 프로그램 실행이 시작되고 종료됩니다.
+//
+
+#include "pch.h"
 #include "MainServer.h"
 
 int main()
 {
-	MainServer S;
-	if (false == S.Initialize())
+	MainServer server;
+	if (false == server.Initialize())
 		return -1;
-	S.Running();
-}
+	server.Running();
+
+ }

@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "ChessManager.h"
 
 ChessManager::ChessManager()
@@ -8,7 +9,7 @@ ChessManager::~ChessManager()
 {
 }
 
-const bool ChessManager::CanMove(const int& IndexX, const int& IndexY)
+const bool ChessManager::CanMove(int* OutputId, const int& IndexX, const int& IndexY)
 {
 	// 체스판 범위 바깥
 	if (0 >= IndexX ||
@@ -21,17 +22,25 @@ const bool ChessManager::CanMove(const int& IndexX, const int& IndexY)
 
 	// 이미 체스말이 있음
 	if (true == m_ChessArr[IndexY - 1][IndexX - 1].IsExist)
+	{
+		*OutputId = m_ChessArr[IndexY - 1][IndexX - 1].Id;
 		return false;
-
+	}
+	
 	return true;
 }
 
-void ChessManager::SetChessExist(const int& IndexX, const int& IndexY, const bool& check)
+void ChessManager::SetChessExist(const int& IndexX, const int& IndexY, const bool& check, const int& Id)
 {
 	m_ChessArr[IndexY - 1][IndexX - 1].IsExist = check;
+
+	if(false == check)
+		m_ChessArr[IndexY - 1][IndexX - 1].Id = EMPTY_INDEX;
+	else
+		m_ChessArr[IndexY - 1][IndexX - 1].Id = Id;
 }
 
-const bool ChessManager::ProcessKeyInput(int* OutputIndexX, int* OutputIndexY, const int& IndexX, const int& IndexY, const char& keyValue)
+const bool ChessManager::ProcessKeyInput(int* OutputIndexX, int* OutputIndexY, const int& IndexX, const int& IndexY, const char& keyValue, const int& Id)
 {
 	*OutputIndexX = IndexX;
 	*OutputIndexY = IndexY;
@@ -54,7 +63,9 @@ const bool ChessManager::ProcessKeyInput(int* OutputIndexX, int* OutputIndexY, c
 		break;
 	}
 
-	if (false == CanMove(*OutputIndexX, *OutputIndexY))
+	int nothing;
+
+	if (false == CanMove(&nothing, *OutputIndexX, *OutputIndexY))
 	{
 		return false;
 	}
@@ -63,7 +74,9 @@ const bool ChessManager::ProcessKeyInput(int* OutputIndexX, int* OutputIndexY, c
 		// 만약 움직일 수 있다면
 		// 체스판 인덱스에 존재하는지에 대한 여부를 갱신된 위치의 인덱스로 변경한다.
 		m_ChessArr[*OutputIndexY - 1][*OutputIndexX - 1].IsExist = true;
+		m_ChessArr[*OutputIndexY - 1][*OutputIndexX - 1].Id = Id;
 		m_ChessArr[IndexY - 1][IndexX - 1].IsExist = false;
+		m_ChessArr[IndexY - 1][IndexX - 1].Id = EMPTY_INDEX;
 		
 	}
 
@@ -77,6 +90,7 @@ void ChessManager::Initialize()
 		for (int j = 0; j < BOARDSIZE; ++j)
 		{
 			m_ChessArr[i][j].IsExist = false;
+			m_ChessArr[i][j].Id = EMPTY_INDEX;
 		}
 	}
 }
