@@ -14,7 +14,7 @@ Board::~Board()
 
 bool Board::Initialize()
 {
-	m_Info = GAMEOBJINFO{ 512, 512, 800, 800 };
+	m_Info = GAMEOBJINFO{ WINSIZE_X / 2, WINSIZE_Y / 2  - 25, 800, 800 };
 
 	return true;
 }
