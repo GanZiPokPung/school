@@ -29,6 +29,16 @@ const float FrameManager::Get_FrameTimeDelta(const TCHAR * FrameTag)
 	return pFrame->Get_FrameTimeDelta();
 }
 
+const float FrameManager::Get_FrameCount(const TCHAR* FrameTag)
+{
+	Frame* pFrame = Find_Frame(FrameTag);
+
+	if (nullptr == pFrame)
+		return 0.f;
+
+	return pFrame->Get_FrameCount();
+}
+
 bool FrameManager::Add_Frame(const TCHAR * FrameTag, const float & CallCount)
 {
 	if(nullptr != Find_Frame(FrameTag))

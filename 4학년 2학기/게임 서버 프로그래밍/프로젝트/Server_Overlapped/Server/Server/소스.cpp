@@ -7,12 +7,14 @@ using namespace std;
 #pragma comment(lib, "Ws2_32.lib")
 #define MAX_BUFFER 1024
 #define SERVER_PORT 3500
+
 struct SOCKETINFO {
 	// Window에서 사용하는 자료구조
 	// 윈도우 소켓 API Overlapped 
 	// 신경 쓸 필요 없다.(운영체제가 자체적으로 사용하기 때문에)
 	// 초기화 한다음에 넣어줘야 한다.
 	// Send, Receive할때에도 0으로 초기화 하고 넣어줘야 한다.
+	// 운영체제가 사용하고 있는 도중에는 건드리면 절대 안된다.
 	WSAOVERLAPPED overlapped;
 	// Window에서 사용하는 자료구조
 	// send, recvs 대신에...
@@ -27,6 +29,7 @@ struct SOCKETINFO {
 	// Accept 되면 무조건 등록시켜 놓은다.
 	char messageBuffer[MAX_BUFFER];
 };
+
 map <SOCKET, SOCKETINFO> clients;
 void CALLBACK recv_callback(DWORD Error, DWORD dataBytes, LPWSAOVERLAPPED overlapped, DWORD lnFlags);
 void CALLBACK send_callback(DWORD Error, DWORD dataBytes, LPWSAOVERLAPPED overlapped, DWORD lnFlags);
@@ -35,6 +38,9 @@ void CALLBACK send_callback(DWORD Error, DWORD dataBytes, LPWSAOVERLAPPED overla
 // 어느 소켓에서 왔는지에 대한 정보가 없다? 
 void CALLBACK recv_callback(DWORD Error, DWORD dataBytes, LPWSAOVERLAPPED overlapped, DWORD lnFlags)
 {
+	// 이 함수를 탔다는 것은 소켓 I/O를 완료 했다는 것이다. 
+	// 데이타를 받았다는 것이다.
+
 	// 소켓정보를 받아오는 꼼수.
 	// 이것은 호환성의 문제가 있을 수도 있다.
 	SOCKET client_s = reinterpret_cast<int>(overlapped->hEvent);
@@ -49,6 +55,7 @@ void CALLBACK recv_callback(DWORD Error, DWORD dataBytes, LPWSAOVERLAPPED overla
 	cout << "From client : " << clients[client_s].messageBuffer << " (" << dataBytes << ") bytes)\n";
 	// Send할때에는 받은 값 만큼의 길이만 해야한다.
 	clients[client_s].dataBuffer.len = dataBytes;
+	// send를 쓰기 전에 overlapped 구조체를 초기화 시킨다.
 	memset(&(clients[client_s].overlapped), 0x00, sizeof(WSAOVERLAPPED));
 	clients[client_s].overlapped.hEvent = (HANDLE)client_s;
 	WSASend(client_s, &(clients[client_s].dataBuffer), 1, &dataBytes, 0,
@@ -57,6 +64,9 @@ void CALLBACK recv_callback(DWORD Error, DWORD dataBytes, LPWSAOVERLAPPED overla
 
 void CALLBACK send_callback(DWORD Error, DWORD dataBytes, LPWSAOVERLAPPED overlapped, DWORD lnFlags)
 {
+	// 이 함수를 탔다는 것은 소켓 I/O를 완료 했다는 것이다. 
+	// 데이타를 받았다는 것이다.
+
 	DWORD receiveBytes = 0;
 	DWORD flags = 0;
 	SOCKET client_s = reinterpret_cast<int>(overlapped->hEvent);

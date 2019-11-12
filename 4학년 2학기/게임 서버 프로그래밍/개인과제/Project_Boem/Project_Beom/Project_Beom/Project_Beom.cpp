@@ -80,7 +80,12 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	int frameCount = 0;
 	float timeCount = 0.f;
 
-	const TCHAR* strFrame = L"Frame_60";
+	// 모니터 정보 얻기
+
+	if (false == pFrameManager->Add_Frame(L"MainFrame", 75.f))
+		return FALSE;
+
+	const TCHAR* strFrame = L"MainFrame";
 
 	// KeyManager 선언
 	KeyManager *pKeyManager = GET_MANAGER<KeyManager>();

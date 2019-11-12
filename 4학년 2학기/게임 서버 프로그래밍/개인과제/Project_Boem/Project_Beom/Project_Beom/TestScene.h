@@ -18,6 +18,7 @@ private:
 	bool InitChessBoardIndex();
 	int UpdateChessInfo(const float& TimeDelta);
 
+	void Do_Worker();
 private:
 	GameObject *m_Player = nullptr;
 	GameObject *m_ChessBoard = nullptr;
@@ -32,5 +33,9 @@ private:
 	int  m_SrcY = 0;
 	int	 m_DestX = 0;
 	int  m_DestY = 0;
+
+	thread *m_worker = nullptr;
+	float m_timeStack = 0.f;
+	volatile bool  m_threadEndCheck = false;
 };
 

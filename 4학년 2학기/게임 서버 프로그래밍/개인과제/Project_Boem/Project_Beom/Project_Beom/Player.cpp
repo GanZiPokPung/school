@@ -30,7 +30,7 @@ void Player::MoveToIndex(const int& indexX, const int& indexY)
 	m_SrcY = PlayerInfo.Pos_Y;
 }
 
-int Player::InitOnce()
+bool Player::InitOnce()
 {
 	NetworkManager* NetManager = GET_MANAGER<NetworkManager>();
 
@@ -98,7 +98,7 @@ int Player::InitOnce()
 	}
 
 
-	return 0;
+	return true;
 }
 
 int Player::Update_Input(const float& TimeDelta)

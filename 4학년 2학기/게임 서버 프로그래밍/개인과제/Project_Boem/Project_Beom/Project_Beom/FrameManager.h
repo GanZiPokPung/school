@@ -10,6 +10,7 @@ public:
 	virtual ~FrameManager();
 public:
 	const float Get_FrameTimeDelta(const TCHAR* FrameTag);
+	const float Get_FrameCount(const TCHAR* FrameTag);
 public:
 	bool Add_Frame(const TCHAR* FrameTag, const float& CallCount);
 	bool Permit_Call(const TCHAR* FrameTag, const float& TimeDelta);
@@ -18,5 +19,6 @@ private:
 	typedef map<const TCHAR*, Frame*>	MAPFRAME;
 private:
 	Frame*	Find_Frame(const TCHAR* FrameTag);
+
 };
 

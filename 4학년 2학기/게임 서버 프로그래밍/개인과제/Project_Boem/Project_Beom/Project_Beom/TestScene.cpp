@@ -11,6 +11,10 @@ TestScene::TestScene()
 
 TestScene::~TestScene()
 {
+	/*m_threadEndCheck = true;
+	m_worker->join();
+	delete m_worker;
+	m_worker = nullptr;*/
 	Release();
 }
 
@@ -36,11 +40,16 @@ bool TestScene::Initialize()
 	// Dummy와는 다르게 Player는 Key를 입력받을 수 있어야 한다.
 	dynamic_cast<Player*>(m_Player)->SetPlayeable(true);
 
+	// 다른 클라이언트용 스레드 생성
+	// m_worker = new thread([&]() { Do_Worker(); });
+
 	return true;
 }
 
 int TestScene::Update(const float & TimeDelta)
 {
+	m_timeStack += TimeDelta;
+
 	if (-1 == UpdateChessInfo(TimeDelta))
 		return -1;
 
@@ -52,8 +61,8 @@ int TestScene::Update(const float & TimeDelta)
 	
 	Result = m_Player->Update(TimeDelta);
 	if (-1 == Result)
-	
 		return -1;
+
 	Result = m_Mouse->Update(TimeDelta);
 	if (-1 == Result)
 		return -1;
@@ -154,6 +163,12 @@ bool TestScene::InitChessBoardIndex()
 
 int TestScene::UpdateChessInfo(const float& TimeDelta)
 {
+	float frame = GET_MANAGER<FrameManager>()->Get_FrameCount(L"MainFrame");
+	frame /= (frame / 3.f) ;
+
+	if (m_timeStack < TimeDelta * frame)
+		return 0;
+
 	ClassPacket<OTHERINFO> recv_info;
 	NetworkManager* NetManager = GET_MANAGER<NetworkManager>();
 	int Result = NetManager->AlwaysSendAndReceiveByServerInfo(&recv_info);
@@ -168,7 +183,7 @@ int TestScene::UpdateChessInfo(const float& TimeDelta)
 		Object->SetPosition(PosX, PosY);
 		m_DummyPlayer.emplace_back(Object);
 	}
-	else if(CHANGE_MOVE == Result)
+	else if (CHANGE_MOVE == Result)
 	{
 		for (auto& dummy : m_DummyPlayer)
 		{
@@ -199,5 +214,66 @@ int TestScene::UpdateChessInfo(const float& TimeDelta)
 		}
 	}
 
+	m_timeStack = 0.f;
+
 	return 0;
+}
+
+void TestScene::Do_Worker()
+{
+	while (true)
+	{
+		if (true == m_threadEndCheck)
+			break;
+
+		if (m_timeStack < 0.01667f * 3.f)
+			continue;
+
+		ClassPacket<OTHERINFO> recv_info;
+		NetworkManager* NetManager = GET_MANAGER<NetworkManager>();
+		int Result = NetManager->AlwaysSendAndReceiveByServerInfo(&recv_info);
+		if (CHANGE_INIT == Result)
+		{
+			int PosX, PosY;
+			// 새로 들어온 말인 경우 
+			GameObject* Object = AbstractFactory<Player>::CreateObj();
+			dynamic_cast<Player*>(Object)->SetIDInfo(recv_info.GetInfo().others_id);
+			GET_MANAGER<ChessManager>()->GetPosByIndex(&PosX, &PosY,
+				recv_info.GetInfo().others_indexX, recv_info.GetInfo().others_indexY);
+			Object->SetPosition(PosX, PosY);
+			m_DummyPlayer.emplace_back(Object);
+		}
+		else if (CHANGE_MOVE == Result)
+		{
+			for (auto& dummy : m_DummyPlayer)
+			{
+				if (recv_info.GetInfo().others_id == dynamic_cast<Player*>(dummy)->GetIDInfo())
+				{
+					dynamic_cast<Player*>(dummy)->MoveToIndex(
+						recv_info.GetInfo().others_indexX, recv_info.GetInfo().others_indexY);
+					break;
+				}
+			}
+		}
+		else if (CHANGE_EXIT == Result)
+		{
+			vector<GameObject*>::iterator iter_begin = m_DummyPlayer.begin();
+			vector<GameObject*>::iterator iter_end = m_DummyPlayer.end();
+
+			vector<GameObject*>::reverse_iterator iter_last = m_DummyPlayer.rbegin();
+
+			for (auto& iter = iter_begin; iter != iter_end; ++iter)
+			{
+				if (recv_info.GetInfo().others_id == dynamic_cast<Player*>(*iter)->GetIDInfo())
+				{
+					SAFE_DELETE<GameObject>(*iter);
+					iter_swap(iter, iter_last);
+					m_DummyPlayer.pop_back();
+					break;
+				}
+			}
+		}
+
+		m_timeStack = 0.f;
+	}
 }

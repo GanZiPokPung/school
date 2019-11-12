@@ -10,10 +10,13 @@ using namespace std;
 #define SERVER_PORT 3500
 
 struct OVER_EX {
+	// Window 구조체
 	WSAOVERLAPPED over;
+	// Window 구조체
 	WSABUF wsabuf[1];
 	char net_buf[MAX_BUFFER];
-	bool is_recv; // send인가 recv인가 검사
+	// send인가 recv인가 검사
+	bool is_recv; 
 };
 
 struct SOCKETINFO {
@@ -34,6 +37,7 @@ void do_worker()
 		PULONG p_key = &key;
 		WSAOVERLAPPED *p_over;
 
+		// Event Queue에서 상태를 가지고 온다.
 		GetQueuedCompletionStatus(g_iocp, &num_byte, p_key, &p_over, INFINITE);
 
 		OVER_EX *over_ex = reinterpret_cast<OVER_EX*>(p_over);
@@ -55,15 +59,18 @@ void do_worker()
 			//오버헤드 구조체를 새로 만들어 줘야 한다.
 
 			// 그냥 날라가 버리니까 new해줘야함
+			// Overlapped I/O 는 운영체제에서 사용을 하기 때문에 도중에 사라지면 안된다.
 			OVER_EX *send_over = new OVER_EX;
 			memset(send_over, 0x00, sizeof(OVER_EX));
 			send_over->is_recv = false;
 			memcpy(send_over->net_buf, over_ex->net_buf, num_byte);
 			send_over->wsabuf[0].buf = send_over->net_buf;
 			send_over->wsabuf[0].len = num_byte;
+			// Send 등록
 			WSASend(client_s, send_over->wsabuf, 1, 0, 0, &send_over->over, NULL);
 			DWORD flags = 0;
 			memset(&over_ex->over, 0x00, sizeof(WSAOVERLAPPED));
+			// Recv 다시 등록
 			WSARecv(client_s, over_ex->wsabuf, 1, 0, &flags, &over_ex->over, NULL);
 		}
 		else {
@@ -120,7 +127,9 @@ int main()
 		clients[clientSocket].recv_over.wsabuf[0].buf = clients[clientSocket].recv_over.net_buf;
 		clients[clientSocket].recv_over.is_recv = true;
 		flags = 0;
+		// IOCP 등록
 		CreateIoCompletionPort(reinterpret_cast<HANDLE>(clientSocket), g_iocp, clientSocket, 0);
+		// Recv 등록
 		WSARecv(clientSocket, clients[clientSocket].recv_over.wsabuf, 1, NULL, &flags,
 			&(clients[clientSocket].recv_over.over), NULL);
 	}

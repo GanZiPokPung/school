@@ -18,7 +18,7 @@ public:
 
 public:
 	// Playable Player를 위한 함수 나중에 수정이 필요함
-	int InitOnce();
+	bool InitOnce();
 	int Update_Input(const float& TimeDelta);
 	int Update_Position(const float& TimeDelta);
 

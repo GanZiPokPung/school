@@ -14,6 +14,7 @@ Frame::~Frame()
 bool Frame::Initialize(const float & CallCount)
 {
 	m_TimePerSec = 1.f / CallCount;
+	m_CallCount = CallCount;
 
 	return true;
 }
