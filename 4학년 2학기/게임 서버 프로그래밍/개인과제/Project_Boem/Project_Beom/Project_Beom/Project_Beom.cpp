@@ -215,12 +215,19 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 
    // 데스크톱 크기를 가지고 온다.
    // 정중앙에 오도록 하기 위해
-   RECT desk;
-   GetWindowRect(GetDesktopWindow(), &desk);
 
-   HWND hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
-	   (desk.right - WINSIZE_X) / 2, (desk.bottom - WINSIZE_Y) / 2,
-	   WINSIZE_X, WINSIZE_Y, nullptr, nullptr, hInstance, nullptr);
+   RECT rc = { 0, 0, WINSIZE_X, WINSIZE_Y };
+
+   DWORD dwStyle = WS_OVERLAPPED | WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU |
+	   WS_BORDER | WS_SYSMENU;
+
+   // Style에 맞는 윈도우 영역의 크기를 제공해준다.
+   AdjustWindowRect(&rc, dwStyle, FALSE);
+
+   HWND hWnd = CreateWindowW(szWindowClass, szTitle, dwStyle,
+	   CW_USEDEFAULT, CW_USEDEFAULT, 
+	   rc.right - rc.left, rc.bottom - rc.top, 
+	   nullptr, nullptr, hInstance, nullptr);
 
    if (!hWnd)
    {
@@ -232,10 +239,13 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    ShowWindow(hWnd, nCmdShow);
    UpdateWindow(hWnd);
 
+   RECT NewRc = { 0, 0, NEWWINSIZE_X, NEWWINSIZE_Y };
+   AdjustWindowRect(&NewRc, dwStyle, FALSE);
+
    // 새창
    hWnd = CreateWindowW(szWindowClass, L"IP 주소를 입력하세요.", WS_OVERLAPPEDWINDOW,
-	   (desk.right - NEWWINSIZE_X) / 2, (desk.bottom - NEWWINSIZE_Y) / 2,
-	   NEWWINSIZE_X, NEWWINSIZE_Y, nullptr, nullptr, hInstance, nullptr);
+	   (rc.right / 2), (rc.bottom / 2) ,
+	   NewRc.right - NewRc.left, NewRc.bottom - NewRc.top, nullptr, nullptr, hInstance, nullptr);
 
    if (!hWnd)
    {

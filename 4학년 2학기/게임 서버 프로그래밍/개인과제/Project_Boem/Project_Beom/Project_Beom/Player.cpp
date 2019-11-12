@@ -42,9 +42,9 @@ bool Player::InitOnce()
 	// 초기 말 위치를 서버로 보내 여분의 자리가 있는지 확인하여 배치한다.
 	bool exitOuterLoop = false;
 	ClassPacket<MOVEINFO> recv_info;
-	for (int i = 1; i <= BOARDSIZE; ++i)
+	for (int i = 1; i <= BOARDSIZE_Y; ++i)
 	{
-		for (int j = 1; j <= BOARDSIZE; ++j)
+		for (int j = 1; j <= BOARDSIZE_X; ++j)
 		{
 			if (-1 == NetManager->SendAndReceiveByCanMove(&recv_info, i, j))
 			{

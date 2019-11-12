@@ -1,0 +1,13 @@
+﻿C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets(377,5): warning MSB8004: Output 디렉터리가 슬래시로 끝나지 않습니다. Output 디렉터리의 적절한 평가를 허용하는 데 필요하므로 이 빌드 인스턴스에서 슬래시를 추가합니다.
+  pch.cpp
+  ChessManager.cpp
+  MainServer.cpp
+c:\users\ksb\desktop\github\school\4학년 2학기\게임 서버 프로그래밍\개인과제\project_boem\project_beom_server\project_beom_server\mainserver.cpp(399): warning C4311: 'reinterpret_cast': 'HANDLE'에서 'int'(으)로 포인터가 잘립니다.
+c:\users\ksb\desktop\github\school\4학년 2학기\게임 서버 프로그래밍\개인과제\project_boem\project_beom_server\project_beom_server\mainserver.cpp(399): warning C4302: 'reinterpret_cast': 'HANDLE'에서 'int'(으)로 잘립니다.
+c:\users\ksb\desktop\github\school\4학년 2학기\게임 서버 프로그래밍\개인과제\project_boem\project_beom_server\project_beom_server\mainserver.cpp(435): warning C4311: 'reinterpret_cast': 'HANDLE'에서 'int'(으)로 포인터가 잘립니다.
+c:\users\ksb\desktop\github\school\4학년 2학기\게임 서버 프로그래밍\개인과제\project_boem\project_beom_server\project_beom_server\mainserver.cpp(435): warning C4302: 'reinterpret_cast': 'HANDLE'에서 'int'(으)로 잘립니다.
+  Project_Beom_Server.cpp
+  코드를 생성하고 있습니다.
+  All 333 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  코드를 생성했습니다.
+  Project_Beom_Server.vcxproj -> C:\Users\KSB\Desktop\github\school\4학년 2학기\게임 서버 프로그래밍\개인과제\Project_Boem\Project_Beom_Server\Project_Beom_Server\..\Bin\Bin64_Release\Project_Beom_Server.exe

@@ -4,7 +4,7 @@
 
 ChessManager::ChessManager()
 {
-	ZeroMemory(&m_ChessArr, sizeof(ChessBoardInfo) * (BOARDSIZE * BOARDSIZE));
+	ZeroMemory(&m_ChessArr, sizeof(ChessBoardInfo) * (BOARDSIZE_X * BOARDSIZE_Y));
 }
 
 ChessManager::~ChessManager()
@@ -16,9 +16,9 @@ const bool ChessManager::GetIndexByPos(int * OutputIndexX, int * OutputIndexY, c
 	// 포지션 정보를 바탕으로 체스판의 인덱스 정보를 받아온다.
 	// 체스판 타일 범위안에 들어오면 정 위치의 값을 받아온다.
 
-	for (int i = 0; i < BOARDSIZE; ++i)
+	for (int i = 0; i < BOARDSIZE_Y; ++i)
 	{
-		for (int j = 0; j < BOARDSIZE; ++j)
+		for (int j = 0; j < BOARDSIZE_X; ++j)
 		{
 			BOARDINFO TileInfo = m_ChessArr[i][j];
 
@@ -52,20 +52,18 @@ const bool ChessManager::GetPosByIndex(int * OutputPosX, int * OutputPosY, const
 
 void ChessManager::Initialize(const int& BoardPosX, const int& BoardPosY, const int& BoardWidth, const int& BoardHeight)
 {
-	// 체스판은 왼쪽 아래부터 1, 1로 시작하여
-	// 오른쪽 끝이 8, 8이다.
 	// 체스보드 위치와 사이즈를 통해 체스판의 정보를 초기화한다.
 
-	int sizeWidth = BoardWidth / BOARDSIZE;
-	int sizeHeight = BoardHeight / BOARDSIZE;
+	int sizeWidth = BoardWidth / BOARDSIZE_X;
+	int sizeHeight = BoardHeight / BOARDSIZE_Y;
 
 	int initPosX = BoardPosX - (BoardWidth / 2) + (sizeWidth / 2);
 	int initPosY = BoardPosY + (BoardHeight / 2) - (sizeHeight / 2);
 	
 
-	for (int i = 0; i < BOARDSIZE; ++i)
+	for (int i = 0; i < BOARDSIZE_Y; ++i)
 	{
-		for (int j = 0; j < BOARDSIZE; ++j)
+		for (int j = 0; j < BOARDSIZE_X; ++j)
 		{
 			m_ChessArr[i][j].TileSize_Width = sizeWidth;
 			m_ChessArr[i][j].TileSize_Height = sizeHeight;

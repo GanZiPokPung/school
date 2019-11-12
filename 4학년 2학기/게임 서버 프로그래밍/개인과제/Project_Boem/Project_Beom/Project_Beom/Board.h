@@ -13,5 +13,8 @@ public:
 	virtual int  Update(const float& TimeDelta);
 	virtual void Render(HDC hdc);
 	virtual void Release();
+
+private:
+	vector<ChessTileInfo> m_vecTiles;
 };
 

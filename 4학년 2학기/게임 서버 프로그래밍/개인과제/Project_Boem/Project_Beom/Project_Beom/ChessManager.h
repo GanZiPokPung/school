@@ -13,6 +13,6 @@ public:
 	void Initialize(const int& BoardPosX, const int& BoardPosY, const int& BoardWidth, const int& BoardHeight);
 
 private:
-	BOARDINFO m_ChessArr[BOARDSIZE][BOARDSIZE];
+	BOARDINFO m_ChessArr[BOARDSIZE_Y][BOARDSIZE_X];
 };
 

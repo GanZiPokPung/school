@@ -16,6 +16,12 @@ typedef struct ChessBoardInfo
 	int TileSize_Height;
 }BOARDINFO;
 
+typedef struct ChessTileInfo
+{
+	bool isWhite;
+	GAMEOBJINFO objInfo;
+}TILEINFO;
+
 typedef struct MustInfo
 {
 	PACKETTYPE netType;

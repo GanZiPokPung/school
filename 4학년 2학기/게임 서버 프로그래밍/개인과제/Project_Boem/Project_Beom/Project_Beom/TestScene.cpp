@@ -22,7 +22,7 @@ bool TestScene::Initialize()
 {
 	GET_MANAGER<BmpManager>()->LoadBmpBySceneState(SCENE_TEST);
 	m_Mouse = AbstractFactory<Mouse>::CreateObj();
-	m_ChessBoard = AbstractFactory<Board>::CreateObj(WINSIZE_X / 2, WINSIZE_Y / 2 - WINSIZE_Y / 30);
+	m_ChessBoard = AbstractFactory<Board>::CreateObj();
 	
 	GET_MANAGER<ChessManager>()->Initialize(m_ChessBoard->GetInfo().Pos_X,
 		m_ChessBoard->GetInfo().Pos_Y,

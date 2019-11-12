@@ -4,8 +4,6 @@
 map<SOCKET, SOCKETINFO> MainServer::m_mapClients;
 int MainServer::m_userCount = 1;
 
-mutex queue_process;
-
 const char* NetTypes[] = { "Type_CanMove", "Type_AdjustMove", "Type_SetIndex",  "Type_Input", "Type_Mine", "Type_Other" };
 const char* InputTypes[] = { "VK_LEFT", "VK_UP", "VK_RIGHT", "VK_DOWN" };
 
@@ -71,7 +69,7 @@ int MainServer::Running()
 		m_clientSocket = accept(m_listenSocket, (sockaddr*)& m_clientAddr, &addr_size);
 
 		m_mapClients[m_clientSocket] = SOCKETINFO{ };
-		ZeroMemory(&m_mapClients[m_clientSocket], sizeof(SOCKETINFO));
+		//ZeroMemory(&m_mapClients[m_clientSocket], sizeof(SOCKETINFO));
 		m_mapClients[m_clientSocket].socket = m_clientSocket;
 		m_mapClients[m_clientSocket].dataBuffer.len = MAX_BUFFER;
 		m_mapClients[m_clientSocket].dataBuffer.buf = m_mapClients[m_clientSocket].messageBuffer;
@@ -189,7 +187,6 @@ int MainServer::ReceiveProcess(char* buf, bool& isSend, const DWORD& receivedByt
 		MUSTINFO& mustInfo = newPacket.GetMustInfo();
 		INDEXINFO& info = newPacket.GetInfo();
 
-
 		int id = mustInfo.id;
 
 		printf("[Receive] 1.NetworkType: %s", NetTypes[type]);
@@ -286,7 +283,7 @@ int MainServer::ReceiveProcess(char* buf, bool& isSend, const DWORD& receivedByt
 			newPacket.MakePacketToData(buf);
 
 			// 있으면 그 정보를 꺼내 처리 한다.
-			OTHERINFO otherInfo = m_mapClients[clientsocket].otherInfo.front();
+			const OTHERINFO& otherInfo = m_mapClients[clientsocket].otherInfo.front();
 
 			OTHERINFO& info = newPacket.GetInfo();
 
