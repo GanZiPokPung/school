@@ -1,5 +1,11 @@
 #pragma once
 
+typedef struct BaseInfo
+{
+	int X;
+	int Y;
+}POSITION, OFFSET, RESOLUTION;
+
 typedef struct GameObjectInformation
 {
 	int Pos_X;
@@ -15,12 +21,6 @@ typedef struct ChessBoardInfo
 	int TileSize_Width;
 	int TileSize_Height;
 }BOARDINFO;
-
-typedef struct ChessTileInfo
-{
-	bool isWhite;
-	GAMEOBJINFO objInfo;
-}TILEINFO;
 
 typedef struct MustInfo
 {

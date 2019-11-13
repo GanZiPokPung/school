@@ -202,7 +202,7 @@ int Player::Update_Position(const float& TimeDelta)
 
 bool Player::Initialize()
 {
-	m_Info = GAMEOBJINFO{ 512, 512, 100, 100 };
+	m_Info = GAMEOBJINFO{ 0, 0, 70, 70 };
 
 	return true;
 }

@@ -70,6 +70,12 @@
     <Filter Include="97.Manager\System">
       <UniqueIdentifier>{5f81e013-1854-4fd5-b786-dc0c2d35df0c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="97.Manager\Camera">
+      <UniqueIdentifier>{57a37620-0358-4ce9-9970-e3975c4867ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.GameObject\Board\Tile">
+      <UniqueIdentifier>{b6c8153b-9a30-4013-b69c-2fc11339dcf4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -168,6 +174,12 @@
     <ClInclude Include="UserClass.h">
       <Filter>98.Headers</Filter>
     </ClInclude>
+    <ClInclude Include="CameraManager.h">
+      <Filter>97.Manager\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Tile.h">
+      <Filter>01.GameObject\Board\Tile</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -232,6 +244,12 @@
     </ClCompile>
     <ClCompile Include="WinCallbackManager.cpp">
       <Filter>97.Manager\System</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraManager.cpp">
+      <Filter>97.Manager\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Tile.cpp">
+      <Filter>01.GameObject\Board\Tile</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

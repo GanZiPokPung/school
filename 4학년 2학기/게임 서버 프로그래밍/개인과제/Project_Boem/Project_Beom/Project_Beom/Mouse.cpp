@@ -16,7 +16,8 @@ bool Mouse::Initialize()
 {
 	m_Info.Size_Width = 20;
 	m_Info.Size_Height = 20;
-
+	
+	m_ScrollCheck = false;
 	return true;
 }
 

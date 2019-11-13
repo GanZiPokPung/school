@@ -28,5 +28,6 @@ protected:
 
 	bool			m_isDead = false;
 	float			m_Angle = 0.f;
+	bool			m_ScrollCheck = true;
 };
 

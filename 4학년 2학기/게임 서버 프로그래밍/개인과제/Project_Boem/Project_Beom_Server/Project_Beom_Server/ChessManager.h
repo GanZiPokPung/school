@@ -18,6 +18,6 @@ public:
 	void Initialize();
 
 private:
-	BOARDINFO m_ChessArr[BOARDSIZE][BOARDSIZE];
+	BOARDINFO m_ChessArr[BOARDSIZE_Y][BOARDSIZE_X];
 };
 

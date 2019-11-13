@@ -24,10 +24,7 @@ bool TestScene::Initialize()
 	m_Mouse = AbstractFactory<Mouse>::CreateObj();
 	m_ChessBoard = AbstractFactory<Board>::CreateObj();
 	
-	GET_MANAGER<ChessManager>()->Initialize(m_ChessBoard->GetInfo().Pos_X,
-		m_ChessBoard->GetInfo().Pos_Y,
-		m_ChessBoard->GetInfo().Size_Width,
-		m_ChessBoard->GetInfo().Size_Height);
+	GET_MANAGER<ChessManager>()->Initialize(80, 80);
 
 	if (false == InitChessBoardIndex())
 		return false;
@@ -40,6 +37,9 @@ bool TestScene::Initialize()
 	// Dummy와는 다르게 Player는 Key를 입력받을 수 있어야 한다.
 	dynamic_cast<Player*>(m_Player)->SetPlayeable(true);
 
+	GET_MANAGER<CameraManager>()->SetTarget(m_Player);
+	GET_MANAGER<CameraManager>()->SetResolution(2000, 2000);
+
 	// 다른 클라이언트용 스레드 생성
 	// m_worker = new thread([&]() { Do_Worker(); });
 
@@ -48,6 +48,8 @@ bool TestScene::Initialize()
 
 int TestScene::Update(const float & TimeDelta)
 {
+	GET_MANAGER<CameraManager>()->Update(TimeDelta);
+
 	m_timeStack += TimeDelta;
 
 	if (-1 == UpdateChessInfo(TimeDelta))
@@ -75,12 +77,14 @@ int TestScene::Update(const float & TimeDelta)
 			return -1;
 	}
 
+
+
 	return Result;
 }
 
 void TestScene::Render(HDC hDC)
 {
-	Rectangle(hDC, 0, 0, WINSIZE_X, WINSIZE_Y);
+	//Rectangle(hDC, 0, 0, WINSIZE_X, WINSIZE_Y);
 	m_ChessBoard->Render(hDC);
 	m_Player->Render(hDC);
 	m_Mouse->Render(hDC);
@@ -122,6 +126,8 @@ void TestScene::Release()
 		}
 	}
 	m_DummyPlayer.clear();
+
+	GET_MANAGER<CameraManager>()->DestroyInstance();
 }
 
 bool TestScene::InitChessBoardIndex()
@@ -134,29 +140,29 @@ bool TestScene::InitChessBoardIndex()
 	int PosY = 0;
 
 	// 인덱스 위치를 모두 서버로 보내 이미 배치되어 있는 말은 배치를 해놓는다.
-	ClassPacket<MOVEINFO> recv_info;
-	for (int i = 1; i <= BOARDSIZE; ++i)
-	{
-		for (int j = 1; j <= BOARDSIZE; ++j)
-		{
-			if (-1 == NetManager->SendAndReceiveByCanMove(&recv_info, i, j))
-			{
-				MessageBox(g_hWnd, L"서버로 부터 정보를 받는중에 문제생겼습니다.\n 다시 접속하여 주세요.",
-					L"Error", MB_OK);
-				return false;
-			}
+	//ClassPacket<MOVEINFO> recv_info;
+	//for (int i = 1; i <= BOARDSIZE_Y; ++i)
+	//{
+	//	for (int j = 1; j <= BOARDSIZE_X; ++j)
+	//	{
+	//		if (-1 == NetManager->SendAndReceiveByCanMove(&recv_info, i, j))
+	//		{
+	//			MessageBox(g_hWnd, L"서버로 부터 정보를 받는중에 문제생겼습니다.\n 다시 접속하여 주세요.",
+	//				L"Error", MB_OK);
+	//			return false;
+	//		}
 
-			if ('X' == recv_info.GetInfo().canMove)
-			{
-				// 이미 자리가 있으면 더미 말을 놓는다.
-				GameObject* Object = AbstractFactory<Player>::CreateObj();
-				GET_MANAGER<ChessManager>()->GetPosByIndex(&PosX, &PosY, i, j);
-				Object->SetPosition(PosX, PosY);
-				dynamic_cast<Player*>(Object)->SetIDInfo(recv_info.GetInfo().others_id);
-				m_DummyPlayer.emplace_back(Object);
-			}
-		}
-	}
+	//		if ('X' == recv_info.GetInfo().canMove)
+	//		{
+	//			// 이미 자리가 있으면 더미 말을 놓는다.
+	//			GameObject* Object = AbstractFactory<Player>::CreateObj();
+	//			GET_MANAGER<ChessManager>()->GetPosByIndex(&PosX, &PosY, i, j);
+	//			Object->SetPosition(PosX, PosY);
+	//			dynamic_cast<Player*>(Object)->SetIDInfo(recv_info.GetInfo().others_id);
+	//			m_DummyPlayer.emplace_back(Object);
+	//		}
+	//	}
+	//}
 
 	return true;
 }

@@ -1,27 +1,5 @@
-﻿C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets(377,5): warning MSB8004: Output 디렉터리가 슬래시로 끝나지 않습니다. Output 디렉터리의 적절한 평가를 허용하는 데 필요하므로 이 빌드 인스턴스에서 슬래시를 추가합니다.
-  stdafx.cpp
-  Bitmap.cpp
-  BmpManager.cpp
+﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(438,5): warning MSB8004: Output Directory does not end with a trailing slash.  This build instance will add the slash as it is required to allow proper evaluation of the Output Directory.
   Board.cpp
-  ChessManager.cpp
-  Frame.cpp
-  FrameManager.cpp
-  GameObject.cpp
-  KeyManager.cpp
-  Maingame.cpp
-  Mouse.cpp
-  NetworkManager.cpp
-  Player.cpp
-c:\users\ksb\desktop\github\school\4학년 2학기\게임 서버 프로그래밍\개인과제\project_boem\project_beom\project_beom\player.cpp(45): error C2065: 'BOARDSIZE': 선언되지 않은 식별자입니다.
-c:\users\ksb\desktop\github\school\4학년 2학기\게임 서버 프로그래밍\개인과제\project_boem\project_beom\project_beom\player.cpp(47): error C2065: 'BOARDSIZE': 선언되지 않은 식별자입니다.
-  Project_Beom.cpp
-  Scene.cpp
-  SceneManager.cpp
-  TestMenuScene.cpp
-  TestScene.cpp
-c:\users\ksb\desktop\github\school\4학년 2학기\게임 서버 프로그래밍\개인과제\project_boem\project_beom\project_beom\testscene.cpp(138): error C2065: 'BOARDSIZE': 선언되지 않은 식별자입니다.
-c:\users\ksb\desktop\github\school\4학년 2학기\게임 서버 프로그래밍\개인과제\project_boem\project_beom\project_beom\testscene.cpp(140): error C2065: 'BOARDSIZE': 선언되지 않은 식별자입니다.
-  Timer.cpp
-  TimerManager.cpp
-  WinCallbackManager.cpp
+  Tile.cpp
   코드를 생성하고 있습니다...
+  Project_Beom.vcxproj -> C:\Users\Bum\Desktop\GitHub\school\4학년 2학기\게임 서버 프로그래밍\개인과제\Project_Boem\Project_Beom\Project_Beom\..\Bin\Bin64_Debug\Project_Beom.exe

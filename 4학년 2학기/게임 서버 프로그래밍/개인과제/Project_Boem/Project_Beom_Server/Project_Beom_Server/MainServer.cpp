@@ -7,6 +7,88 @@ int MainServer::m_userCount = 1;
 const char* NetTypes[] = { "Type_CanMove", "Type_AdjustMove", "Type_SetIndex",  "Type_Input", "Type_Mine", "Type_Other" };
 const char* InputTypes[] = { "VK_LEFT", "VK_UP", "VK_RIGHT", "VK_DOWN" };
 
+HANDLE g_iocp;
+thread worker;
+
+void do_worker()
+{
+	while (true)
+	{
+		DWORD num_byte;
+		ULONG key;
+		PULONG p_key = &key;
+		WSAOVERLAPPED* p_over;
+
+		// IO 작업이 끝난 소켓이 있으면
+		GetQueuedCompletionStatus(g_iocp, &num_byte, p_key, &p_over, INFINITE);
+
+		// 끝난 소켓을
+		SOCKETINFO* sock_Info = reinterpret_cast<SOCKETINFO*>(p_over);
+
+		if (true == sock_Info->is_recv)
+		{
+			SOCKET client_s = static_cast<SOCKET>(key);
+
+			// 받은 처리
+			if (num_byte == 0)
+			{
+				// 종료 처리
+				MainServer::EndProcess(client_s);
+				closesocket(client_s);
+				printf("클라이언트가 종료되었습니다.포트번호: %d, IP주소: %s\n",
+					ntohs(MainServer::m_mapClients[client_s].clientAddr.sin_port), 
+					inet_ntoa(MainServer::m_mapClients[client_s].clientAddr.sin_addr));
+				MainServer::m_mapClients.erase(client_s);
+				continue;
+			}
+
+			MainServer::m_mapClients[client_s].messageBuffer[num_byte] = 0;
+
+			DWORD sendByte;
+			bool isSend;
+			// 받은 처리
+			MainServer::ReceiveProcess(MainServer::m_mapClients[client_s].messageBuffer, isSend, num_byte, client_s);
+
+			// 보낼 처리
+			MainServer::SendProcess(MainServer::m_mapClients[client_s].messageBuffer, sendByte, isSend, client_s);
+
+			SOCKETINFO* send_over = new SOCKETINFO;
+			//ZeroMemory(&send_over, sizeof(SOCKETINFO));
+			send_over->is_recv = false;
+			memcpy(send_over->messageBuffer, sock_Info->messageBuffer, sendByte);
+			send_over->dataBuffer.len = sendByte;
+			send_over->dataBuffer.buf = send_over->messageBuffer;
+			WSASend(client_s, &send_over->dataBuffer, 1, 0, 0, &send_over->overlapped, NULL);
+			DWORD flags = 0;
+			ZeroMemory(&(sock_Info->overlapped), sizeof(WSAOVERLAPPED));
+			WSARecv(client_s, &sock_Info->dataBuffer, 1, 0, &flags, &sock_Info->overlapped, NULL);
+		}
+		else
+		{
+			// 보냄 처리
+			SOCKET client_s = static_cast<SOCKET>(key);
+
+			if (num_byte == 0)
+			{
+				// 종료 처리
+				MainServer::EndProcess(client_s);
+				closesocket(client_s);
+				printf("클라이언트가 종료되었습니다.포트번호: %d, IP주소: %s\n",
+					ntohs(MainServer::m_mapClients[client_s].clientAddr.sin_port), 
+					inet_ntoa(MainServer::m_mapClients[client_s].clientAddr.sin_addr));
+				MainServer::m_mapClients.erase(client_s);
+				delete p_over;
+				continue;
+			}
+
+			SOCKETINFO* sock_Info = reinterpret_cast<SOCKETINFO*>(p_over);
+
+			// 동적 할당 했었으니 해제
+			delete p_over;
+		}
+	}
+}
+
 MainServer::MainServer()
 {
 }
@@ -41,17 +123,24 @@ bool MainServer::Initialize()
 	if (SOCKET_ERROR == ::bind(m_listenSocket, (sockaddr*)& m_serverAddr, sizeof(m_serverAddr)))
 		return false;
 
-
 	cout << "listen socket bind() 성공!" << endl;
 
 	// 소켓의 상태를 listen 상태로 만든다.
 	if (SOCKET_ERROR == listen(m_listenSocket, SOMAXCONN))
 		return false; 
 
+	// IOCP 객체 생성
+	g_iocp = CreateIoCompletionPort(INVALID_HANDLE_VALUE, NULL, NULL, 0);
+	// 스레드에서 처리
+
+
 	cout << "listen socket 상태 listen으로 변경 성공!" << endl;
 
 	m_chessManager = GET_MANAGER<ChessManager>();
 	m_chessManager->Initialize();
+
+	// thread
+	
 
 	cout << "메인 서버 초기화 성공!" << endl << endl;
 
@@ -63,26 +152,30 @@ int MainServer::Running()
 	cout << "서버가 클라이언트의 connect()를 기다립니다..." << endl;
 	DWORD flags;
 
+	thread worker{ do_worker };
+
 	while (true)
 	{
 		int addr_size = sizeof(m_clientAddr);
 		m_clientSocket = accept(m_listenSocket, (sockaddr*)& m_clientAddr, &addr_size);
-
 		m_mapClients[m_clientSocket] = SOCKETINFO{ };
 		//ZeroMemory(&m_mapClients[m_clientSocket], sizeof(SOCKETINFO));
 		m_mapClients[m_clientSocket].socket = m_clientSocket;
 		m_mapClients[m_clientSocket].dataBuffer.len = MAX_BUFFER;
 		m_mapClients[m_clientSocket].dataBuffer.buf = m_mapClients[m_clientSocket].messageBuffer;
+		m_mapClients[m_clientSocket].is_recv = true;
 		flags = 0;
-		m_mapClients[m_clientSocket].overlapped.hEvent = (HANDLE)m_mapClients[m_clientSocket].socket;
 
 		m_mapClients[m_clientSocket].clientAddr = m_clientAddr;
 		printf("클라이언트가 접속하였습니다. 포트번호 : %d, IP주소 : %s\n",
 			ntohs(m_clientAddr.sin_port), inet_ntoa(m_clientAddr.sin_addr));
 
-		WSARecv(m_mapClients[m_clientSocket].socket, &m_mapClients[m_clientSocket].dataBuffer, 1, NULL,
-			&flags, &(m_mapClients[m_clientSocket].overlapped), recv_callback);
+		//Socket을 IOCP에 연결
+		CreateIoCompletionPort(reinterpret_cast<HANDLE>(m_clientSocket), g_iocp, m_clientSocket, 0);
+		WSARecv(m_clientSocket, &m_mapClients[m_clientSocket].dataBuffer, 1, NULL, &flags,
+			&(m_mapClients[m_clientSocket].overlapped), NULL);
 	}
+	worker.join();
 
 	return 0;
 }
@@ -450,3 +543,4 @@ void CALLBACK MainServer::send_callback(DWORD Error, DWORD dataBytes, LPWSAOVERL
 	WSARecv(client_s, &m_mapClients[client_s].dataBuffer, 1, 0, &flags, 
 		&(m_mapClients[client_s].overlapped), recv_callback);
 }
+

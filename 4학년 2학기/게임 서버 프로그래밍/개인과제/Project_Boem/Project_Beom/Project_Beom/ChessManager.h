@@ -10,7 +10,7 @@ public:
 	const bool GetPosByIndex(int* OutputPosX, int *OutputPosY, const int& IndexX, const int& IndexY);
 
 public:
-	void Initialize(const int& BoardPosX, const int& BoardPosY, const int& BoardWidth, const int& BoardHeight);
+	void Initialize(const int& TileWidth, const int& TileHeight);
 
 private:
 	BOARDINFO m_ChessArr[BOARDSIZE_Y][BOARDSIZE_X];

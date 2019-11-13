@@ -50,25 +50,17 @@ const bool ChessManager::GetPosByIndex(int * OutputPosX, int * OutputPosY, const
 	return true;
 }
 
-void ChessManager::Initialize(const int& BoardPosX, const int& BoardPosY, const int& BoardWidth, const int& BoardHeight)
+void ChessManager::Initialize(const int& TileWidth, const int& TileHeight)
 {
 	// 체스보드 위치와 사이즈를 통해 체스판의 정보를 초기화한다.
-
-	int sizeWidth = BoardWidth / BOARDSIZE_X;
-	int sizeHeight = BoardHeight / BOARDSIZE_Y;
-
-	int initPosX = BoardPosX - (BoardWidth / 2) + (sizeWidth / 2);
-	int initPosY = BoardPosY + (BoardHeight / 2) - (sizeHeight / 2);
-	
-
 	for (int i = 0; i < BOARDSIZE_Y; ++i)
 	{
 		for (int j = 0; j < BOARDSIZE_X; ++j)
 		{
-			m_ChessArr[i][j].TileSize_Width = sizeWidth;
-			m_ChessArr[i][j].TileSize_Height = sizeHeight;
-			m_ChessArr[i][j].Pos_X = initPosX + (sizeWidth * (j));
-			m_ChessArr[i][j].Pos_Y = initPosY - (sizeHeight * (i));
+			m_ChessArr[i][j].TileSize_Width = TileWidth;
+			m_ChessArr[i][j].TileSize_Height = TileHeight;
+			m_ChessArr[i][j].Pos_X = (j * TileWidth) + (TileWidth / 2);
+			m_ChessArr[i][j].Pos_Y = (i * TileHeight) + (TileHeight / 2);
 		}
 	}
 }

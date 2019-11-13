@@ -44,27 +44,29 @@ int Maingame::Update(const float & TimeDelta)
 
 void Maingame::Render()
 {
-	// 더블 버퍼링
-	// 후면 버퍼
-	HDC BackBuffer = GET_MANAGER<BmpManager>()->FindBmp(L"backbuffer")->GetMemDC();
+	HDC Memhdc;
+	HBITMAP Membitmap;
 
-	// 잔상을 없애줄 비트맵
-	HDC hMemDC = GET_MANAGER<BmpManager>()->FindBmp(L"back")->GetMemDC();
+	// m_hDC와 호환되는 새로운 DC를 만든다.
+	// 호환 : 출력장치 종류 or 그래픽 드라이버 정보
+	Memhdc = CreateCompatibleDC(m_hDC);
+	// 인자로 주어진 DC에 호환하는 비트맵을 생성하여 반환
+	Membitmap = CreateCompatibleBitmap(m_hDC, WINSIZE_X, WINSIZE_Y);
+	// Memhdc에게 GDI Object를 설정한다.
+	SelectObject(Memhdc, Membitmap);
 
-	BitBlt(BackBuffer, 0, 0, WINSIZE_X, WINSIZE_Y,
-		hMemDC, 0, 0, SRCCOPY);
-
-	bool isDoubleBuffer = false;
-	// 후면 버퍼에 Render
+	// drawing code goes in here
 	if (m_SceneMgr)
 	{
-		m_SceneMgr->Render(BackBuffer);
+		m_SceneMgr->Render(Memhdc);
 	}
 
-	// 후면 버퍼에 모든 오브젝트들의 이미지를 미리 그려넣은 다음
-	// 출력 버퍼(전면버퍼)로 고속 복사한다.
+	// 장면을 그린 DC를 m_hDC에 복사한다.
 	BitBlt(m_hDC, 0, 0, WINSIZE_X, WINSIZE_Y,
-		BackBuffer, 0, 0, SRCCOPY);
+		Memhdc, 0, 0, SRCCOPY);
+
+	DeleteObject(Membitmap);
+	DeleteDC(Memhdc);
 }
 
 void Maingame::Release()

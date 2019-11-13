@@ -33,10 +33,18 @@ void GameObject::SetAngle(float angle)
 int GameObject::Update(const float & TimeDelta)
 {
 	// 오브젝트 정보를 바탕으로 Rect 정보를 갱신한다.
-	m_Rect.left = m_Info.Pos_X - m_Info.Size_Width / 2;
-	m_Rect.top = m_Info.Pos_Y - m_Info.Size_Height / 2;
-	m_Rect.right = m_Info.Pos_X + m_Info.Size_Width / 2;
-	m_Rect.bottom = m_Info.Pos_Y + m_Info.Size_Height / 2;
+	POSITION cam = GET_MANAGER<CameraManager>()->GetPos();
+
+	if (false == m_ScrollCheck)
+	{
+		cam.X = 0;
+		cam.Y = 0;
+	}
+
+	m_Rect.left = m_Info.Pos_X + cam.X - m_Info.Size_Width / 2;
+	m_Rect.top = m_Info.Pos_Y + cam.Y - m_Info.Size_Height / 2;
+	m_Rect.right = m_Info.Pos_X + cam.X + m_Info.Size_Width / 2;
+	m_Rect.bottom = m_Info.Pos_Y + cam.Y + m_Info.Size_Height / 2;
 
 	return 0;
 }

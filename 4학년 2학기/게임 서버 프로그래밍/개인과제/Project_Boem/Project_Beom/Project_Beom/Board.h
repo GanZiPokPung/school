@@ -15,6 +15,6 @@ public:
 	virtual void Release();
 
 private:
-	vector<ChessTileInfo> m_vecTiles;
+	vector<GameObject*> m_vecTiles;
 };
 

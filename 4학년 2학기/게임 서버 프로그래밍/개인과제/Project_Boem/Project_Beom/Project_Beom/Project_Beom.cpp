@@ -82,7 +82,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 	// 모니터 정보 얻기
 
-	if (false == pFrameManager->Add_Frame(L"MainFrame", 75.f))
+	if (false == pFrameManager->Add_Frame(L"MainFrame", 30.f))
 		return FALSE;
 
 	const TCHAR* strFrame = L"MainFrame";

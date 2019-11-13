@@ -50,6 +50,7 @@ using namespace std;
 #include "ChessManager.h"
 #include "NetworkManager.h"
 #include "WinCallbackManager.h"
+#include "CameraManager.h"
 
 // TransparentBlt 라이브러리
 #pragma comment(lib, "msimg32.lib")

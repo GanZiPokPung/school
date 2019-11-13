@@ -1,7 +1,11 @@
-﻿C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets(377,5): warning MSB8004: Output 디렉터리가 슬래시로 끝나지 않습니다. Output 디렉터리의 적절한 평가를 허용하는 데 필요하므로 이 빌드 인스턴스에서 슬래시를 추가합니다.
+﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(438,5): warning MSB8004: Output Directory does not end with a trailing slash.  This build instance will add the slash as it is required to allow proper evaluation of the Output Directory.
+  pch.cpp
+  ChessManager.cpp
   MainServer.cpp
-c:\users\ksb\desktop\github\school\4학년 2학기\게임 서버 프로그래밍\개인과제\project_boem\project_beom_server\project_beom_server\mainserver.cpp(396): warning C4311: 'reinterpret_cast': 'HANDLE'에서 'int'(으)로 포인터가 잘립니다.
-c:\users\ksb\desktop\github\school\4학년 2학기\게임 서버 프로그래밍\개인과제\project_boem\project_beom_server\project_beom_server\mainserver.cpp(396): warning C4302: 'reinterpret_cast': 'HANDLE'에서 'int'(으)로 잘립니다.
-c:\users\ksb\desktop\github\school\4학년 2학기\게임 서버 프로그래밍\개인과제\project_boem\project_beom_server\project_beom_server\mainserver.cpp(432): warning C4311: 'reinterpret_cast': 'HANDLE'에서 'int'(으)로 포인터가 잘립니다.
-c:\users\ksb\desktop\github\school\4학년 2학기\게임 서버 프로그래밍\개인과제\project_boem\project_beom_server\project_beom_server\mainserver.cpp(432): warning C4302: 'reinterpret_cast': 'HANDLE'에서 'int'(으)로 잘립니다.
-  Project_Beom_Server.vcxproj -> C:\Users\KSB\Desktop\github\school\4학년 2학기\게임 서버 프로그래밍\개인과제\Project_Boem\Project_Beom_Server\Project_Beom_Server\..\Bin\Bin64_Debug\Project_Beom_Server.exe
+C:\Users\Bum\Desktop\GitHub\school\4학년 2학기\게임 서버 프로그래밍\개인과제\Project_Boem\Project_Beom_Server\Project_Beom_Server\MainServer.cpp(402,60): warning C4311:  'reinterpret_cast': 'HANDLE'에서 'int'(으)로 포인터가 잘립니다.
+C:\Users\Bum\Desktop\GitHub\school\4학년 2학기\게임 서버 프로그래밍\개인과제\Project_Boem\Project_Beom_Server\Project_Beom_Server\MainServer.cpp(402,60): warning C4302:  'reinterpret_cast': 'HANDLE'에서 'int'(으)로 잘립니다.
+C:\Users\Bum\Desktop\GitHub\school\4학년 2학기\게임 서버 프로그래밍\개인과제\Project_Boem\Project_Beom_Server\Project_Beom_Server\MainServer.cpp(438,60): warning C4311:  'reinterpret_cast': 'HANDLE'에서 'int'(으)로 포인터가 잘립니다.
+  Project_Beom_Server.cpp
+  코드를 생성하고 있습니다...
+C:\Users\Bum\Desktop\GitHub\school\4학년 2학기\게임 서버 프로그래밍\개인과제\Project_Boem\Project_Beom_Server\Project_Beom_Server\MainServer.cpp(438,60): warning C4302:  'reinterpret_cast': 'HANDLE'에서 'int'(으)로 잘립니다.
+  Project_Beom_Server.vcxproj -> C:\Users\Bum\Desktop\GitHub\school\4학년 2학기\게임 서버 프로그래밍\개인과제\Project_Boem\Project_Beom_Server\Project_Beom_Server\..\Bin\Bin64_Debug\Project_Beom_Server.exe

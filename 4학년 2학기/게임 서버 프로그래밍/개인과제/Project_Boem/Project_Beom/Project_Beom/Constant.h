@@ -11,8 +11,8 @@ const float GRAVITY_ACC = 9.8f;
 
 const UINT KEY_MAX = 256;
 
-const UINT BOARDSIZE_X = 11;
-const UINT BOARDSIZE_Y = 11;
+const UINT BOARDSIZE_X = 800;
+const UINT BOARDSIZE_Y = 800;
 
 const UINT MAX_BUFFER = 1024;
 const USHORT SERVER_PORT = 3500;

@@ -18,8 +18,9 @@ typedef struct SocketInfo
 {
 	WSAOVERLAPPED overlapped;
 	WSABUF dataBuffer;
-	SOCKET socket;
 	char messageBuffer[MAX_BUFFER];
+	bool is_recv;
+	SOCKET socket;
 	SOCKADDR_IN clientAddr;
 	queue<OTHERINFO> otherInfo;
 	POINT curIndex;

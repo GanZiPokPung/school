@@ -14,8 +14,8 @@ const bool ChessManager::CanMove(int* OutputId, const int& IndexX, const int& In
 	// 체스판 범위 바깥
 	if (0 >= IndexX ||
 		0 >= IndexY ||
-		BOARDSIZE < IndexX ||
-		BOARDSIZE < IndexY)
+		BOARDSIZE_X < IndexX ||
+		BOARDSIZE_Y < IndexY)
 	{
 		return false;
 	}
@@ -48,10 +48,10 @@ const bool ChessManager::ProcessKeyInput(int* OutputIndexX, int* OutputIndexY, c
 	switch (keyValue)
 	{
 	case VK_UP:
-		*OutputIndexY += 1;
+		*OutputIndexY -= 1;
 		break;
 	case VK_DOWN:
-		*OutputIndexY -= 1;
+		*OutputIndexY += 1;
 		break;
 	case VK_LEFT:
 		*OutputIndexX -= 1;
@@ -85,9 +85,9 @@ const bool ChessManager::ProcessKeyInput(int* OutputIndexX, int* OutputIndexY, c
 
 void ChessManager::Initialize()
 {
-	for (int i = 0; i < BOARDSIZE; ++i)
+	for (int i = 0; i < BOARDSIZE_Y; ++i)
 	{
-		for (int j = 0; j < BOARDSIZE; ++j)
+		for (int j = 0; j < BOARDSIZE_X; ++j)
 		{
 			m_ChessArr[i][j].IsExist = false;
 			m_ChessArr[i][j].Id = EMPTY_INDEX;

@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Board.h"
 
+#include "Tile.h"
 
 Board::Board()
 {
@@ -23,19 +24,17 @@ bool Board::Initialize()
 		int count = 0;
 		for (int j = 0; j < (int)BOARDSIZE_X; ++j)
 		{
-			TILEINFO info;
-			info.objInfo.Pos_X = (j * tileWidth) + (tileWidth / 2);
-			info.objInfo.Pos_Y = (i * tileHeight) + (tileHeight / 2);
-			info.objInfo.Size_Width = tileWidth;
-			info.objInfo.Size_Height = tileHeight;
+			GameObject *tile = AbstractFactory<Tile>::CreateObj(
+				(j * tileWidth) + (tileWidth / 2),
+				(i * tileHeight) + (tileHeight / 2));
 
 			int r = rand() % 2;
 			if (0 == r)
-				info.isWhite = true;
+				dynamic_cast<Tile*>(tile)->SetWhite(true);
 			else
-				info.isWhite = false;
+				dynamic_cast<Tile*>(tile)->SetWhite(false);
 
-			m_vecTiles.emplace_back(info);
+			m_vecTiles.emplace_back(tile);
 		}
 	}
 
@@ -49,6 +48,11 @@ int Board::Update(const float & TimeDelta)
 		return -1;
 	}
 
+	for (const auto& tile : m_vecTiles)
+	{
+		tile->Update(TimeDelta);
+	}
+
 	return 0;
 }
 
@@ -59,22 +63,7 @@ void Board::Render(HDC hdc)
 
 	for (const auto& tile : m_vecTiles)
 	{
-		RECT rc = RECT{ 0, 0, 0, 0 };
-		rc.left = tile.objInfo.Pos_X - tile.objInfo.Size_Width / 2;
-		rc.top = tile.objInfo.Pos_Y - tile.objInfo.Size_Height / 2;
-		rc.right = tile.objInfo.Pos_X + tile.objInfo.Size_Width / 2;
-		rc.bottom = tile.objInfo.Pos_Y + tile.objInfo.Size_Height / 2;
-
-		if (true == tile.isWhite)
-		{
-			BitBlt(hdc, rc.left, rc.top, tile.objInfo.Size_Width, tile.objInfo.Size_Height
-				, hMemDC_white, 0, 0, NULL);
-		}
-		else
-		{
-			BitBlt(hdc, rc.left, rc.top, tile.objInfo.Size_Width, tile.objInfo.Size_Height
-				, hMemDC_brown, 0, 0, NULL);
-		}
+		tile->Render(hdc);
 	}
 
 	/*TransparentBlt(hdc, m_Rect.left, m_Rect.top, m_Info.Size_Width, m_Info.Size_Height
@@ -83,5 +72,14 @@ void Board::Render(HDC hdc)
 
 void Board::Release()
 {
+	for (auto& tile : m_vecTiles)
+	{
+		if (nullptr != tile)
+		{
+			delete tile;
+			tile = nullptr;
+		}
+	}
+
 	m_vecTiles.clear();
 }
